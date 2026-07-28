@@ -13,6 +13,8 @@ Palette: the dataviz reference instance, validated with scripts/validate_palette
 """
 import json
 import os
+import io
+import tokenaudit_config as cfg
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 def L(n, default=None):
@@ -34,8 +36,22 @@ dp = L("claude_deep.json")
 cd_ = L("claude_cost_deep.json")
 cn_ = L("claude_cost_night.json", {})
 rc = L("reconciliation.json", {})
-dn = json.load(open(r"C:\Users\Admin\Downloads\Telegram Desktop\shinobu_danat_codex.json",
-                    encoding="utf-8"))
+# Отчёт со ВТОРОЙ машины -- необязательный. Здесь стоял абсолютный путь в
+# Downloads\Telegram Desktop, причём голым json.load(open(...)) в обход
+# толерантного загрузчика L(), объявленного одиннадцатью строками выше. Файл не
+# отслеживается git, поэтому в любом клоне его нет, и сборка падала на этапе 4 у
+# каждого, кто скачал репозиторий. При отсутствии файла панели второй машины
+# просто не рисуются -- это верное поведение, а не деградация.
+_dn_path = cfg.second_machine_file()
+dn = None
+if _dn_path:
+    try:
+        with io.open(_dn_path, encoding="utf-8") as _fh:
+            dn = json.load(_fh)
+    except (OSError, ValueError) as e:
+        print("отчёт второй машины не прочитан, панели не рисуются:", e)
+if dn is None:
+    print("отчёта второй машины нет -- панели второй машины не рисуются")
 
 TOKEN_FIELDS = [("inp", "uncached input"), ("cc", "cache write"),
                 ("cr", "cache read"), ("out", "output")]
@@ -90,8 +106,10 @@ payload = {
         "cost": cb["codex"]["cost_usd_by_model_estimate"],
         "cost_total": cb["codex"]["cost_usd_total_list_price_equivalent"],
     },
-    # second machine, profile danat -- genuinely new coverage for June
-    "danat": {
+    # second machine -- genuinely new coverage for June. Ключ присутствует
+    # только когда отчёт второй машины найден: JS-панели проверяют его
+    # наличие и пропускают себя, а не рисуются пустыми.
+    "danat": None if dn is None else {
         "root": dn["processed_root"],
         "period": [dn["first_ts"], dn["last_ts"]],
         "files": dn["files"],
@@ -1193,8 +1211,17 @@ function render(){
   hbar($('#cxm'),cm.map(([m,v],i)=>({k:m,v:v,c:cv('--s'+((i%5)+1)),d:big(v)})),
     {ml:150,rh:34});
 
-  /* danat -- second machine */
+  /* danat -- second machine. Данных может не быть: отчёт со второй машины
+     необязателен, и панели тогда убираются целиком вместе со своими
+     заголовками, а не остаются пустыми рамками. */
   const dnn=D.danat;
+  if(!dnn){
+    ['#dncap','#dnfiles','#dnday','#dnic','#dnsum'].forEach(function(sel){
+      const el=$(sel); if(!el) return;
+      const sec=el.closest('section')||el.parentElement;
+      if(sec) sec.style.display='none'; else el.style.display='none';
+    });
+  } else {
   $('#dncap').textContent='Корень '+dnn.root+' · '+dnn.files+' файлов, '+dnn.gb+
     ' ГБ, '+dnn.sessions+' сессий · '+dnn.period[0].slice(0,10)+' → '+
     dnn.period[1].slice(0,10)+' · единственная модель gpt-5.5 · '+
@@ -1238,6 +1265,8 @@ function render(){
       Math.round(ic.delta_minus_max/ic.counter_resets)&&Math.round(D.danat.totals_max.total_tokens/ic.sessions)]]
     .map(r=>'<tr><td>'+r[0]+'</td><td>'+(typeof r[1]==='number'?nf(r[1]):r[1])+
       '</td><td>'+(typeof r[2]==='number'?nf(r[2]):r[2])+'</td></tr>').join('');
+
+  }  /* конец блока второй машины */
 
   /* double count */
   hbar($('#dbl'),[
