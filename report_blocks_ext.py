@@ -23,6 +23,87 @@ def _need(x, what):
     return ["*Нет данных: %s.*" % what] if not x else None
 
 
+# Ставки, пока они не переехали в отдельный модуль. Копий в репозитории четыре
+# (refresh.py, report_gen.py, здесь и в JS внутри build_dashboard.py), и копии
+# OPENAI уже разошлись: в cost_model.py семь моделей, в остальных одна. Держать
+# их рядом с расчётом -- временная мера, а не решение.
+_RA = {"claude-opus-5": (5, 25), "claude-opus-4-8": (5, 25),
+       "claude-fable-5": (10, 50), "claude-sonnet-5": (2, 10)}
+_OA = {"gpt-5.5": (5, 0.5, 30)}
+_LINES = ("свежий ввод", "запись кэша", "чтение кэша", "вывод")
+_KEYS = ("uncached_input", "cache_write", "cache_read", "output")
+
+
+def _cost_lines(c):
+    """Четыре долларовые строки и их объём в токенах, по всем моделям сразу.
+
+    Возвращает (dollars, volume) -- два словаря с ключами _LINES. Одна
+    реализация на все блоки, которые сравнивают деньги с объёмом: иначе два
+    блока в одном документе начинают спорить друг с другом.
+    """
+    d = dict.fromkeys(_LINES, 0.0)
+    v = dict.fromkeys(_LINES, 0)
+    for m, x in c.dp["by_model"].items():
+        if not x.get("total"):
+            continue
+        if m in _RA:
+            ri, ro = _RA[m]
+            a = (x["uncached_input"] / M * ri, x["cache_write"] / M * ri * 1.25,
+                 x["cache_read"] / M * ri * 0.1, x["output"] / M * ro)
+        elif m in _OA:
+            ri, rc, ro = _OA[m]
+            a = (x["uncached_input"] / M * ri, 0.0,
+                 x["cache_read"] / M * rc, x["output"] / M * ro)
+        else:
+            continue
+        for k, val in zip(_LINES, a):
+            d[k] += val
+        for k, key in zip(_LINES, _KEYS):
+            v[k] += x[key]
+    return d, v
+
+
+@block("money_line")
+def money_line(c):
+    """Какая строка токенов реально создаёт деньги.
+
+    Блок существует потому, что рукописный вывод в трёх документах утверждал
+    обратное -- «деньги создаются только в строке некэшированного ввода» -- и
+    противоречил таблице, стоявшей прямо над ним. Теперь вывод считается, а не
+    формулируется по интуиции.
+    """
+    if not c.dp:
+        return ["*Нет данных: claude_deep.json.*"]
+    d, v = _cost_lines(c)
+    td, tv = sum(d.values()), sum(v.values())
+    if not td or not tv:
+        return ["*Нет данных: стоимость не посчитана.*"]
+    r = ["| строка | $ | доля денег | токенов | доля объёма | $ за млн |",
+         "|---|---:|---:|---:|---:|---:|"]
+    order = sorted(_LINES, key=lambda k: -d[k])
+    for k in order:
+        r.append("| %s | %s | %s | %s | %s | %s |" % (
+            k, usd(d[k]), pct(d[k], td), f(v[k]), pct(v[k], tv),
+            usd(d[k] / (v[k] / M)) if v[k] else "—"))
+    top = order[0]
+    cr, inp = v["чтение кэша"], v["свежий ввод"]
+    ratio = (cr / inp) if inp else 0.0
+    r += ["",
+          "Крупнейшая статья — **%s**: %s всех денег. Свежий ввод на %d-м месте из четырёх."
+          % (top, pct(d[top], td), order.index("свежий ввод") + 1)]
+    if ratio:
+        r.append("Скидка на чтение кэша десятикратная, но объём чтения больше свежего ввода "
+                 "в **%.1f раза**, поэтому скидка перебита объёмом с запасом %.1fx. Отсюда "
+                 "рычаг — не «поднять долю попаданий», а «пересылать меньше контекста за ход»: "
+                 "чтение кэша растёт как контекст, умноженный на число ходов."
+                 % (ratio, ratio / 10.0))
+    if v["вывод"]:
+        r.append("Дороже всего за токен — **вывод**, %s за млн, но его доля объёма %s, "
+                 "поэтому на итог он влияет меньше всех."
+                 % (usd(d["вывод"] / (v["вывод"] / M)), pct(v["вывод"], tv)))
+    return r
+
+
 @block("evidence")
 def evidence(c):
     return [
@@ -449,6 +530,13 @@ def key_findings(c):
          "| завышение при наивной сумме | **×%.2f** |" % (
              (c.cl["totals_raw"]["inp"] + c.cl["totals_raw"]["cc"]
               + c.cl["totals_raw"]["cr"] + c.cl["totals_raw"]["out"]) / max(1, c.total))]
+    # Крупнейшая статья расхода считается, а не подставляется: рукописный вывод
+    # в трёх документах называл свежий ввод, а он третий из четырёх.
+    _d, _v = _cost_lines(c)
+    if sum(_d.values()):
+        _top = max(_d, key=lambda k: _d[k])
+        r.append("| крупнейшая статья расхода | **%s, %s** |"
+                 % (_top, pct(_d[_top], sum(_d.values()))))
     if good and bad:
         r.append("| токен дороже в дни со сломанным кэшем | **×%.1f** |"
                  % (price(bad) / max(1e-9, price(good))))
