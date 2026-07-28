@@ -19,6 +19,7 @@ cp1251 mangling the probe, NBSP vs space, and finally `&nbsp;` entities. A probe
 that cannot possibly match is worse than no probe.
 """
 import argparse
+import html
 import io
 import json
 import os
@@ -114,13 +115,19 @@ def verify_dashboard(expect, target=None):
         return False, ["Chrome вернул %d байт — рендер не удался" % len(raw)], {}
     with io.open(dom, "w", encoding="utf-8") as fh:
         fh.write(raw)
-    # 1) decode entities  2) strip tags  3) collapse every kind of space
-    txt = raw
-    for ent, ch in (("&nbsp;", " "), ("&amp;", "&"), ("&lt;", "<"), ("&gt;", ">"),
-                    ("&rarr;", "→"), ("&times;", "×"), ("&minus;", "−")):
-        txt = txt.replace(ent, ch)
+    # 1) сущности  2) теги  3) любые пробелы в один
+    #
+    # html.unescape, а не свой список замен: рукописный список ловил &nbsp;
+    # и пропускал числовые ссылки на тот же символ -- &#160;, &#xa0;, &#8239;
+    # проходили мимо и давали ложный провал проверки на верном дашборде.
+    # Это шестая ошибка одного класса в этой работе, поэтому здесь стоит
+    # штатный разборщик, покрывающий все именованные и числовые сущности.
+    #
+    # \s в str-шаблоне уже включает U+00A0 и U+202F (проверено), так что
+    # перечислять неразрывные пробелы в классе символов не нужно.
+    txt = html.unescape(raw)
     txt = re.sub(r"<[^>]+>", " ", txt)
-    txt = re.sub(r"[\s    ]+", " ", txt)
+    txt = re.sub(r"\s+", " ", txt)
 
     problems = []
     # every panel must contain real marks or table rows

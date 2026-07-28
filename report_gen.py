@@ -458,12 +458,25 @@ def _fl(c):
 # ------------------------------------------------------------------ engine
 RX = re.compile(r"(<!-- AUTO:([a-z_]+) -->)(.*?)(<!-- /AUTO -->)", re.S)
 
+# Доля, на которую файлу разрешено усохнуть за один прогон. Порог существует
+# потому, что усушка уже случалась: шаблон таблицы, скомпилированный с re.S,
+# сожрал документ целиком и SUMMARY.md уменьшился с 50 814 до 7 697 байт --
+# на 85%. Обычная перегенерация меняет размер на доли процента, так что 12%
+# отделяет норму от катастрофы с большим запасом. Порог снимается только
+# явным SHRINK_OK=1, и это осознанное действие, а не значение по умолчанию.
+MAX_SHRINK = 0.12
+SHRINK_OK = os.environ.get("SHRINK_OK") == "1"
+
+
+class BlockError(RuntimeError):
+    """Блок сгенерировал пустоту или файл усох сверх порога. Запись не делается."""
+
 
 def fill(path, c):
     if not os.path.exists(path):
         return 0, []
     src = io.open(path, encoding="utf-8").read()
-    miss, cnt = [], 0
+    miss, cnt, empty = [], 0, []
 
     def rep(m):
         nonlocal cnt
@@ -472,12 +485,31 @@ def fill(path, c):
         if not gen:
             miss.append(name)
             return m.group(0)
+        rows = gen(c)
+        # Генератор, вернувший пустой список, -- сломанный генератор, а не
+        # честно пустые данные: блок без данных обязан вернуть строку с
+        # объяснением. Пустоту не пишем, оставляем старое содержимое.
+        if not rows or not any(str(x).strip() for x in rows):
+            empty.append(name)
+            return m.group(0)
         cnt += 1
-        body = "\n".join(gen(c))
+        body = "\n".join(rows)
         return "%s\n%s\n%s" % (m.group(1), body, m.group(4))
 
     out = RX.sub(rep, src)
+    if empty:
+        raise BlockError(
+            "%s: блоки вернули пустоту, запись отменена: %s"
+            % (os.path.basename(path), ", ".join(sorted(set(empty)))))
     if out != src:
+        limit = len(src) * (1.0 - MAX_SHRINK)
+        if len(out) < limit and not SHRINK_OK:
+            raise BlockError(
+                "%s: усушка %.1f%% (%d -> %d байт) больше порога %.0f%%. "
+                "Запись отменена -- скорее всего шаблон блока сожрал прозу. "
+                "Если усушка ожидаема, повторить с SHRINK_OK=1."
+                % (os.path.basename(path), 100.0 * (len(src) - len(out)) / len(src),
+                   len(src), len(out), 100.0 * MAX_SHRINK))
         io.open(path, "w", encoding="utf-8").write(out)
     return cnt, miss
 
