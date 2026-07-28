@@ -28,7 +28,10 @@ def L(n, default=None):
         return json.load(fh)
 
 cl = L("claude_totals.json")
-cx = L("codex_totals.json")
+# Codex необязателен: у клонировавшего его данных может не быть вовсе, а
+# закоммиченный артефакт подставлял бы ЧУЖОЕ измерение под видом его
+# собственного. Нет данных -- нет панелей, это честнее чужого числа.
+cx = L("codex_totals.json", {})
 ag = L("antigravity_totals.json", {})
 cb = L("combined.json")
 ch = L("codex_chains_totals.json", {})
@@ -89,7 +92,7 @@ payload = {
         "cost": cb["claude_code"]["cost_usd_by_model"],
         "cost_total": cb["claude_code"]["cost_usd_total_list_price_equivalent"],
     },
-    "codex": {
+    "codex": None if not (cx and cb.get("codex")) else {
         "period": [cx["first_ts"], cx["last_ts"]],
         "sessions": cx["session_files_with_data"],
         "files": cx["scan_stats"]["files"],
@@ -156,7 +159,9 @@ payload = {
         "cost": cd_, "night": cn_,
     },
     "recon": rc,
-    "antigravity": {
+    # Antigravity тоже необязателен, по той же причине: закоммиченный артефакт
+    # подставлял бы чужое измерение как своё.
+    "antigravity": None if not ag else {
         "period": [ag["first_ts"], ag["last_ts"]],
         "verdict": ag["verdict"],
         "totals": ag["totals"],
@@ -1035,7 +1040,14 @@ const C5=()=>cols(['--s1','--s2','--s3','--s4','--s5']);
 function tot(o){ return o.inp+o.cc+o.cr+o.out; }
 
 function render(){
-  const c=D.claude, x=D.codex, a=D.antigravity;
+  const c=D.claude;
+  const hasAG=!!D.antigravity, a=D.antigravity||{by_day:{labels:[]},by_hour:{labels:[]},totals:{},types:{},quota_by_day:{}};
+  /* Codex необязателен: у клонировавшего его данных может не быть. Флаг hasCX
+     решает, рисовать ли его панели; заглушка нужна лишь чтобы обращения к
+     полям не бросали до проверки. */
+  const hasCX=!!D.codex, x=D.codex||{prior:{roots:{},by_model_delta:{}},cost:{},cost_total:0,
+    by_day:{labels:[],series:{}},by_hour:{labels:[],series:{}},
+    by_minute:{labels:[],series:{}},totals:{}};
   const cT=tot(c.totals);
 
   /* tiles */
@@ -1046,8 +1058,8 @@ function render(){
      'консервативно; верхняя граница '+big(RC.upper_bound_if_delta_valid)],
     ['Claude Code',big(cT),'<span class="badge b-meas">ИЗМЕРЕНО</span> 2026-07-08 → 07-27, 20 дней',
      c.sessions+' сессий · '+nf(c.resp_uniq)+' ответов'],
-    ['Antigravity','нет счётчика','<span class="badge b-proxy">ПРОКСИ</span> 2026-06-05 → 07-27, 52 дня',
-     nf(a.types.PLANNER_RESPONSE)+' ходов модели · '+nf(a.totals.quota_blocks)+' упоров в квоту'],
+    ...(hasAG?[['Antigravity','нет счётчика','<span class="badge b-proxy">ПРОКСИ</span> 2026-06-05 → 07-27, 52 дня',
+     nf(a.types.PLANNER_RESPONSE)+' ходов модели · '+nf(a.totals.quota_blocks)+' упоров в квоту']]:[]),
     ['Проверено независимо','0.645%','<span class="badge b-ver">СВЕРЕНО</span> расхождение двух реализаций',
      'мои 58.23 млрд против 57.86 млрд в старом отчёте по тому же корню'],
   ].map(t=>'<div class="tile"><div class="k">'+t[0]+'</div><div class="v">'+t[1]+
@@ -1195,7 +1207,8 @@ function render(){
   stack($('#ts2'),x[RES2],CXK,CXN,cols(['--s1','--s5']),{h:300,
     fmtX:s=>RES2==='by_day'?s.slice(5):s.slice(5).replace('T',' ')});
 
-  /* codex roots */
+  /* codex roots -- только если есть данные Codex */
+  if(hasCX){
   const R=x.prior.roots;
   hbar($('#roots'),[
     {k:'второй комп (живой)',v:R.danat_live_sessions.total_tokens,c:cv('--s5'),
@@ -1206,10 +1219,11 @@ function render(){
      d:nf(R.danat_archived.total_tokens),n:'1 файл'},
   ],{ml:170,rh:48});
 
-  /* codex per model */
+  /* codex per model -- тот же признак наличия данных */
   const cm=Object.entries(x.prior.by_model_delta).sort((p,q)=>q[1]-p[1]).slice(0,6);
   hbar($('#cxm'),cm.map(([m,v],i)=>({k:m,v:v,c:cv('--s'+((i%5)+1)),d:big(v)})),
     {ml:150,rh:34});
+  }  /* конец панелей Codex */
 
   /* danat -- second machine. Данных может не быть: отчёт со второй машины
      необязателен, и панели тогда убираются целиком вместе со своими
@@ -1290,6 +1304,7 @@ function render(){
     'Gemini независимо это подтвердил на 505 транскриптах и дополнительно установил, '+
     'что поле size в gen_metadata — счётчик байтов protobuf (size == length(data)), '+
     'а ключ modelCredits пуст. Ниже — метрики объёма, не токены.';
+  if(hasAG){
   legend($('#lg4'),['ходы модели'],[cv('--s2')]);
   stack($('#agts'),{labels:a.by_day.labels,model_turns:a.by_day.model_turns},
     ['model_turns'],['ходы модели'],[cv('--s2')],{h:220,fmtX:s=>s.slice(5)});
@@ -1299,6 +1314,7 @@ function render(){
   const q=Object.entries(a.quota_by_day);
   hbar($('#agq'),q.sort((p,r)=>r[1]-p[1]).slice(0,8)
     .map(([k,v])=>({k:k,v:v,c:cv('--crit'),d:nf(v)})),{ml:110,rh:30});
+  }  /* конец панелей Antigravity */
 
   /* cache effectiveness by day */
   {const bd=c.by_day, L=bd.labels;
@@ -1417,20 +1433,20 @@ function render(){
       '</b></td></tr>').join('');
 
   /* cost */
-  hbar($('#cost'),[
-    {k:'Codex (по прайсу)',v:x.cost_total,c:cv('--s1'),d:usd(x.cost_total),
-     n:'подписка free/team — вероятно НЕ выставлялось'},
-    {k:'Claude Code (по прайсу)',v:c.cost_total,c:cv('--s3'),d:usd(c.cost_total),
-     n:'нижняя граница: повторы прокси не учтены'},
-  ],{ml:200,rh:50});
+  const costRows=[];
+  if(hasCX) costRows.push({k:'Codex (по прайсу)',v:x.cost_total,c:cv('--s1'),
+    d:usd(x.cost_total),n:'подписка free/team — вероятно НЕ выставлялось'});
+  costRows.push({k:'Claude Code (по прайсу)',v:c.cost_total,c:cv('--s3'),
+    d:usd(c.cost_total),n:'нижняя граница: повторы прокси не учтены'});
+  hbar($('#cost'),costRows,{ml:200,rh:50});
   $('#tcost').innerHTML='<tr><th>модель</th><th>тариф ввод $/млн</th>'+
     '<th>тариф вывод $/млн</th><th>$ итого</th></tr>'+
     Object.entries(c.cost).sort((p,q)=>q[1].total_usd-p[1].total_usd).map(([m,v])=>
       '<tr><td>'+m+'</td><td>'+v.rate_in_per_mtok+'</td><td>'+v.rate_out_per_mtok+
       '</td><td>'+usd(v.total_usd)+'</td></tr>').join('')+
-    Object.entries(x.cost).sort((p,q)=>q[1].total_usd-p[1].total_usd).map(([m,v])=>
+    (hasCX?Object.entries(x.cost).sort((p,q)=>q[1].total_usd-p[1].total_usd).map(([m,v])=>
       '<tr><td>'+m+' <span class="badge b-est">ОЦЕНКА</span></td><td>'+v.rate_in_per_mtok+
-      '</td><td>'+v.rate_out_per_mtok+'</td><td>'+usd(v.total_usd)+'</td></tr>').join('');
+      '</td><td>'+v.rate_out_per_mtok+'</td><td>'+usd(v.total_usd)+'</td></tr>').join(''):'');
 
   /* access paths & accounts */
   $('#tacc').innerHTML='<tr><th>провайдер</th><th>путь доступа</th><th>подтверждение в данных</th></tr>'+
