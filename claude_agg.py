@@ -10,14 +10,23 @@ import os
 import sys
 from collections import defaultdict
 
-ROOT = os.path.expanduser("~/.claude/projects")
+import tokenaudit_scan
 
-files = []
-for dirpath, _dirnames, filenames in os.walk(ROOT):
-    for fn in filenames:
-        if fn.endswith(".jsonl"):
-            files.append(os.path.join(dirpath, fn))
-files.sort()
+ROOT = os.path.expanduser("~/.claude/projects")
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+# Окно сканирования снимается ДО чтения: размер каждого файла запоминается и
+# читается ровно столько. Второй проход (claude_deep.py) читает те же префиксы
+# тех же файлов, поэтому два артефакта описывают один и тот же вход по
+# построению. Без этого проходы расходились на 138 ответов и 18.6 млн токенов --
+# транскрипты дописываются, пока их читают. Подробности в tokenaudit_scan.py.
+#
+# Каталог самого инструмента исключается: репозиторий лежит внутри
+# ~/.claude/projects, и без этого он считает собственные выходные файлы.
+WINDOW = tokenaudit_scan.ScanWindow.capture(
+    [ROOT], suffix=".jsonl", skip_dirs=(HERE,), captured_by="claude_agg")
+files = [t[0] for t in WINDOW.files()]
+_REL = {t[0]: (t[1], t[2]) for t in WINDOW.files()}
 
 # raw rows before dedupe
 rows = []
@@ -32,12 +41,13 @@ for path in files:
     project = rel.split(os.sep)[0]
     stats["files"] += 1
     try:
-        fh = open(path, encoding="utf-8", errors="replace")
-    except OSError:
+        _rel, _root = _REL[path]
+        lines_iter = WINDOW.lines(path, _rel, _root)
+    except (OSError, KeyError):
         stats["unreadable_files"] += 1
         continue
-    with fh:
-        for line in fh:
+    if True:
+        for line in lines_iter:
             line = line.strip()
             if not line:
                 continue
@@ -240,6 +250,14 @@ out["session_count"] = len(sess)
 ts_all = sorted(r["ts"] for r in uniq if r["ts"])
 out["first_ts"] = ts_all[0] if ts_all else None
 out["last_ts"] = ts_all[-1] if ts_all else None
+
+# Манифест окна пишется вместе с артефактом: следующий проход обязан читать
+# ровно этот вход, иначе артефакты несопоставимы.
+out["scan_window"] = {"files": len(WINDOW.sizes),
+                      "bytes": sum(WINDOW.sizes.values()),
+                      "manifest": tokenaudit_scan.MANIFEST_NAME}
+WINDOW.save()
+print("scan window          :", WINDOW.describe())
 
 dst = os.path.join(os.path.dirname(os.path.abspath(__file__)), "claude_totals.json")
 with open(dst, "w", encoding="utf-8") as fh:

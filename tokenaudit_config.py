@@ -83,7 +83,10 @@ _TOOLS = {
                     "artifact": "antigravity_totals.json"},
     "second_machine": {"what": "вторая машина", "flag": "--second-machine",
                        "env": ENV_SECOND, "key": "second_machine",
-                       "artifact": "панель второй машины"},
+                       "artifact": "панель второй машины",
+                       "single": True,
+                       "tail": "панель второй машины не рисуется, "
+                               "остальные цифры не затронуты"},
 }
 CONFIG_KEYS = ("claude_roots", "codex_roots", "antigravity_roots",
                "second_machine", "chrome")
@@ -430,13 +433,17 @@ def _fail(tool, what=None, artifact=None):
     for i, (display, status) in enumerate(trace):
         head = "  искал   : " if i == 0 else _IND
         lines.append(head + "%-*s (%s)" % (_PAD, display, status))
+    single = meta.get("single", False)
     lines.append("  задать  : %s ПУТЬ" % meta["flag"])
-    lines.append(_IND + "%-*s (разделитель '%s')"
-                 % (_PAD, meta["env"] + "=ПУТЬ", os.pathsep))
+    if single:
+        lines.append(_IND + "%s=ПУТЬ" % meta["env"])
+    else:
+        lines.append(_IND + "%-*s (разделитель '%s')"
+                     % (_PAD, meta["env"] + "=ПУТЬ", os.pathsep))
     lines.append(_IND + '%s: {"%s": %s}'
-                 % (CONFIG_NAME, meta["key"],
-                    '"ПУТЬ"' if tool == "second_machine" else '["ПУТЬ"]'))
-    lines.append("  ноль не записан: %s не тронут" % art)
+                 % (CONFIG_NAME, meta["key"], '"ПУТЬ"' if single else '["ПУТЬ"]'))
+    lines.append("  " + (meta["tail"] if meta.get("tail")
+                         else "ноль не записан: %s не тронут" % art))
     raise RootError("\n".join(lines))
 
 
