@@ -21,13 +21,17 @@ import os
 import re
 import time
 
+import tokenaudit_rates as rates
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 FIELDS = ("inp", "cc", "cr", "out")
 NAMES = {"inp": "свежий ввод", "cc": "запись кэша", "cr": "чтение кэша", "out": "вывод"}
-RATES = {"claude-opus-5": (5, 25), "claude-opus-4-8": (5, 25),
-         "claude-fable-5": (10, 50), "claude-sonnet-5": (2, 10)}
-OPENAI = {"gpt-5.5": (5, 0.5, 30)}
 M = 1_000_000.0
+
+# Локальных таблиц ставок здесь больше нет. Их было шесть копий по репозиторию,
+# и копии OPENAI уже разошлись: в cost_model.py семь моделей, здесь была одна,
+# при том что в данных 13 167 044 269 токенов gpt-5.4. Ставки берутся только из
+# tokenaudit_rates.
 
 
 def L(name):
@@ -68,25 +72,32 @@ class Ctx:
         self.cost, self.cost_total = self._cost()
 
     def _cost(self):
+        """Стоимость по моделям. Базис -- claude_totals.json, не claude_deep.json.
+
+        Причина в разбивке записи кэша по TTL: часовая запись стоит 2x базовой
+        цены ввода против 1.25x пятиминутной, и поля e5m/e1h есть ТОЛЬКО в
+        claude_totals.json. Пока здесь считали по claude_deep.json, вся запись
+        шла по 1.25x, и отчёты публиковали $10 697,94 там, где combined.json и
+        дашборд показывали $10 737,60 -- расхождение 39.66 доллара на одной
+        странице.
+        -> ({модель: сумма}, итог)
+        """
         out, tot = {}, 0.0
-        if not self.dp:
+        src = (self.cl or {}).get("by_model") or {}
+        if not src:
             return out, tot
-        for m, v in self.dp["by_model"].items():
-            if v.get("total", 0) == 0:
-                continue
-            if m in RATES:
-                ri, ro = RATES[m]
-                c = (v["uncached_input"] / M * ri + v["cache_write"] / M * ri * 1.25
-                     + v["cache_read"] / M * ri * 0.1 + v["output"] / M * ro)
-            elif m in OPENAI:
-                ri, rc, ro = OPENAI[m]
-                c = (v["uncached_input"] / M * ri + v["cache_read"] / M * rc
-                     + v["output"] / M * ro)
-            else:
-                continue
-            out[m] = c
-            tot += c
+        for m, v in src.items():
+            c = rates.cost_breakdown(v, m)
+            if c is None:
+                continue          # модель без цены не превращается в ноль молча
+            out[m] = c["total"]
+            tot += c["total"]
         return out, tot
+
+    def unpriced(self):
+        """Модели, встреченные в данных, но не имеющие цены. -> [str]"""
+        src = (self.cl or {}).get("by_model") or {}
+        return rates.unpriced_models([m for m in src if rates.cost_breakdown(src[m], m) is None])
 
 
 # ----------------------------------------------------------------- blocks
@@ -178,8 +189,9 @@ def _bd(c):
     df = c.dp.get("by_day_full", {})
     for k in sorted(df):
         v = df[k]
-        cost = (v["inp"] / M * 5 + v["cc"] / M * 6.25 + v["cr"] / M * 0.5
-                + v["out"] / M * 25)
+        # Ставки из модуля: литералы 5 / 6.25 / 0.5 / 25 -- это цена opus-5,
+        # вписанная руками в шести местах репозитория.
+        cost = rates.day_cost(v)
         r.append("| %s | %s | %.1f%% | %s | %s |" % (
             k, f(v["total"]), v["cache_pct"], f(v["n"]), usd(cost)))
     return r
@@ -336,15 +348,25 @@ def _ig(c):
         rows.append("| ответов: агрегат против распределений | %s%s |" % (
             "СХОДИТСЯ" if good else "РАСХОДИТСЯ",
             "" if good else " (%s против %s)" % (f(ra), f(rd))))
-    # Окно измерения должно быть одним и тем же файлом манифеста.
-    sk = c.dp.get("records_after_cutoff_skipped")
-    w = c.cl.get("scan_window") or {}
-    if w:
+    # Окно измерения обязано быть ОДНИМ И ТЕМ ЖЕ у двух проходов. Проверяется
+    # равенство файлов и байт, а не отсутствие отброшенных записей: временная
+    # граница убрана, окно теперь одно, и сравнивать надо именно его.
+    wa = c.cl.get("scan_window") or {}
+    wd = c.dp.get("scan_window") or {}
+    if wa:
         rows.append("| окно сканирования | файлов %s, байт %s |"
-                    % (f(w.get("files", 0)), f(w.get("bytes", 0))))
-    if sk:
+                    % (f(wa.get("files", 0)), f(wa.get("bytes", 0))))
+    if wa and wd:
+        good = (wa.get("files"), wa.get("bytes")) == (wd.get("files"), wd.get("bytes"))
+        ok &= good
+        rows.append("| окно: агрегат против распределений | %s%s |" % (
+            "СХОДИТСЯ" if good else "РАСХОДИТСЯ",
+            "" if good else " (%s/%s против %s/%s файлов/байт)" % (
+                f(wa.get("files", 0)), f(wa.get("bytes", 0)),
+                f(wd.get("files", 0)), f(wd.get("bytes", 0)))))
+    elif wa and not wd:
         ok = False
-        rows.append("| записей позже границы окна | РАСХОДИТСЯ (%s отброшено) |" % f(sk))
+        rows.append("| окно: агрегат против распределений | РАСХОДИТСЯ (второй проход окно не записал) |")
     mv = c.dp["main_vs_subagent"]
     s2 = mv["main"]["total"] + mv["subagent"]["total"]
     good = abs(s2 - s) <= max(1, s * 0.001)

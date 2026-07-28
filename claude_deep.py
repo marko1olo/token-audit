@@ -17,35 +17,22 @@ ROOT = os.path.expanduser("~/.claude/projects")
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "claude_deep.json")
 
-# Верхняя граница окна измерения.
+# Границы по времени здесь НЕТ намеренно.
 #
-# Два агрегатора бегут последовательно: claude_agg занимает около 86 секунд,
-# claude_deep стартует после него и работает ещё около 55. Если набор данных
-# растёт во время прогона -- а он растёт, когда инструмент запускают из той же
-# сессии, чьи транскрипты он и читает, -- второй проход видит записи, которых
-# первый не видел. Измерено: +138 ответов и +18 615 694 токена, целиком в
-# claude-opus-5, то есть в модели работающей сессии. Итог публиковался из
-# claude_totals.json, а таблица по моделям и стоимость -- из claude_deep.json,
-# поэтому таблица не сходилась с итогом на 0.19%, и ни одна проверка это не
-# ловила.
+# Раньше стояла: claude_deep отбрасывал записи с меткой позже last_ts из
+# claude_totals.json. Это был обходной путь против того, что два прохода читали
+# растущий каталог и расходились на 138 ответов и 18.6 млн токенов.
 #
-# Дедупликация тут не при чём: одним проходом обе логики дают ровно 61 267
-# уникальных ответов и одинаковую сумму, разница ноль.
+# Теперь окно задаётся в байтах общим манифестом (tokenaudit_scan.py), и
+# временная граница стала не просто избыточной, а вредной: её применял только
+# второй проход, поэтому она вносила асимметрию. Если запись позже last_ts
+# окажется МАКСИМАЛЬНЫМ снимком своего message.id, второй проход возьмёт
+# меньшее значение, чем первый, и итоги разойдутся -- ровно тот дефект, против
+# которого граница и ставилась. Наблюдалось на живых данных: 2 отброшенные
+# записи при полном совпадении итогов, то есть механизм работал вслепую.
 #
-# Поэтому окно задаётся первым проходом: берём last_ts из claude_totals.json и
-# отбрасываем всё, что позже. Тогда два артефакта описывают один и тот же
-# отрезок времени по построению, а не по совпадению. Без claude_totals.json
-# граница не ставится -- самостоятельный прогон меряет всё, что есть.
-def _cutoff():
-    p = os.path.join(HERE, "claude_totals.json")
-    try:
-        with open(p, encoding="utf-8") as fh:
-            return (json.load(fh) or {}).get("last_ts") or None
-    except Exception:
-        return None
+# Один инвариант -- один механизм.
 
-
-CUTOFF = _cutoff()
 
 # Окно сканирования от первого прохода. Если манифеста нет -- меряем всё, что
 # есть, и честно об этом печатаем: самостоятельный прогон не обязан совпадать
@@ -59,7 +46,6 @@ else:
     print("scan window:", WINDOW.describe())
 
 rows_by_id = {}
-past_cutoff = 0
 if True:
     for path, rel, root in WINDOW.files():
         project = rel.split(os.sep)[0]
@@ -79,14 +65,6 @@ if True:
             mid = m.get("id")
             if not mid:
                 continue
-            # Окно измерения: см. комментарий к CUTOFF. Метки времени в
-            # транскриптах -- ISO 8601 в UTC с суффиксом Z, поэтому строковое
-            # сравнение здесь корректно и не требует разбора даты.
-            if CUTOFF:
-                ts = r.get("timestamp")
-                if ts and ts > CUTOFF:
-                    past_cutoff += 1
-                    continue
             inp = u.get("input_tokens") or 0
             cc = u.get("cache_creation_input_tokens") or 0
             cr = u.get("cache_read_input_tokens") or 0
@@ -108,11 +86,6 @@ if True:
 
 rows = sorted(rows_by_id.values(), key=lambda r: r["ts"] or "")
 print("deduplicated responses:", len(rows))
-if CUTOFF:
-    print("cutoff from claude_totals :", CUTOFF,
-          "| skipped after cutoff:", past_cutoff)
-else:
-    print("cutoff: none (claude_totals.json absent) -- windows may differ")
 
 
 def q(vals, p):
@@ -132,11 +105,11 @@ def describe(vals):
 
 
 out = {"responses": len(rows), "period": [rows[0]["ts"], rows[-1]["ts"]],
-       # Граница окна и сколько записей она отсекла: без этих двух полей
-       # нельзя проверить, что claude_deep и claude_agg описывают один
-       # отрезок времени.
-       "cutoff_ts": CUTOFF,
-       "records_after_cutoff_skipped": past_cutoff}
+       # Окно, по которому считали. Без этого поля нельзя проверить, что
+       # оба прохода описывают один и тот же вход.
+       "scan_window": {"files": len(WINDOW.sizes),
+                       "bytes": sum(WINDOW.sizes.values()),
+                       "captured_by": WINDOW.captured_by}}
 
 # ---------- per model, deep ----------
 bym = defaultdict(list)

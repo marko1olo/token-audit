@@ -15,72 +15,58 @@ Every dollar figure is a LIST-PRICE EQUIVALENT, not an invoice:
     which rewrote every model to claude-opus-5 and retried 429/5xx every 2s.
     Those retries burned upstream tokens that never reached the transcript, so
     the Claude figure is a FLOOR, not a ceiling.
+
+ЦЕНЫ ЗДЕСЬ БОЛЬШЕ НЕ ЖИВУТ. Таблицы ставок, множители кэша и оговорка про
+вводную цену Sonnet 5 переехали в tokenaudit_rates: этот файл был последним, где
+они лежали в самом полном виде, оттуда значения и взяты байт в байт. Функции
+стоимости остались местными, потому что они отдают РАЗЛОЖЕНИЕ с ключами вида
+'*_usd' и ставками рядом с числом -- ровно ту форму, которую читает
+build_dashboard.py из combined.json.
 """
 import json
 import os
 
+import tokenaudit_config as cfg
+import tokenaudit_rates as R
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# --- rate cards -------------------------------------------------------------
-# Anthropic, per 1M tokens, verified live 2026-07-27 against
-# platform.claude.com/docs/en/about-claude/models/overview.md
-# Cache multipliers from the prompt-caching docs: read 0.1x base input,
-# write 1.25x for 5-minute TTL and 2x for 1-hour TTL.
-ANTHROPIC = {
-    "claude-opus-5":   {"in": 5.0,  "out": 25.0},
-    "claude-opus-4-8": {"in": 5.0,  "out": 25.0},
-    "claude-fable-5":  {"in": 10.0, "out": 50.0},
-    # Sonnet 5 sticker is $3/$15; introductory $2/$10 runs through 2026-08-31.
-    # All observed usage is July 2026, so the introductory rate is the one that applied.
-    "claude-sonnet-5": {"in": 2.0,  "out": 10.0, "note": "introductory rate (sticker $3/$15)"},
-}
-CACHE_READ_MULT = 0.1
-CACHE_WRITE_5M_MULT = 1.25
-CACHE_WRITE_1H_MULT = 2.0
-
-# OpenAI, per 1M tokens, as sourced by the 2026-06-06 audit from
-# developers.openai.com/api/docs/pricing (checked 2026-06-06).
-# `cached_in` is an absolute rate here, not a multiplier.
-OPENAI = {
-    "gpt-5.5":            {"in": 5.0,  "cached_in": 0.5,   "out": 30.0},
-    "gpt-5.4":            {"in": 2.5,  "cached_in": 0.25,  "out": 15.0},
-    "gpt-5.4-mini":       {"in": 0.75, "cached_in": 0.075, "out": 4.5},
-    "gpt-5.3-codex":      {"in": 1.75, "cached_in": 0.175, "out": 14.0},
-    "gpt-5.2-codex":      None,   # no published rate found by that audit
-    "gpt-5.2":            None,
-    "gpt-5.1-codex-mini": None,
-}
-M = 1_000_000.0
+# Свои сообщения на русском -- значит поток надо перевести в utf-8: под Git Bash,
+# в pipe и в CI stdout не консоль Windows, и cp1251 убивает процесс на первом же
+# нелатинском символе.
+cfg.stdout_utf8()
 
 
 def anthropic_cost(model, inp, cache_write_5m, cache_write_1h, cache_read, out):
-    r = ANTHROPIC.get(model)
-    if not r:
+    rate = R.ANTHROPIC.get(model)
+    if not rate:
         return None
+    r_in, r_out = rate
     return {
-        "uncached_input_usd": inp / M * r["in"],
-        "cache_write_usd": (cache_write_5m / M * r["in"] * CACHE_WRITE_5M_MULT
-                            + cache_write_1h / M * r["in"] * CACHE_WRITE_1H_MULT),
-        "cache_read_usd": cache_read / M * r["in"] * CACHE_READ_MULT,
-        "output_usd": out / M * r["out"],
-        "rate_in_per_mtok": r["in"],
-        "rate_out_per_mtok": r["out"],
+        "uncached_input_usd": inp / R.MILLION * r_in,
+        "cache_write_usd": (cache_write_5m / R.MILLION * r_in * R.CACHE_WRITE_5M_MULT
+                            + cache_write_1h / R.MILLION * r_in * R.CACHE_WRITE_1H_MULT),
+        "cache_read_usd": cache_read / R.MILLION * r_in * R.CACHE_READ_MULT,
+        "output_usd": out / R.MILLION * r_out,
+        "rate_in_per_mtok": r_in,
+        "rate_out_per_mtok": r_out,
     }
 
 
 def openai_cost(model, input_tokens, cached_input_tokens, output_tokens):
     """cached_input_tokens is a SUBSET of input_tokens in OpenAI accounting."""
-    r = OPENAI.get(model)
-    if not r:
+    rate = R.OPENAI.get(model)
+    if not rate:
         return None
+    r_in, r_cached, r_out = rate
     uncached = max(0, input_tokens - cached_input_tokens)
     return {
-        "uncached_input_usd": uncached / M * r["in"],
-        "cached_input_usd": cached_input_tokens / M * r["cached_in"],
-        "output_usd": output_tokens / M * r["out"],
-        "rate_in_per_mtok": r["in"],
-        "rate_cached_in_per_mtok": r["cached_in"],
-        "rate_out_per_mtok": r["out"],
+        "uncached_input_usd": uncached / R.MILLION * r_in,
+        "cached_input_usd": cached_input_tokens / R.MILLION * r_cached,
+        "output_usd": output_tokens / R.MILLION * r_out,
+        "rate_in_per_mtok": r_in,
+        "rate_cached_in_per_mtok": r_cached,
+        "rate_out_per_mtok": r_out,
     }
 
 
@@ -88,17 +74,50 @@ def total(d):
     return sum(v for k, v in d.items() if k.endswith("_usd"))
 
 
+def day(ts):
+    """Дата из метки времени. None или пустая строка -> '—', не TypeError.
+
+    На пустом наборе first_ts/last_ts равны None, и срез ts[:10] ронял процесс
+    ПОСЛЕ записи combined.json: артефакт оставался с нулями, а прогон выходил с
+    единицей. Дырка в дате -- не причина терять весь артефакт.
+    -> str
+    """
+    return str(ts)[:10] if ts else "—"
+
+
+def num(n):
+    """Число для печати, отсутствующее -> '—'. Форматов '%d' с None не бывает."""
+    return "—" if n is None else "{:,}".format(n)
+
+
+def need(name, hint):
+    """Прочитать обязательный артефакт или объяснить, какой командой его сделать.
+
+    Раньше отсутствие файла давало FileNotFoundError с трассой: сообщение
+    показывало путь, но не команду, а команда — единственное, что тут нужно
+    знать. Файл всё так же обязателен, combined.json без раздела не собирается.
+    -> dict
+    """
+    path = os.path.join(HERE, name)
+    if not os.path.isfile(path):
+        raise SystemExit("нет %s — %s" % (name, hint))
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 out = {"generated_for": "all-time token audit", "evidence_note": __doc__}
 
 # --- Claude Code (MEASURED on this machine) --------------------------------
-cl = json.load(open(os.path.join(HERE, "claude_totals.json"), encoding="utf-8"))
+cl = need("claude_totals.json", "сделать: python claude_agg.py")
 t = cl["totals_deduped"]
 claude = {
     "evidence": "MEASURED",
     "source": cl["source_root"],
     "period": [cl["first_ts"], cl["last_ts"]],
     "sessions": cl["session_count"],
-    "files": cl["scan_stats"]["files"],
+    # scan_stats бывает пустым словарём (скан ничего не нашёл), и обращение по
+    # ключу роняло процесс KeyError уже после записи combined.json.
+    "files": (cl.get("scan_stats") or {}).get("files"),
     "responses_deduped": cl["records_deduped"],
     "responses_raw": cl["records_raw"],
     "dedupe_dropped": cl["duplicate_records_dropped"],
@@ -121,15 +140,15 @@ for m, v in cl["by_model"].items():
         "cache_write": v["cc"], "cache_write_5m": v.get("e5m", 0),
         "cache_write_1h": v.get("e1h", 0), "cache_read": v["cr"], "output": v["out"],
     }
-    if m == "<synthetic>" or tt == 0:
+    if m == R.SYNTHETIC or tt == 0:
         continue
-    if m in ANTHROPIC:
+    if m in R.ANTHROPIC:
         # e5m/e1h should sum to cc; if the split is missing, treat all as 5m
         e5, e1 = v.get("e5m", 0), v.get("e1h", 0)
         if e5 + e1 == 0:
             e5 = v["cc"]
         c = anthropic_cost(m, v["inp"], e5, e1, v["cr"], v["out"])
-    elif m in OPENAI and OPENAI[m]:
+    elif R.OPENAI.get(m):
         # a non-Anthropic model reached through the local proxy: cache_read here
         # is the closest analogue to OpenAI's cached input
         c = openai_cost(m, v["inp"] + v["cr"], v["cr"], v["out"])
@@ -148,20 +167,28 @@ claude["cost_caveat"] = (
 out["claude_code"] = claude
 
 # --- Codex ------------------------------------------------------------------
-cx = json.load(open(os.path.join(HERE, "codex_totals.json"), encoding="utf-8"))
+# codex_totals.json пишет только codex_agg.py, и до этой правки его не запускал
+# никто: refresh.py гонял лишь codex_agg_chains.py. Теперь под --codex идут оба
+# прохода, поэтому файл здесь -- свежее измерение, а не мой закоммиченный слепок.
+cx = need("codex_totals.json", "сделать: python refresh.py --codex "
+                               "(запускает и chain-split, и максимум по файлу)")
 mine = cx["totals_max_cumulative"]
+# То же, что с claude_totals: scan_stats пустеет на пустом скане, и обращение по
+# ключу роняло процесс. Байты отсутствуют -> гигабайты None, а не деление None.
+cxs = cx.get("scan_stats") or {}
 codex = {
     "my_measurement": {
         "evidence": "MEASURED",
         "scope": "backup root only (C:/Users/Admin/Documents/CodexBackups/codex_cleanup_20260521_194850)",
         "period": [cx["first_ts"], cx["last_ts"]],
-        "rollout_files": cx["scan_stats"]["files"],
-        "gigabytes": round(cx["scan_stats"]["bytes"] / 1e9, 2),
-        "sessions": cx["session_files_with_data"],
+        "rollout_files": cxs.get("files"),
+        "gigabytes": round(cxs["bytes"] / 1e9, 2) if cxs.get("bytes") else None,
+        "sessions": cx.get("session_files_with_data"),
         "totals": mine,
         "cross_check_from_minute_deltas": cx["totals_from_minute_deltas"],
         "cross_check_matches": mine == cx["totals_from_minute_deltas"],
-        "counter_resets": sum(s["counter_resets"] for s in cx["sessions"].values()),
+        "counter_resets": sum(s.get("counter_resets") or 0
+                              for s in (cx.get("sessions") or {}).values()),
     },
     # From TOKEN_USAGE_AUDIT_2026-06-06.json root_breakdown on this machine.
     "prior_audit_2026_06_06": {
@@ -221,7 +248,7 @@ cxcost, unpriced = {}, []
 tot_cx = 0.0
 ratio = codex["prior_audit_2026_06_06"]["cache_ratio"]
 for m, tt in codex["prior_audit_2026_06_06"]["by_model_delta"].items():
-    if not OPENAI.get(m):
+    if not R.OPENAI.get(m):
         unpriced.append({"model": m, "total_tokens": tt})
         continue
     # split the model's volume using the audit's measured global shares:
@@ -248,7 +275,7 @@ codex["cost_caveat"] = (
 out["codex"] = codex
 
 # --- Antigravity (PROXY only) ----------------------------------------------
-ag = json.load(open(os.path.join(HERE, "antigravity_totals.json"), encoding="utf-8"))
+ag = need("antigravity_totals.json", "сделать: python refresh.py --antigravity")
 agt = ag["totals"]
 out["antigravity"] = {
     "evidence": "PROXY",
@@ -280,22 +307,23 @@ out["antigravity"] = {
     ),
 }
 
-dst = os.path.join(HERE, "combined.json")
-with open(dst, "w", encoding="utf-8") as fh:
-    json.dump(out, fh, indent=1, ensure_ascii=False)
-
 # --- print ------------------------------------------------------------------
+# Печать идёт ДО записи combined.json. Раньше было наоборот, и любое падение в
+# этом блоке (а падали два обращения: дата None и пустой scan_stats) оставляло на
+# диске уже записанный артефакт при коде выхода 1 -- то есть полуверный файл,
+# который следующие скрипты читали как готовый.
 def fmt(n):
-    return "{:>18,}".format(n)
+    return "{:>18,}".format(n) if n is not None else "%18s" % "—"
 
 
 print("=" * 78)
 print("TOKEN AUDIT -- ALL TIME")
 print("=" * 78)
 print()
-print("CLAUDE CODE   [MEASURED]  %s .. %s" % (claude["period"][0][:10], claude["period"][1][:10]))
-print("  sessions %d | files %d | responses %s (deduped from %s)"
-      % (claude["sessions"], claude["files"],
+print("CLAUDE CODE   [MEASURED]  %s .. %s" % (day(claude["period"][0]),
+                                              day(claude["period"][1])))
+print("  sessions %s | files %s | responses %s (deduped from %s)"
+      % (num(claude["sessions"]), num(claude["files"]),
          f"{claude['responses_deduped']:,}", f"{claude['responses_raw']:,}"))
 for k in ("uncached_input", "cache_write", "cache_read", "output", "total"):
     print("  %-16s %s" % (k, fmt(claude["totals"][k])))
@@ -308,10 +336,12 @@ if claude["unpriced_models"]:
     print("  unpriced:", claude["unpriced_models"])
 print()
 print("CODEX")
-print("  [MEASURED]  backup root, %s .. %s  (%d files, %.1f GB, %d sessions)"
-      % (codex["my_measurement"]["period"][0][:10], codex["my_measurement"]["period"][1][:10],
-         codex["my_measurement"]["rollout_files"], codex["my_measurement"]["gigabytes"],
-         codex["my_measurement"]["sessions"]))
+print("  [MEASURED]  backup root, %s .. %s  (%s files, %s GB, %s sessions)"
+      % (day(codex["my_measurement"]["period"][0]),
+         day(codex["my_measurement"]["period"][1]),
+         num(codex["my_measurement"]["rollout_files"]),
+         num(codex["my_measurement"]["gigabytes"]),
+         num(codex["my_measurement"]["sessions"])))
 for k in ("input_tokens", "cached_input_tokens", "output_tokens",
           "reasoning_output_tokens", "total_tokens"):
     print("    %-24s %s" % (k, fmt(mine[k])))
@@ -329,12 +359,17 @@ print("  headline in the old ledger: %s  <-- inflated ~28%% by double counting"
 print("  list-price equivalent (deduped basis): $%s" % f"{tot_cx:,.2f}")
 print()
 print("ANTIGRAVITY   [PROXY -- no token counter exists]  %s .. %s"
-      % (out["antigravity"]["period"][0][:10], out["antigravity"]["period"][1][:10]))
-print("  conversations %d | model turns %s | tool calls %s | quota blocks %s"
-      % (out["antigravity"]["conversations_with_transcript"],
+      % (day(out["antigravity"]["period"][0]), day(out["antigravity"]["period"][1])))
+print("  conversations %s | model turns %s | tool calls %s | quota blocks %s"
+      % (num(out["antigravity"]["conversations_with_transcript"]),
          f"{out['antigravity']['model_turns']:,}",
          f"{out['antigravity']['tool_calls']:,}",
          f"{out['antigravity']['quota_blocks_429']:,}"))
 print("  tokens: NOT MEASURABLE from local data")
 print()
+
+# --- write ------------------------------------------------------------------
+dst = os.path.join(HERE, "combined.json")
+with open(dst, "w", encoding="utf-8") as fh:
+    json.dump(out, fh, indent=1, ensure_ascii=False)
 print("wrote", dst)

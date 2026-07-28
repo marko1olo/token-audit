@@ -1,67 +1,70 @@
 {
- "responses": 61735,
+ "responses": 64482,
  "period": [
   "2026-07-08T06:54:30.759Z",
-  "2026-07-28T14:41:18.831Z"
+  "2026-07-28T15:40:17.125Z"
  ],
- "cutoff_ts": "2026-07-28T14:41:18.831Z",
- "records_after_cutoff_skipped": 0,
+ "scan_window": {
+  "files": 1484,
+  "bytes": 1196339887,
+  "captured_by": "claude_agg"
+ },
  "by_model": {
   "claude-opus-5": {
-   "responses": 49706,
+   "responses": 52381,
    "sessions": 32,
    "active_days": 3,
-   "total": 10431788837,
-   "uncached_input": 8565326,
-   "cache_write": 276458609,
-   "cache_read": 10095406257,
-   "output": 51358645,
-   "share_of_all_tokens": 89.407,
-   "cache_hit_rate_pct": 97.25,
-   "output_share_pct": 0.492,
+   "total": 10796607883,
+   "uncached_input": 9287945,
+   "cache_write": 288690864,
+   "cache_read": 10444820665,
+   "output": 53808409,
+   "share_of_all_tokens": 89.728,
+   "cache_hit_rate_pct": 97.23,
+   "output_share_pct": 0.498,
    "context_per_call": {
-    "n": 49706,
-    "sum": 10380430192,
-    "mean": 208836.6,
-    "median": 140137,
-    "p90": 505157,
-    "p99": 930578,
+    "n": 52381,
+    "sum": 10742799474,
+    "mean": 205089.6,
+    "median": 138395,
+    "p90": 489270,
+    "p99": 926488,
     "max": 999870,
     "min": 12272
    },
    "output_per_call": {
-    "n": 49706,
-    "sum": 51358645,
-    "mean": 1033.2,
-    "median": 575,
-    "p90": 2150,
-    "p99": 8469,
+    "n": 52381,
+    "sum": 53808409,
+    "mean": 1027.3,
+    "median": 573,
+    "p90": 2135,
+    "p99": 8464,
     "max": 32000,
     "min": 1
    },
    "uncached_per_call": {
-    "n": 49706,
-    "sum": 8565326,
-    "mean": 172.3,
+    "n": 52381,
+    "sum": 9287945,
+    "mean": 177.3,
     "median": 2,
     "p90": 124,
-    "p99": 3284,
+    "p99": 3458,
     "max": 49373,
     "min": 1
    },
-   "tokens_per_response_mean": 209869.8,
-   "context_to_output_ratio": 202.1,
-   "sidechain_responses": 34076,
-   "sidechain_tokens": 3956983949,
+   "tokens_per_response_mean": 206116.9,
+   "context_to_output_ratio": 199.6,
+   "sidechain_responses": 36511,
+   "sidechain_tokens": 4245154710,
    "stop_reasons": {
-    "tool_use": 47559,
-    "none": 1641,
-    "end_turn": 499,
+    "tool_use": 50123,
+    "none": 1747,
+    "end_turn": 504,
     "refusal": 4,
     "max_tokens": 3
    },
    "first_ts": "2026-07-26T17:58:09.419Z",
-   "last_ts": "2026-07-28T14:41:18.831Z"
+   "last_ts": "2026-07-28T15:40:17.125Z"
   },
   "claude-opus-4-8": {
    "responses": 10989,
@@ -72,7 +75,7 @@
    "cache_write": 23465753,
    "cache_read": 867958581,
    "output": 9092828,
-   "share_of_all_tokens": 10.164,
+   "share_of_all_tokens": 9.856,
    "cache_hit_rate_pct": 73.76,
    "output_share_pct": 0.767,
    "context_per_call": {
@@ -127,7 +130,7 @@
    "cache_write": 405398,
    "cache_read": 28025949,
    "output": 134533,
-   "share_of_all_tokens": 0.245,
+   "share_of_all_tokens": 0.237,
    "cache_hit_rate_pct": 98.57,
    "output_share_pct": 0.471,
    "context_per_call": {
@@ -180,7 +183,7 @@
    "cache_write": 0,
    "cache_read": 19582464,
    "output": 129298,
-   "share_of_all_tokens": 0.184,
+   "share_of_all_tokens": 0.179,
    "cache_hit_rate_pct": 91.65,
    "output_share_pct": 0.602,
    "context_per_call": {
@@ -279,7 +282,7 @@
    "last_ts": "2026-07-26T14:25:47.788Z"
   },
   "<synthetic>": {
-   "responses": 591,
+   "responses": 663,
    "sessions": 90,
    "active_days": 20,
    "total": 0,
@@ -291,7 +294,7 @@
    "cache_hit_rate_pct": 0.0,
    "output_share_pct": 0.0,
    "context_per_call": {
-    "n": 591,
+    "n": 663,
     "sum": 0,
     "mean": 0,
     "median": 0,
@@ -301,7 +304,7 @@
     "min": 0
    },
    "output_per_call": {
-    "n": 591,
+    "n": 663,
     "sum": 0,
     "mean": 0,
     "median": 0,
@@ -311,7 +314,7 @@
     "min": 0
    },
    "uncached_per_call": {
-    "n": 591,
+    "n": 663,
     "sum": 0,
     "mean": 0,
     "median": 0,
@@ -322,106 +325,106 @@
    },
    "tokens_per_response_mean": 0.0,
    "context_to_output_ratio": 0.0,
-   "sidechain_responses": 285,
+   "sidechain_responses": 346,
    "sidechain_tokens": 0,
    "stop_reasons": {
-    "stop_sequence": 583,
+    "stop_sequence": 655,
     "refusal": 8
    },
    "first_ts": "2026-07-08T09:58:23.201Z",
-   "last_ts": "2026-07-28T13:14:39.675Z"
+   "last_ts": "2026-07-28T15:16:36.439Z"
   }
  },
  "session_count": 154,
  "top_sessions": {
-  "2fadb074-db3e-406b-aaef-1ef3734884a3": {
-   "responses": 9576,
-   "total": 1422910501,
-   "uncached_input": 762617,
-   "cache_read": 1369892900,
-   "output": 11274226,
-   "start": "2026-07-27T20:28:22.906Z",
-   "end": "2026-07-28T14:41:08.601Z",
-   "duration_s": 65566,
-   "tokens_per_hour": 78127408,
-   "models": {
-    "claude-opus-5": 1422910501,
-    "<synthetic>": 0
-   },
-   "dominant_model": "claude-opus-5",
-   "sidechain_responses": 9047,
-   "max_single_response_context": 999870
-  },
   "ee309892-8805-4404-9036-f8cd085d90a9": {
-   "responses": 5442,
-   "total": 1306563776,
-   "uncached_input": 842711,
-   "cache_read": 1277907619,
-   "output": 4132526,
+   "responses": 7100,
+   "total": 1495337626,
+   "uncached_input": 1214825,
+   "cache_read": 1459589162,
+   "output": 5468200,
    "start": "2026-07-27T11:18:44.583Z",
-   "end": "2026-07-28T14:41:18.794Z",
-   "duration_s": 98554,
-   "tokens_per_hour": 47726318,
+   "end": "2026-07-28T15:40:17.125Z",
+   "duration_s": 102093,
+   "tokens_per_hour": 52728783,
    "models": {
-    "claude-opus-5": 1306563776,
+    "claude-opus-5": 1495337626,
     "<synthetic>": 0
    },
    "dominant_model": "claude-opus-5",
-   "sidechain_responses": 3310,
+   "sidechain_responses": 4965,
    "max_single_response_context": 999797
   },
-  "95772b7a-eccb-4f31-b41a-7c2d92c6ec18": {
-   "responses": 4757,
-   "total": 1168888256,
-   "uncached_input": 571806,
-   "cache_read": 1149687074,
-   "output": 3168056,
-   "start": "2026-07-27T16:42:16.826Z",
-   "end": "2026-07-28T14:41:18.831Z",
-   "duration_s": 79142,
-   "tokens_per_hour": 53170219,
+  "2fadb074-db3e-406b-aaef-1ef3734884a3": {
+   "responses": 9909,
+   "total": 1483404164,
+   "uncached_input": 800288,
+   "cache_read": 1428909665,
+   "output": 11586008,
+   "start": "2026-07-27T20:28:22.906Z",
+   "end": "2026-07-28T15:40:16.972Z",
+   "duration_s": 69114,
+   "tokens_per_hour": 77267267,
    "models": {
-    "claude-opus-5": 1168888256,
+    "claude-opus-5": 1483404164,
     "<synthetic>": 0
    },
    "dominant_model": "claude-opus-5",
-   "sidechain_responses": 2940,
+   "sidechain_responses": 9246,
+   "max_single_response_context": 999870
+  },
+  "95772b7a-eccb-4f31-b41a-7c2d92c6ec18": {
+   "responses": 4766,
+   "total": 1170355243,
+   "uncached_input": 572060,
+   "cache_read": 1151146350,
+   "output": 3171347,
+   "start": "2026-07-27T16:42:16.826Z",
+   "end": "2026-07-28T14:43:00.897Z",
+   "duration_s": 79244,
+   "tokens_per_hour": 53168380,
+   "models": {
+    "claude-opus-5": 1170355243,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 2948,
    "max_single_response_context": 998033
   },
   "71344136-0753-430e-b8d9-2b3e3e949bfb": {
-   "responses": 3293,
-   "total": 770326456,
-   "uncached_input": 466789,
-   "cache_read": 740978366,
-   "output": 3548524,
+   "responses": 3298,
+   "total": 770791871,
+   "uncached_input": 466919,
+   "cache_read": 741434755,
+   "output": 3551752,
    "start": "2026-07-27T11:24:32.262Z",
-   "end": "2026-07-28T14:41:11.532Z",
-   "duration_s": 98199,
-   "tokens_per_hour": 28240284,
+   "end": "2026-07-28T14:42:30.432Z",
+   "duration_s": 98278,
+   "tokens_per_hour": 28234660,
    "models": {
-    "claude-opus-5": 770326456,
+    "claude-opus-5": 770791871,
     "<synthetic>": 0
    },
    "dominant_model": "claude-opus-5",
-   "sidechain_responses": 1795,
+   "sidechain_responses": 1800,
    "max_single_response_context": 999257
   },
   "677a1a89-3fca-4943-9f16-dec741f56a53": {
-   "responses": 3914,
-   "total": 723047124,
-   "uncached_input": 1361862,
-   "cache_read": 697694630,
-   "output": 4314983,
+   "responses": 4062,
+   "total": 750256623,
+   "uncached_input": 1388211,
+   "cache_read": 723726704,
+   "output": 4444757,
    "start": "2026-07-28T06:06:13.987Z",
-   "end": "2026-07-28T14:39:26.166Z",
-   "duration_s": 30792,
-   "tokens_per_hour": 84533467,
+   "end": "2026-07-28T15:39:46.647Z",
+   "duration_s": 34413,
+   "tokens_per_hour": 78486343,
    "models": {
-    "claude-opus-5": 723047124,
+    "claude-opus-5": 750256623,
     "<synthetic>": 0
    },
    "dominant_model": "claude-opus-5",
-   "sidechain_responses": 3136,
+   "sidechain_responses": 3262,
    "max_single_response_context": 997502
   },
   "1692332f-129e-4ac6-be20-c1abf1a3200f": {
@@ -462,22 +465,22 @@
    "max_single_response_context": 927167
   },
   "70769553-8d95-424b-b28a-fd850615818a": {
-   "responses": 4118,
-   "total": 588747561,
-   "uncached_input": 870519,
-   "cache_read": 563516617,
-   "output": 4707198,
+   "responses": 4377,
+   "total": 615314965,
+   "uncached_input": 1055848,
+   "cache_read": 587417307,
+   "output": 4877999,
    "start": "2026-07-28T06:18:41.164Z",
-   "end": "2026-07-28T14:41:10.233Z",
-   "duration_s": 30149,
-   "tokens_per_hour": 70300387,
+   "end": "2026-07-28T15:16:04.701Z",
+   "duration_s": 32244,
+   "tokens_per_hour": 68700089,
    "models": {
-    "claude-opus-5": 588747561,
+    "claude-opus-5": 615314965,
     "<synthetic>": 0
    },
    "dominant_model": "claude-opus-5",
-   "sidechain_responses": 3729,
-   "max_single_response_context": 986336
+   "sidechain_responses": 3943,
+   "max_single_response_context": 999189
   },
   "07a3f3f9-0d8e-4dea-8a79-c16837784344": {
    "responses": 1133,
@@ -498,21 +501,21 @@
    "max_single_response_context": 999099
   },
   "ac35de9b-e92d-41b2-8a64-92906b5a86a6": {
-   "responses": 2279,
-   "total": 388377328,
-   "uncached_input": 873819,
-   "cache_read": 368275743,
-   "output": 2739638,
+   "responses": 2344,
+   "total": 407921235,
+   "uncached_input": 874673,
+   "cache_read": 387564307,
+   "output": 2855081,
    "start": "2026-07-28T11:30:56.269Z",
-   "end": "2026-07-28T14:40:17.161Z",
-   "duration_s": 11361,
-   "tokens_per_hour": 123067659,
+   "end": "2026-07-28T15:16:03.755Z",
+   "duration_s": 13507,
+   "tokens_per_hour": 108718709,
    "models": {
-    "claude-opus-5": 388377328,
+    "claude-opus-5": 407921235,
     "<synthetic>": 0
    },
    "dominant_model": "claude-opus-5",
-   "sidechain_responses": 2108,
+   "sidechain_responses": 2171,
    "max_single_response_context": 591051
   },
   "19f12f00-2f93-4624-96b4-43d602553bc5": {
@@ -533,6 +536,24 @@
    "sidechain_responses": 2872,
    "max_single_response_context": 390603
   },
+  "1f09c37e-8e82-4496-a2fd-2813925a7eed": {
+   "responses": 1857,
+   "total": 329874831,
+   "uncached_input": 458703,
+   "cache_read": 308351925,
+   "output": 3136838,
+   "start": "2026-07-27T17:30:27.681Z",
+   "end": "2026-07-28T15:40:04.450Z",
+   "duration_s": 79777,
+   "tokens_per_hour": 14885905,
+   "models": {
+    "claude-opus-5": 329874831,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 1429,
+   "max_single_response_context": 998860
+  },
   "b0a0b75c-9f7d-4ee6-9a0d-81c58d8e68e4": {
    "responses": 1110,
    "total": 296664770,
@@ -551,24 +572,6 @@
    "dominant_model": "claude-opus-5",
    "sidechain_responses": 42,
    "max_single_response_context": 656528
-  },
-  "1f09c37e-8e82-4496-a2fd-2813925a7eed": {
-   "responses": 1587,
-   "total": 289576510,
-   "uncached_input": 358785,
-   "cache_read": 270772818,
-   "output": 2757067,
-   "start": "2026-07-27T17:30:27.681Z",
-   "end": "2026-07-28T14:41:16.602Z",
-   "duration_s": 76249,
-   "tokens_per_hour": 13672002,
-   "models": {
-    "claude-opus-5": 289576510,
-    "<synthetic>": 0
-   },
-   "dominant_model": "claude-opus-5",
-   "sidechain_responses": 1203,
-   "max_single_response_context": 998860
   },
   "d13e4177-dad3-42b6-b80f-80b6f001e77b": {
    "responses": 468,
@@ -2075,13 +2078,13 @@
   {
    "id": "ee309892",
    "start": "2026-07-27T11:18:44.583Z",
-   "end": "2026-07-28T14:41:18.794Z",
-   "total": 1306563776,
-   "responses": 5442,
+   "end": "2026-07-28T15:40:17.125Z",
+   "total": 1495337626,
+   "responses": 7100,
    "model": "claude-opus-5",
-   "duration_s": 98554,
-   "sub": 3310,
-   "cache_read": 1277907619
+   "duration_s": 102093,
+   "sub": 4965,
+   "cache_read": 1459589162
   },
   {
    "id": "07a3f3f9",
@@ -2097,13 +2100,13 @@
   {
    "id": "71344136",
    "start": "2026-07-27T11:24:32.262Z",
-   "end": "2026-07-28T14:41:11.532Z",
-   "total": 770326456,
-   "responses": 3293,
+   "end": "2026-07-28T14:42:30.432Z",
+   "total": 770791871,
+   "responses": 3298,
    "model": "claude-opus-5",
-   "duration_s": 98199,
-   "sub": 1795,
-   "cache_read": 740978366
+   "duration_s": 98278,
+   "sub": 1800,
+   "cache_read": 741434755
   },
   {
    "id": "d13e4177",
@@ -2240,13 +2243,13 @@
   {
    "id": "95772b7a",
    "start": "2026-07-27T16:42:16.826Z",
-   "end": "2026-07-28T14:41:18.831Z",
-   "total": 1168888256,
-   "responses": 4757,
+   "end": "2026-07-28T14:43:00.897Z",
+   "total": 1170355243,
+   "responses": 4766,
    "model": "claude-opus-5",
-   "duration_s": 79142,
-   "sub": 2940,
-   "cache_read": 1149687074
+   "duration_s": 79244,
+   "sub": 2948,
+   "cache_read": 1151146350
   },
   {
    "id": "19f12f00",
@@ -2273,13 +2276,13 @@
   {
    "id": "1f09c37e",
    "start": "2026-07-27T17:30:27.681Z",
-   "end": "2026-07-28T14:41:16.602Z",
-   "total": 289576510,
-   "responses": 1587,
+   "end": "2026-07-28T15:40:04.450Z",
+   "total": 329874831,
+   "responses": 1857,
    "model": "claude-opus-5",
-   "duration_s": 76249,
-   "sub": 1203,
-   "cache_read": 270772818
+   "duration_s": 79777,
+   "sub": 1429,
+   "cache_read": 308351925
   },
   {
    "id": "ef45d794",
@@ -2306,24 +2309,24 @@
   {
    "id": "2fadb074",
    "start": "2026-07-27T20:28:22.906Z",
-   "end": "2026-07-28T14:41:08.601Z",
-   "total": 1422910501,
-   "responses": 9576,
+   "end": "2026-07-28T15:40:16.972Z",
+   "total": 1483404164,
+   "responses": 9909,
    "model": "claude-opus-5",
-   "duration_s": 65566,
-   "sub": 9047,
-   "cache_read": 1369892900
+   "duration_s": 69114,
+   "sub": 9246,
+   "cache_read": 1428909665
   },
   {
    "id": "677a1a89",
    "start": "2026-07-28T06:06:13.987Z",
-   "end": "2026-07-28T14:39:26.166Z",
-   "total": 723047124,
-   "responses": 3914,
+   "end": "2026-07-28T15:39:46.647Z",
+   "total": 750256623,
+   "responses": 4062,
    "model": "claude-opus-5",
-   "duration_s": 30792,
-   "sub": 3136,
-   "cache_read": 697694630
+   "duration_s": 34413,
+   "sub": 3262,
+   "cache_read": 723726704
   },
   {
    "id": "0ee867f4",
@@ -2339,24 +2342,24 @@
   {
    "id": "70769553",
    "start": "2026-07-28T06:18:41.164Z",
-   "end": "2026-07-28T14:41:10.233Z",
-   "total": 588747561,
-   "responses": 4118,
+   "end": "2026-07-28T15:16:04.701Z",
+   "total": 615314965,
+   "responses": 4377,
    "model": "claude-opus-5",
-   "duration_s": 30149,
-   "sub": 3729,
-   "cache_read": 563516617
+   "duration_s": 32244,
+   "sub": 3943,
+   "cache_read": 587417307
   },
   {
    "id": "ac35de9b",
    "start": "2026-07-28T11:30:56.269Z",
-   "end": "2026-07-28T14:40:17.161Z",
-   "total": 388377328,
-   "responses": 2279,
+   "end": "2026-07-28T15:16:03.755Z",
+   "total": 407921235,
+   "responses": 2344,
    "model": "claude-opus-5",
-   "duration_s": 11361,
-   "sub": 2108,
-   "cache_read": 368275743
+   "duration_s": 13507,
+   "sub": 2171,
+   "cache_read": 387564307
   }
  ],
  "day_hour_matrix": {
@@ -2617,7 +2620,8 @@
   "2026-07-28|11": 611348020,
   "2026-07-28|12": 589541210,
   "2026-07-28|13": 718743868,
-  "2026-07-28|14": 485274944
+  "2026-07-28|14": 573578574,
+  "2026-07-28|15": 276515416
  },
  "by_day_full": {
   "2026-07-08": {
@@ -2801,13 +2805,13 @@
    "cache_pct": 97.71
   },
   "2026-07-28": {
-   "inp": 5890266,
-   "cc": 164344878,
-   "cr": 5192440868,
-   "out": 33962098,
-   "n": 31698,
-   "total": 5396638110,
-   "cache_pct": 96.83
+   "inp": 6612885,
+   "cc": 176577133,
+   "cr": 5541855276,
+   "out": 36411862,
+   "n": 34445,
+   "total": 5761457156,
+   "cache_pct": 96.8
   }
  },
  "subagent_share_by_day": {
@@ -2912,28 +2916,28 @@
    "sub_pct": 18.97
   },
   "2026-07-28": {
-   "main": 2379963616,
-   "sub": 3016674494,
-   "sub_pct": 55.9
+   "main": 2456611901,
+   "sub": 3304845255,
+   "sub_pct": 57.36
   }
  },
  "session_size_distribution": {
   "n": 154,
-  "sum": 11667773674,
-  "mean": 75764764.1,
+  "sum": 12032592720,
+  "mean": 78133719.0,
   "median": 7746303,
   "p90": 111964096,
-  "p99": 1168888256,
-  "max": 1422910501,
+  "p99": 1170355243,
+  "max": 1495337626,
   "min": 0
  },
  "concentration": {
-  "top_1_sessions_pct": 12.2,
-  "top_3_sessions_pct": 33.41,
-  "top_5_sessions_pct": 46.21,
-  "top_10_sessions_pct": 71.16,
-  "top_20_sessions_pct": 87.53,
-  "top_50_sessions_pct": 96.34
+  "top_1_sessions_pct": 12.43,
+  "top_3_sessions_pct": 34.48,
+  "top_5_sessions_pct": 47.12,
+  "top_10_sessions_pct": 71.7,
+  "top_20_sessions_pct": 87.91,
+  "top_50_sessions_pct": 96.45
  },
  "session_size_histogram": {
   "0": 11,
@@ -3003,22 +3007,22 @@
    "p90_context": 474783
   },
   "calls_225_plus": {
-   "responses": 47471,
-   "mean_context": 199665,
-   "median_context": 132891,
-   "p90_context": 507691
+   "responses": 50218,
+   "mean_context": 195959,
+   "median_context": 131414,
+   "p90_context": 489575
   }
  },
  "main_vs_subagent": {
   "main": {
-   "responses": 24131,
-   "total": 7493628894,
-   "share_pct": 64.23,
-   "mean_tokens_per_response": 310540,
-   "output": 21825258,
-   "cache_read": 7030031792,
+   "responses": 24382,
+   "total": 7570277179,
+   "share_pct": 62.91,
+   "mean_tokens_per_response": 310486,
+   "output": 22064946,
+   "cache_read": 7103258461,
    "models": {
-    "claude-opus-5": 6474804888,
+    "claude-opus-5": 6551453173,
     "claude-opus-4-8": 980836281,
     "claude-fable-5": 28566383,
     "gpt-5.5": 9421342,
@@ -3027,14 +3031,14 @@
    }
   },
   "subagent": {
-   "responses": 37604,
-   "total": 4174144780,
-   "share_pct": 35.77,
-   "mean_tokens_per_response": 111003,
-   "output": 38913753,
-   "cache_read": 3980941459,
+   "responses": 40100,
+   "total": 4462315541,
+   "share_pct": 37.09,
+   "mean_tokens_per_response": 111280,
+   "output": 41123829,
+   "cache_read": 4257129198,
    "models": {
-    "claude-opus-5": 3956983949,
+    "claude-opus-5": 4245154710,
     "claude-opus-4-8": 205062750,
     "gpt-5.5": 12074374,
     "claude-sonnet-5": 23707,
@@ -3134,7 +3138,7 @@
    "<synthetic>": 0
   },
   "2026-07-28": {
-   "claude-opus-5": 5396638110,
+   "claude-opus-5": 5761457156,
    "<synthetic>": 0
   }
  },
@@ -3218,13 +3222,13 @@
    "<synthetic>": 0
   },
   "14": {
-   "claude-opus-5": 931259253,
+   "claude-opus-5": 1019562883,
    "claude-opus-4-8": 29600446,
    "claude-sonnet-5": 23707,
    "<synthetic>": 0
   },
   "15": {
-   "claude-opus-5": 590429680,
+   "claude-opus-5": 866945096,
    "claude-opus-4-8": 41178961,
    "<synthetic>": 0
   },
@@ -3275,33 +3279,33 @@
   }
  },
  "output_per_response": {
-  "n": 61735,
-  "sum": 60739011,
-  "mean": 983.9,
-  "median": 542,
-  "p90": 2096,
-  "p99": 8265,
+  "n": 64482,
+  "sum": 63188775,
+  "mean": 979.9,
+  "median": 541,
+  "p90": 2085,
+  "p99": 8257,
   "max": 32000,
   "min": 0
  },
  "output_size_buckets": {
-  "1-99": 3705,
-  "100-499": 24533,
-  "500-1999": 26070,
-  "0": 795,
-  "2000-7999": 5981,
-  "8000+": 651
+  "1-99": 3842,
+  "100-499": 25647,
+  "500-1999": 27260,
+  "0": 867,
+  "2000-7999": 6187,
+  "8000+": 679
  },
  "gap_between_responses_s": {
-  "n": 61733,
-  "sum": 1668976,
-  "mean": 27.0,
+  "n": 64480,
+  "sum": 1672515,
+  "mean": 25.9,
   "median": 1,
   "p90": 16,
-  "p99": 153,
+  "p99": 144,
   "max": 50847,
   "min": 0
  },
- "active_time_hours_gap_le_300s": 112.3,
- "tokens_per_active_hour": 103935015
+ "active_time_hours_gap_le_300s": 113.2,
+ "tokens_per_active_hour": 106254314
 }

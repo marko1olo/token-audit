@@ -16,6 +16,7 @@ if _rg is None or not hasattr(_rg, "BLOCKS"):
     _rg = _m if (_m is not None and hasattr(_m, "BLOCKS")) else __import__("report_gen")
 
 block, f, usd, pct = _rg.block, _rg.f, _rg.usd, _rg.pct
+rates = _rg.rates
 M, FIELDS, NAMES = _rg.M, _rg.FIELDS, _rg.NAMES
 
 
@@ -23,15 +24,12 @@ def _need(x, what):
     return ["*Нет данных: %s.*" % what] if not x else None
 
 
-# Ставки, пока они не переехали в отдельный модуль. Копий в репозитории четыре
-# (refresh.py, report_gen.py, здесь и в JS внутри build_dashboard.py), и копии
-# OPENAI уже разошлись: в cost_model.py семь моделей, в остальных одна. Держать
-# их рядом с расчётом -- временная мера, а не решение.
-_RA = {"claude-opus-5": (5, 25), "claude-opus-4-8": (5, 25),
-       "claude-fable-5": (10, 50), "claude-sonnet-5": (2, 10)}
-_OA = {"gpt-5.5": (5, 0.5, 30)}
+# Ставки только из tokenaudit_rates. Локальные копии _RA/_OA отсюда удалены:
+# это были пятая и шестая копии в репозитории, и копии OPENAI уже разошлись --
+# в cost_model.py семь моделей, здесь была одна, при 13 167 044 269 токенах
+# gpt-5.4 в данных.
 _LINES = ("свежий ввод", "запись кэша", "чтение кэша", "вывод")
-_KEYS = ("uncached_input", "cache_write", "cache_read", "output")
+_KEYS = ("inp", "cc", "cr", "out")   # ключи claude_totals.json
 
 
 def _cost_lines(c):
@@ -43,23 +41,19 @@ def _cost_lines(c):
     """
     d = dict.fromkeys(_LINES, 0.0)
     v = dict.fromkeys(_LINES, 0)
-    for m, x in c.dp["by_model"].items():
-        if not x.get("total"):
-            continue
-        if m in _RA:
-            ri, ro = _RA[m]
-            a = (x["uncached_input"] / M * ri, x["cache_write"] / M * ri * 1.25,
-                 x["cache_read"] / M * ri * 0.1, x["output"] / M * ro)
-        elif m in _OA:
-            ri, rc, ro = _OA[m]
-            a = (x["uncached_input"] / M * ri, 0.0,
-                 x["cache_read"] / M * rc, x["output"] / M * ro)
-        else:
-            continue
-        for k, val in zip(_LINES, a):
-            d[k] += val
+    # Базис -- claude_totals.json: только там есть разбивка записи кэша по TTL
+    # (e5m/e1h), а часовая запись стоит 2x против 1.25x пятиминутной. Счёт по
+    # claude_deep.json давал на 39.66 доллара меньше, и отчёты публиковали одну
+    # сумму там, где дашборд показывал другую.
+    src = (c.cl or {}).get("by_model") or {}
+    for m, x in src.items():
+        b = rates.cost_breakdown(x, m)
+        if b is None:
+            continue          # без цены -- не ноль молча
+        for k, key in zip(_LINES, ("unc", "cw", "cr", "out")):
+            d[k] += b[key]
         for k, key in zip(_LINES, _KEYS):
-            v[k] += x[key]
+            v[k] += x.get(key) or 0
     return d, v
 
 
@@ -123,23 +117,21 @@ def evidence(c):
 def cost_breakdown(c):
     r = ["| модель | свежий ввод | запись кэша | чтение кэша | вывод | итого |",
          "|---|---:|---:|---:|---:|---:|"]
-    RA = {"claude-opus-5": (5, 25), "claude-opus-4-8": (5, 25),
-          "claude-fable-5": (10, 50), "claude-sonnet-5": (2, 10)}
-    OA = {"gpt-5.5": (5, 0.5, 30)}
+    # Седьмая копия таблиц ставок жила здесь, локальными переменными RA и OA --
+    # поэтому её не видел даже разбор AST, искавший присваивания на уровне
+    # модуля. Ставки берутся из tokenaudit_rates, базис -- claude_totals.json
+    # с разбивкой записи кэша по TTL.
     tot = [0.0] * 5
-    for m, v in sorted(c.dp["by_model"].items(), key=lambda x: -x[1]["total"]):
-        if v["total"] == 0:
+    src = (c.cl or {}).get("by_model") or {}
+    def _tok(x):
+        return sum(x.get(k) or 0 for k in ("inp", "cc", "cr", "out"))
+    for m, v in sorted(src.items(), key=lambda x: -_tok(x[1])):
+        if _tok(v) == 0:
             continue
-        if m in RA:
-            ri, ro = RA[m]
-            a = [v["uncached_input"] / M * ri, v["cache_write"] / M * ri * 1.25,
-                 v["cache_read"] / M * ri * 0.1, v["output"] / M * ro]
-        elif m in OA:
-            ri, rc, ro = OA[m]
-            a = [v["uncached_input"] / M * ri, 0.0,
-                 v["cache_read"] / M * rc, v["output"] / M * ro]
-        else:
+        b = rates.cost_breakdown(v, m)
+        if b is None:
             continue
+        a = [b["unc"], b["cw"], b["cr"], b["out"]]
         s = sum(a)
         for i in range(4):
             tot[i] += a[i]
@@ -343,18 +335,15 @@ def periods(c):
         if g not in agg:
             continue
         a = agg[g]
-        cost = (a["inp"] / M * 5 + a["cc"] / M * 6.25 + a["cr"] / M * 0.5
-                + a["out"] / M * 25)
+        cost = rates.day_cost(a)
         r.append("| %s | %s | %s | %s | %s | %s |" % (
             g, a["days"], f(a["total"]), f(a["n"]), usd(cost),
             usd(cost / max(1e-9, a["total"] / 1e9))))
     good = agg.get("хороший (≥85%)")
     bad = agg.get("плохой (<50%)")
     if good and bad:
-        gc = (good["inp"] / M * 5 + good["cc"] / M * 6.25 + good["cr"] / M * 0.5
-              + good["out"] / M * 25) / max(1e-9, good["total"] / 1e9)
-        bc = (bad["inp"] / M * 5 + bad["cc"] / M * 6.25 + bad["cr"] / M * 0.5
-              + bad["out"] / M * 25) / max(1e-9, bad["total"] / 1e9)
+        gc = rates.day_cost(good) / max(1e-9, good["total"] / 1e9)
+        bc = rates.day_cost(bad) / max(1e-9, bad["total"] / 1e9)
         r += ["", "Токен в дни с плохим кэшем дороже в **%.1f раза** (%s против %s за "
               "миллиард). Это главный управляемый рычаг стоимости." % (
                   bc / max(1e-9, gc), usd(bc), usd(gc))]
@@ -367,27 +356,32 @@ def codex_models(c):
         return ["*Нет данных Codex — `refresh.py --codex`.*"]
     bm = c.ch["by_model"]
     tot = sum(v["total_tokens"] for v in bm.values()) or 1
-    RA = {"gpt-5.5": (5, .5, 30), "gpt-5.4": (2.5, .25, 15),
-          "gpt-5.4-mini": (.75, .075, 4.5), "gpt-5.3-codex": (1.75, .175, 14)}
+    # Восьмая и последняя копия таблиц ставок жила здесь. Ставки OpenAI берутся
+    # из tokenaudit_rates; модель без публичного тарифа остаётся без цены, а не
+    # получает ноль.
     r = ["| модель | токенов | доля | кэшированный ввод | вывод | $ |",
          "|---|---:|---:|---:|---:|---:|"]
     ts = 0.0
+    unpriced = []
     for m, v in sorted(bm.items(), key=lambda x: -x[1]["total_tokens"]):
         cost = "—"
-        if m in RA:
-            ri, rc, ro = RA[m]
-            unc = max(0, v["input_tokens"] - v["cached_input_tokens"])
-            x = (unc / M * ri + v["cached_input_tokens"] / M * rc
-                 + v["output_tokens"] / M * ro)
+        unc = max(0, v["input_tokens"] - v["cached_input_tokens"])
+        x = rates.openai_cost(unc, v["cached_input_tokens"], v["output_tokens"], m)
+        if x is None:
+            unpriced.append(m)
+        else:
             ts += x
             cost = usd(x)
         r.append("| %s | %s | %.2f%% | %s | %s | %s |" % (
             m, f(v["total_tokens"]), 100.0 * v["total_tokens"] / tot,
             f(v["cached_input_tokens"]), f(v["output_tokens"]), cost))
     r.append("| **итого** | **%s** | | | | **%s** |" % (f(tot), usd(ts)))
-    r += ["", "*Тарифы OpenAI из каталога прежнего аудита "
-          "(`developers.openai.com`, проверен 2026-06-06). Модели без публичного "
-          "тарифа не оценены.*"]
+    note = ("*Тарифы OpenAI из `tokenaudit_rates` (каталог `developers.openai.com`, "
+            "проверен 2026-06-06).*")
+    if unpriced:
+        note += (" *Без публичного тарифа и потому без цены: %s.*"
+                 % ", ".join("`%s`" % x for x in sorted(unpriced)))
+    r += ["", note]
     return r
 
 
@@ -516,8 +510,7 @@ def key_findings(c):
     bad = [v for v in df.values() if v["cache_pct"] < 50]
     def price(days):
         t = sum(v["total"] for v in days) or 1
-        cost = sum(v["inp"] / M * 5 + v["cc"] / M * 6.25 + v["cr"] / M * 0.5
-                   + v["out"] / M * 25 for v in days)
+        cost = sum(rates.day_cost(v) for v in days)
         return cost / (t / 1e9)
     r = ["| | |", "|---|---:|",
          "| Codex, консервативно | **%s** токенов |" % f(codex),

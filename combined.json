@@ -1,29 +1,29 @@
 {
  "generated_for": "all-time token audit",
- "evidence_note": "Cost model over the measured token counts. Produces combined.json for the dashboard.\n\nEVIDENCE CLASSES -- kept separate on purpose, never blended into one headline:\n  MEASURED   a counter in a local file says so, and this script re-derived it\n  VERIFIED   two independent implementations agree (mine and the 2026-06-06 audit)\n  REPORTED   only the older audit measured it; the source files no longer exist here\n  PROXY      no token counter exists; a volume signal stands in for one\n  ESTIMATE   arithmetic on top of the above, with the formula stated\n\nEvery dollar figure is a LIST-PRICE EQUIVALENT, not an invoice:\n  * Codex ran on plan_type \"free\" for 2792 sessions and \"team\" for 10 -- a\n    subscription, so the per-token dollars were very likely never billed.\n  * Claude Code ran through a local proxy (127.0.0.1:8318 -> Desktop\\proxy.js)\n    which rewrote every model to claude-opus-5 and retried 429/5xx every 2s.\n    Those retries burned upstream tokens that never reached the transcript, so\n    the Claude figure is a FLOOR, not a ceiling.\n",
+ "evidence_note": "Cost model over the measured token counts. Produces combined.json for the dashboard.\n\nEVIDENCE CLASSES -- kept separate on purpose, never blended into one headline:\n  MEASURED   a counter in a local file says so, and this script re-derived it\n  VERIFIED   two independent implementations agree (mine and the 2026-06-06 audit)\n  REPORTED   only the older audit measured it; the source files no longer exist here\n  PROXY      no token counter exists; a volume signal stands in for one\n  ESTIMATE   arithmetic on top of the above, with the formula stated\n\nEvery dollar figure is a LIST-PRICE EQUIVALENT, not an invoice:\n  * Codex ran on plan_type \"free\" for 2792 sessions and \"team\" for 10 -- a\n    subscription, so the per-token dollars were very likely never billed.\n  * Claude Code ran through a local proxy (127.0.0.1:8318 -> Desktop\\proxy.js)\n    which rewrote every model to claude-opus-5 and retried 429/5xx every 2s.\n    Those retries burned upstream tokens that never reached the transcript, so\n    the Claude figure is a FLOOR, not a ceiling.\n\nЦЕНЫ ЗДЕСЬ БОЛЬШЕ НЕ ЖИВУТ. Таблицы ставок, множители кэша и оговорка про\nвводную цену Sonnet 5 переехали в tokenaudit_rates: этот файл был последним, где\nони лежали в самом полном виде, оттуда значения и взяты байт в байт. Функции\nстоимости остались местными, потому что они отдают РАЗЛОЖЕНИЕ с ключами вида\n'*_usd' и ставками рядом с числом -- ровно ту форму, которую читает\nbuild_dashboard.py из combined.json.\n",
  "claude_code": {
   "evidence": "MEASURED",
-  "source": "C:\\Users\\Admin/.claude/projects",
+  "source": "~/.claude/projects",
   "period": [
    "2026-07-08T06:54:30.759Z",
-   "2026-07-28T14:41:18.831Z"
+   "2026-07-28T15:40:17.125Z"
   ],
   "sessions": 154,
-  "files": 1416,
-  "responses_deduped": 61735,
-  "responses_raw": 153162,
-  "dedupe_dropped": 91427,
+  "files": 1484,
+  "responses_deduped": 64482,
+  "responses_raw": 159638,
+  "dedupe_dropped": 95156,
   "totals": {
-   "uncached_input": 295731652,
-   "cache_write": 300329760,
-   "cache_read": 11010973251,
-   "output": 60739011,
-   "total": 11667773674
+   "uncached_input": 296454271,
+   "cache_write": 312562015,
+   "cache_read": 11360387659,
+   "output": 63188775,
+   "total": 12032592720
   },
-  "raw_undeduped_total": 25202115581,
+  "raw_undeduped_total": 25994116258,
   "by_model": {
    "<synthetic>": {
-    "responses": 591,
+    "responses": 663,
     "total": 0,
     "uncached_input": 0,
     "cache_write": 0,
@@ -53,14 +53,14 @@
     "output": 9092828
    },
    "claude-opus-5": {
-    "responses": 49706,
-    "total": 10431788837,
-    "uncached_input": 8565326,
-    "cache_write": 276458609,
-    "cache_write_5m": 275919907,
+    "responses": 52381,
+    "total": 10796607883,
+    "uncached_input": 9287945,
+    "cache_write": 288690864,
+    "cache_write_5m": 288152162,
     "cache_write_1h": 538702,
-    "cache_read": 10095406257,
-    "output": 51358645
+    "cache_read": 10444820665,
+    "output": 53808409
    },
    "claude-sonnet-5": {
     "responses": 38,
@@ -103,13 +103,13 @@
     "total_usd": 2269.8321305
    },
    "claude-opus-5": {
-    "uncached_input_usd": 42.82663,
-    "cache_write_usd": 1729.88643875,
-    "cache_read_usd": 5047.703128500001,
-    "output_usd": 1283.9661250000001,
+    "uncached_input_usd": 46.439725,
+    "cache_write_usd": 1806.3380324999996,
+    "cache_read_usd": 5222.4103325,
+    "output_usd": 1345.210225,
     "rate_in_per_mtok": 5.0,
     "rate_out_per_mtok": 25.0,
-    "total_usd": 8104.382322250001
+    "total_usd": 8420.398314999999
    },
    "claude-sonnet-5": {
     "uncached_input_usd": 0.0,
@@ -131,7 +131,7 @@
    }
   },
   "unpriced_models": [],
-  "cost_usd_total_list_price_equivalent": 10439.54396375,
+  "cost_usd_total_list_price_equivalent": 10755.5599565,
   "cost_caveat": "FLOOR, not a bill. Traffic went through 127.0.0.1:8318 (Desktop/proxy.js), which rewrote models to claude-opus-5 and retried 429/5xx every 2s; those retries burned upstream tokens that were never written to a transcript."
  },
  "codex": {
