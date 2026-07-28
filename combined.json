@@ -1,0 +1,307 @@
+{
+ "generated_for": "all-time token audit",
+ "evidence_note": "Cost model over the measured token counts. Produces combined.json for the dashboard.\n\nEVIDENCE CLASSES -- kept separate on purpose, never blended into one headline:\n  MEASURED   a counter in a local file says so, and this script re-derived it\n  VERIFIED   two independent implementations agree (mine and the 2026-06-06 audit)\n  REPORTED   only the older audit measured it; the source files no longer exist here\n  PROXY      no token counter exists; a volume signal stands in for one\n  ESTIMATE   arithmetic on top of the above, with the formula stated\n\nEvery dollar figure is a LIST-PRICE EQUIVALENT, not an invoice:\n  * Codex ran on plan_type \"free\" for 2792 sessions and \"team\" for 10 -- a\n    subscription, so the per-token dollars were very likely never billed.\n  * Claude Code ran through a local proxy (127.0.0.1:8318 -> Desktop\\proxy.js)\n    which rewrote every model to claude-opus-5 and retried 429/5xx every 2s.\n    Those retries burned upstream tokens that never reached the transcript, so\n    the Claude figure is a FLOOR, not a ceiling.\n",
+ "claude_code": {
+  "evidence": "MEASURED",
+  "source": "C:\\Users\\Admin/.claude/projects",
+  "period": [
+   "2026-07-08T06:54:30.759Z",
+   "2026-07-28T11:21:00.132Z"
+  ],
+  "sessions": 153,
+  "files": 949,
+  "responses_deduped": 46389,
+  "responses_raw": 116186,
+  "dedupe_dropped": 69797,
+  "totals": {
+   "uncached_input": 292807498,
+   "cache_write": 225611364,
+   "cache_read": 8906727995,
+   "output": 43928144,
+   "total": 9469075001
+  },
+  "raw_undeduped_total": 20517797600,
+  "by_model": {
+   "<synthetic>": {
+    "responses": 443,
+    "total": 0,
+    "uncached_input": 0,
+    "cache_write": 0,
+    "cache_write_5m": 0,
+    "cache_write_1h": 0,
+    "cache_read": 0,
+    "output": 0
+   },
+   "claude-fable-5": {
+    "responses": 124,
+    "total": 28566383,
+    "uncached_input": 503,
+    "cache_write": 405398,
+    "cache_write_5m": 48412,
+    "cache_write_1h": 356986,
+    "cache_read": 28025949,
+    "output": 134533
+   },
+   "claude-opus-4-8": {
+    "responses": 10989,
+    "total": 1185899031,
+    "uncached_input": 285381869,
+    "cache_write": 23465753,
+    "cache_write_5m": 14142596,
+    "cache_write_1h": 9323157,
+    "cache_read": 867958581,
+    "output": 9092828
+   },
+   "claude-opus-5": {
+    "responses": 34508,
+    "total": 8233090164,
+    "uncached_input": 5641172,
+    "cache_write": 201740213,
+    "cache_write_5m": 201201511,
+    "cache_write_1h": 538702,
+    "cache_read": 7991161001,
+    "output": 34547778
+   },
+   "claude-sonnet-5": {
+    "responses": 38,
+    "total": 23707,
+    "uncached_input": 0,
+    "cache_write": 0,
+    "cache_write_5m": 0,
+    "cache_write_1h": 0,
+    "cache_read": 0,
+    "output": 23707
+   },
+   "gpt-5.5": {
+    "responses": 287,
+    "total": 21495716,
+    "uncached_input": 1783954,
+    "cache_write": 0,
+    "cache_write_5m": 0,
+    "cache_write_1h": 0,
+    "cache_read": 19582464,
+    "output": 129298
+   }
+  },
+  "cost_usd_by_model": {
+   "claude-fable-5": {
+    "uncached_input_usd": 0.00503,
+    "cache_write_usd": 7.744870000000001,
+    "cache_read_usd": 28.025949000000004,
+    "output_usd": 6.726650000000001,
+    "rate_in_per_mtok": 10.0,
+    "rate_out_per_mtok": 50.0,
+    "total_usd": 42.50249900000001
+   },
+   "claude-opus-4-8": {
+    "uncached_input_usd": 1426.909345,
+    "cache_write_usd": 181.622795,
+    "cache_read_usd": 433.97929050000005,
+    "output_usd": 227.32070000000002,
+    "rate_in_per_mtok": 5.0,
+    "rate_out_per_mtok": 25.0,
+    "total_usd": 2269.8321305
+   },
+   "claude-opus-5": {
+    "uncached_input_usd": 28.20586,
+    "cache_write_usd": 1262.8964637499998,
+    "cache_read_usd": 3995.5805005,
+    "output_usd": 863.6944500000001,
+    "rate_in_per_mtok": 5.0,
+    "rate_out_per_mtok": 25.0,
+    "total_usd": 6150.3772742500005
+   },
+   "claude-sonnet-5": {
+    "uncached_input_usd": 0.0,
+    "cache_write_usd": 0.0,
+    "cache_read_usd": 0.0,
+    "output_usd": 0.23707,
+    "rate_in_per_mtok": 2.0,
+    "rate_out_per_mtok": 10.0,
+    "total_usd": 0.23707
+   },
+   "gpt-5.5": {
+    "uncached_input_usd": 8.91977,
+    "cached_input_usd": 9.791232,
+    "output_usd": 3.87894,
+    "rate_in_per_mtok": 5.0,
+    "rate_cached_in_per_mtok": 0.5,
+    "rate_out_per_mtok": 30.0,
+    "total_usd": 22.589942
+   }
+  },
+  "unpriced_models": [],
+  "cost_usd_total_list_price_equivalent": 8485.538915750001,
+  "cost_caveat": "FLOOR, not a bill. Traffic went through 127.0.0.1:8318 (Desktop/proxy.js), which rewrote models to claude-opus-5 and retried 429/5xx every 2s; those retries burned upstream tokens that were never written to a transcript."
+ },
+ "codex": {
+  "my_measurement": {
+   "evidence": "MEASURED",
+   "scope": "backup root only (C:/Users/Admin/Documents/CodexBackups/codex_cleanup_20260521_194850)",
+   "period": [
+    "2026-04-03T17:10:40.595Z",
+    "2026-05-21T00:37:51.363Z"
+   ],
+   "rollout_files": 1050,
+   "gigabytes": 10.1,
+   "sessions": 1030,
+   "totals": {
+    "input_tokens": 58028128896,
+    "cached_input_tokens": 55699554944,
+    "output_tokens": 201343434,
+    "reasoning_output_tokens": 67577991,
+    "total_tokens": 58229730730
+   },
+   "cross_check_from_minute_deltas": {
+    "input_tokens": 58028128896,
+    "cached_input_tokens": 55699554944,
+    "output_tokens": 201343434,
+    "reasoning_output_tokens": 67577991,
+    "total_tokens": 58229730730
+   },
+   "cross_check_matches": true,
+   "counter_resets": 8
+  },
+  "prior_audit_2026_06_06": {
+   "evidence": "REPORTED",
+   "report": "C:\\hades\\Hecton8\\Docs\\DEPRECATED\\Root_Docs_Noise_2026-05-26\\TOKEN_USAGE_AUDIT_2026-06-06.json",
+   "period": [
+    "2026-04-03T17:11:28Z",
+    "2026-06-06T10:13:46Z"
+   ],
+   "method_matches_mine": true,
+   "method_note": "that script overwrote final_usage on each token_count event, keeping the last cumulative value -- identical semantics to taking the max, so the numbers are directly comparable",
+   "roots": {
+    "danat_live_sessions": {
+     "path": "C:\\Users\\danat\\.codex\\sessions",
+     "files": 1891,
+     "total_tokens": 50387894530,
+     "on_this_machine": false
+    },
+    "danat_archived": {
+     "path": "C:\\Users\\danat\\.codex\\archived_sessions",
+     "files": 1,
+     "total_tokens": 157103,
+     "on_this_machine": false
+    },
+    "backup_20260521": {
+     "path": "...\\CodexBackups\\codex_cleanup_20260521_194850",
+     "files": 1048,
+     "total_tokens": 57856335910,
+     "on_this_machine": true
+    }
+   },
+   "sum_of_roots": 108244387543,
+   "daily_delta_sum": 108312008697,
+   "headline_totals_field": 138912242896,
+   "headline_is_inflated": true,
+   "inflation_explanation": "The 138.9 B headline is the sum of per-session final counters across all three roots, and the same sessions live in both the live directory and the backup. sessions_with_usage=3635 vs unique_session_or_path_keys=2830 is a ratio of 1.285, and 138.91/108.31 is 1.283 -- the gap is double counting. The deduplicated figure is 108.3 B, which independently agrees with the sum of the three per-root selected totals (108.24 B).",
+   "by_model_delta": {
+    "gpt-5.5": 95247607213,
+    "gpt-5.4": 13002550593,
+    "gpt-5.2-codex": 31468079,
+    "gpt-5.3-codex": 22822547,
+    "gpt-5.4-mini": 5851626,
+    "gpt-5.1-codex-mini": 995678,
+    "gpt-5.2": 142159,
+    "unknown_model": 570802
+   },
+   "cache_ratio": 0.9615313229684241,
+   "plan_type_counts": {
+    "free": 2792,
+    "team": 10,
+    "unknown": 2
+   },
+   "uncached_input_tokens": 5325139889
+  },
+  "reconciliation": {
+   "my_backup_root_total": 58229730730,
+   "prior_audit_same_root": 57856335910,
+   "difference": 373394820,
+   "difference_pct": 0.645,
+   "verdict": "VERIFIED -- two independent implementations of the same method agree on the same file set to within 0.7%; the residual is the 2 extra zero-usage files I included and ~10 sessions that audit deduped against its live root"
+  },
+  "cost_usd_by_model_estimate": {
+   "gpt-5.5": {
+    "uncached_input_usd": 18256.512499999997,
+    "cached_input_usd": 45632.4728785,
+    "output_usd": 9940.76865,
+    "rate_in_per_mtok": 5.0,
+    "rate_cached_in_per_mtok": 0.5,
+    "rate_out_per_mtok": 30.0,
+    "total_usd": 73829.7540285,
+    "split_method": "ESTIMATE -- per-model input/output/cached split applied from the audit's global ratios, since it published per-model totals but not per-model field breakdowns"
+   },
+   "gpt-5.4": {
+    "uncached_input_usd": 1246.1269875,
+    "cached_input_usd": 3114.716236,
+    "output_usd": 678.522795,
+    "rate_in_per_mtok": 2.5,
+    "rate_cached_in_per_mtok": 0.25,
+    "rate_out_per_mtok": 15.0,
+    "total_usd": 5039.3660185,
+    "split_method": "ESTIMATE -- per-model input/output/cached split applied from the audit's global ratios, since it published per-model totals but not per-model field breakdowns"
+   },
+   "gpt-5.3-codex": {
+    "uncached_input_usd": 1.53107325,
+    "cached_input_usd": 3.82694375,
+    "output_usd": 1.111558,
+    "rate_in_per_mtok": 1.75,
+    "rate_cached_in_per_mtok": 0.175,
+    "rate_out_per_mtok": 14.0,
+    "total_usd": 6.469575,
+    "split_method": "ESTIMATE -- per-model input/output/cached split applied from the audit's global ratios, since it published per-model totals but not per-model field breakdowns"
+   },
+   "gpt-5.4-mini": {
+    "uncached_input_usd": 0.16824075,
+    "cached_input_usd": 0.420521025,
+    "output_usd": 0.09160650000000001,
+    "rate_in_per_mtok": 0.75,
+    "rate_cached_in_per_mtok": 0.075,
+    "rate_out_per_mtok": 4.5,
+    "total_usd": 0.680368275,
+    "split_method": "ESTIMATE -- per-model input/output/cached split applied from the audit's global ratios, since it published per-model totals but not per-model field breakdowns"
+   }
+  },
+  "cost_usd_total_list_price_equivalent": 78876.269990275,
+  "unpriced_models": [
+   {
+    "model": "gpt-5.2-codex",
+    "total_tokens": 31468079
+   },
+   {
+    "model": "gpt-5.1-codex-mini",
+    "total_tokens": 995678
+   },
+   {
+    "model": "gpt-5.2",
+    "total_tokens": 142159
+   },
+   {
+    "model": "unknown_model",
+    "total_tokens": 570802
+   }
+  ],
+  "cost_caveat": "List-price equivalent only. 2792 of 2804 sessions carried plan_type 'free' and 10 'team', i.e. a subscription -- these per-token dollars were almost certainly never invoiced. The figure answers 'what would this volume cost at public API rates', not 'what was paid'."
+ },
+ "antigravity": {
+  "evidence": "PROXY",
+  "verdict": "Antigravity keeps no token ledger on disk. Token-accounting identifiers appear in only 13 of 687 transcripts and every hit is captured console output of a script the agent ran, not per-generation accounting. These numbers are volume proxies and systematically UNDER-count real token spend, because re-sent context (96% of tokens on Codex) is not recorded anywhere in a transcript.",
+  "period": [
+   "2026-06-05T11:59:46Z",
+   "2026-07-28T11:10:46Z"
+  ],
+  "days_covered": 53,
+  "conversations_with_transcript": 364,
+  "model_turns": 253788,
+  "tool_calls": 214626,
+  "user_inputs": 7895,
+  "quota_blocks_429": 909,
+  "thinking_chars": 82785279,
+  "content_chars": 953027164,
+  "transcript_bytes": 1390346124,
+  "tokens": null,
+  "tokens_note": "Deliberately null. No token counter exists on disk for Antigravity, and converting characters to tokens would produce a number that looks measured but is not. What a transcript stores is each message once; what the API is charged for is the whole context re-sent every turn. On Codex, where real counters exist, cached input was 96.15% of all tokens -- so the invisible re-sent context is the bulk of the spend and no character count can recover it.",
+  "recoverable_elsewhere": "Gemini CLI writes real usage to ~/.gemini/tmp/<hash>/logs.json (input_token_count / output_token_count / cached_content_token_count / thoughts_token_count / total_token_count). That directory is EMPTY on this machine, so nothing is recoverable here. It may not be empty on the second machine."
+ }
+}

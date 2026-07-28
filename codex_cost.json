@@ -1,0 +1,21 @@
+{
+ "backup_measured_usd": 39964.02,
+ "danat_old_report_usd": 39057.54,
+ "danat_after_jun06_max_usd": 8236.71,
+ "danat_after_jun06_delta_usd": 34491.12,
+ "codex_total_conservative_usd": 87258.27,
+ "codex_total_upper_usd": 113512.69,
+ "rates": {
+  "gpt-5.5": {
+   "in": 5.0,
+   "cached": 0.5,
+   "out": 30.0
+  },
+  "gpt-5.4": {
+   "in": 2.5,
+   "cached": 0.25,
+   "out": 15.0
+  }
+ },
+ "rate_source": "developers.openai.com/api/docs/pricing, проверено 2026-06-06 прежним аудитом"
+}

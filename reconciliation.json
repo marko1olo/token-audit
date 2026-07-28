@@ -1,0 +1,92 @@
+{
+ "danat_internal_consistency": {
+  "files": 786,
+  "files_in_old_audit_same_root": 1891,
+  "period": [
+   "2026-06-04T20:21:22.134Z",
+   "2026-06-13T10:42:32.895Z"
+  ],
+  "sessions": 768,
+  "counter_resets": 163,
+  "delta_minus_max": 47414678977,
+  "delta_minus_max_per_reset": 290887601,
+  "ratio_delta_over_max": 4.1875,
+  "my_out_of_order_events": 164,
+  "my_delta_minus_max": 22245359,
+  "my_delta_minus_max_per_event": 135642,
+  "per_event_discrepancy_factor": 2145,
+  "tokens_dropped_by_dedupe_reported": 165124336663,
+  "verdict": "Метод приростов в прогоне danat завышает итог. При сопоставимом числе сбросов (163 против 164) расхождение delta-max составляет 290,887,601 на сброс против 135,642 у меня, то есть в 2145 раз больше. При среднем размере сессии 19.4 млн токенов сброс не может добавлять 291 млн. Дополнительно: tokens_dropped_by_dedupe=165,124,336,663 при 3 дублирующихся сессиях внутренне невозможно - эта величина больше любого из итогов. Принимается консервативная цифра по максимумам; для точного ответа нужен пересчёт методом chain-split."
+ },
+ "consistent_total_max_basis": {
+  "total_tokens": 119058904842,
+  "note": "Согласованный базис: все слагаемые по методу максимума/chain-split."
+ },
+ "components": [
+  {
+   "name": "backup_apr03_may21_mine_chainsplit",
+   "total_tokens": 58210962504,
+   "class": "ИЗМЕРЕНО",
+   "source": "C:/Users/Admin/Documents/CodexBackups/codex_cleanup_20260521_194850"
+  },
+  {
+   "name": "danat_apr03_jun06_old_audit",
+   "total_tokens": 50387894530,
+   "class": "ПО ОТЧЁТУ",
+   "source": "C:/Users/danat/.codex/sessions (1891 файл, сейчас 786)"
+  },
+  {
+   "name": "danat_archived",
+   "total_tokens": 157103,
+   "class": "ПО ОТЧЁТУ",
+   "source": "C:/Users/danat/.codex/archived_sessions"
+  },
+  {
+   "name": "danat_after_jun06_rescaled",
+   "total_tokens": 10459890705,
+   "class": "ОЦЕНКА",
+   "source": "пересчёт records_after_2026_06_06 в базис максимумов делением на 4.187"
+  }
+ ],
+ "upper_bound_if_delta_valid": 152399687739,
+ "prior_figures": {
+  "ledger_headline_inflated": 138912242896,
+  "prior_deduped_no_june_tail": 108244387543
+ },
+ "danat_by_day_both_bases": {
+  "2026-06-04": {
+   "delta": 413546232,
+   "max_basis_estimate": 98757577
+  },
+  "2026-06-05": {
+   "delta": 2963387432,
+   "max_basis_estimate": 707676529
+  },
+  "2026-06-06": {
+   "delta": 15112318085,
+   "max_basis_estimate": 3608921564
+  },
+  "2026-06-07": {
+   "delta": 21068829577,
+   "max_basis_estimate": 5031375925
+  },
+  "2026-06-08": {
+   "delta": 22491092211,
+   "max_basis_estimate": 5371021654
+  },
+  "2026-06-09": {
+   "delta": 240751814,
+   "max_basis_estimate": 57493126
+  }
+ },
+ "danat_by_cwd": {
+  "c:\\hades\\Hecton8": 25627550636,
+  "c:\\hades": 36662374715
+ },
+ "danat_resolution_buckets": {
+  "days": 6,
+  "hours": 88,
+  "minutes": 4506
+ },
+ "overlap_warning": "Период 4-6 июня присутствует и в старом отчёте (через корень danat), и в новом измерении. Поэтому новое измерение добавляется только частью records_after_2026_06_06, иначе 18.5 млрд были бы посчитаны дважды."
+}

@@ -1,0 +1,3291 @@
+{
+ "responses": 46409,
+ "period": [
+  "2026-07-08T06:54:30.759Z",
+  "2026-07-28T11:21:18.473Z"
+ ],
+ "by_model": {
+  "claude-opus-5": {
+   "responses": 34528,
+   "sessions": 31,
+   "active_days": 3,
+   "total": 8237114098,
+   "uncached_input": 5641737,
+   "cache_write": 201769952,
+   "cache_read": 7995137561,
+   "output": 34564848,
+   "share_of_all_tokens": 86.953,
+   "cache_hit_rate_pct": 97.47,
+   "output_share_pct": 0.42,
+   "context_per_call": {
+    "n": 34528,
+    "sum": 8202549250,
+    "mean": 237562.2,
+    "median": 158756,
+    "p90": 582617,
+    "p99": 936074,
+    "max": 999797,
+    "min": 12272
+   },
+   "output_per_call": {
+    "n": 34528,
+    "sum": 34564848,
+    "mean": 1001.1,
+    "median": 557,
+    "p90": 2050,
+    "p99": 8410,
+    "max": 32000,
+    "min": 1
+   },
+   "uncached_per_call": {
+    "n": 34528,
+    "sum": 5641737,
+    "mean": 163.4,
+    "median": 2,
+    "p90": 124,
+    "p99": 3162,
+    "max": 49373,
+    "min": 1
+   },
+   "tokens_per_response_mean": 238563.3,
+   "context_to_output_ratio": 237.3,
+   "sidechain_responses": 20321,
+   "sidechain_tokens": 2396850069,
+   "stop_reasons": {
+    "tool_use": 33077,
+    "none": 989,
+    "end_turn": 457,
+    "refusal": 4,
+    "max_tokens": 1
+   },
+   "first_ts": "2026-07-26T17:58:09.419Z",
+   "last_ts": "2026-07-28T11:21:18.473Z"
+  },
+  "claude-opus-4-8": {
+   "responses": 10989,
+   "sessions": 111,
+   "active_days": 20,
+   "total": 1185899031,
+   "uncached_input": 285381869,
+   "cache_write": 23465753,
+   "cache_read": 867958581,
+   "output": 9092828,
+   "share_of_all_tokens": 12.519,
+   "cache_hit_rate_pct": 73.76,
+   "output_share_pct": 0.767,
+   "context_per_call": {
+    "n": 10989,
+    "sum": 1176806203,
+    "mean": 107089.5,
+    "median": 96739,
+    "p90": 210339,
+    "p99": 315938,
+    "max": 729058,
+    "min": 0
+   },
+   "output_per_call": {
+    "n": 10989,
+    "sum": 9092828,
+    "mean": 827.4,
+    "median": 436,
+    "p90": 1900,
+    "p99": 7203,
+    "max": 22868,
+    "min": 0
+   },
+   "uncached_per_call": {
+    "n": 10989,
+    "sum": 285381869,
+    "mean": 25969.8,
+    "median": 3579,
+    "p90": 88154,
+    "p99": 294514,
+    "max": 729058,
+    "min": 0
+   },
+   "tokens_per_response_mean": 107916.9,
+   "context_to_output_ratio": 129.4,
+   "sidechain_responses": 3024,
+   "sidechain_tokens": 205062750,
+   "stop_reasons": {
+    "tool_use": 10132,
+    "end_turn": 686,
+    "none": 170,
+    "max_tokens": 1
+   },
+   "first_ts": "2026-07-08T06:54:30.759Z",
+   "last_ts": "2026-07-27T00:03:49.435Z"
+  },
+  "claude-fable-5": {
+   "responses": 124,
+   "sessions": 2,
+   "active_days": 2,
+   "total": 28566383,
+   "uncached_input": 503,
+   "cache_write": 405398,
+   "cache_read": 28025949,
+   "output": 134533,
+   "share_of_all_tokens": 0.302,
+   "cache_hit_rate_pct": 98.57,
+   "output_share_pct": 0.471,
+   "context_per_call": {
+    "n": 124,
+    "sum": 28431850,
+    "mean": 229289.1,
+    "median": 239080,
+    "p90": 352858,
+    "p99": 377782,
+    "max": 381077,
+    "min": 36786
+   },
+   "output_per_call": {
+    "n": 124,
+    "sum": 134533,
+    "mean": 1084.9,
+    "median": 759,
+    "p90": 2509,
+    "p99": 4638,
+    "max": 7266,
+    "min": 54
+   },
+   "uncached_per_call": {
+    "n": 124,
+    "sum": 503,
+    "mean": 4.1,
+    "median": 2,
+    "p90": 2,
+    "p99": 2,
+    "max": 265,
+    "min": 1
+   },
+   "tokens_per_response_mean": 230374.1,
+   "context_to_output_ratio": 211.3,
+   "sidechain_responses": 0,
+   "sidechain_tokens": 0,
+   "stop_reasons": {
+    "tool_use": 123,
+    "end_turn": 1
+   },
+   "first_ts": "2026-07-24T08:04:46.490Z",
+   "last_ts": "2026-07-26T18:33:29.841Z"
+  },
+  "gpt-5.5": {
+   "responses": 287,
+   "sessions": 9,
+   "active_days": 5,
+   "total": 21495716,
+   "uncached_input": 1783954,
+   "cache_write": 0,
+   "cache_read": 19582464,
+   "output": 129298,
+   "share_of_all_tokens": 0.227,
+   "cache_hit_rate_pct": 91.65,
+   "output_share_pct": 0.602,
+   "context_per_call": {
+    "n": 287,
+    "sum": 21366418,
+    "mean": 74447.4,
+    "median": 68976,
+    "p90": 143175,
+    "p99": 200333,
+    "max": 219485,
+    "min": 0
+   },
+   "output_per_call": {
+    "n": 287,
+    "sum": 129298,
+    "mean": 450.5,
+    "median": 339,
+    "p90": 833,
+    "p99": 2261,
+    "max": 3550,
+    "min": 0
+   },
+   "uncached_per_call": {
+    "n": 287,
+    "sum": 1783954,
+    "mean": 6215.9,
+    "median": 1940,
+    "p90": 17192,
+    "p99": 62791,
+    "max": 99170,
+    "min": 0
+   },
+   "tokens_per_response_mean": 74898.0,
+   "context_to_output_ratio": 165.2,
+   "sidechain_responses": 181,
+   "sidechain_tokens": 12074374,
+   "stop_reasons": {
+    "tool_use": 270,
+    "end_turn": 13,
+    "none": 4
+   },
+   "first_ts": "2026-07-08T09:56:56.761Z",
+   "last_ts": "2026-07-14T09:45:53.216Z"
+  },
+  "claude-sonnet-5": {
+   "responses": 38,
+   "sessions": 1,
+   "active_days": 1,
+   "total": 23707,
+   "uncached_input": 0,
+   "cache_write": 0,
+   "cache_read": 0,
+   "output": 23707,
+   "share_of_all_tokens": 0.0,
+   "cache_hit_rate_pct": 0.0,
+   "output_share_pct": 100.0,
+   "context_per_call": {
+    "n": 38,
+    "sum": 0,
+    "mean": 0,
+    "median": 0,
+    "p90": 0,
+    "p99": 0,
+    "max": 0,
+    "min": 0
+   },
+   "output_per_call": {
+    "n": 38,
+    "sum": 23707,
+    "mean": 623.9,
+    "median": 370,
+    "p90": 832,
+    "p99": 4633,
+    "max": 4633,
+    "min": 49
+   },
+   "uncached_per_call": {
+    "n": 38,
+    "sum": 0,
+    "mean": 0,
+    "median": 0,
+    "p90": 0,
+    "p99": 0,
+    "max": 0,
+    "min": 0
+   },
+   "tokens_per_response_mean": 623.9,
+   "context_to_output_ratio": 0.0,
+   "sidechain_responses": 38,
+   "sidechain_tokens": 23707,
+   "stop_reasons": {
+    "tool_use": 35,
+    "end_turn": 3
+   },
+   "first_ts": "2026-07-26T14:16:39.017Z",
+   "last_ts": "2026-07-26T14:25:47.788Z"
+  },
+  "<synthetic>": {
+   "responses": 443,
+   "sessions": 89,
+   "active_days": 20,
+   "total": 0,
+   "uncached_input": 0,
+   "cache_write": 0,
+   "cache_read": 0,
+   "output": 0,
+   "share_of_all_tokens": 0.0,
+   "cache_hit_rate_pct": 0.0,
+   "output_share_pct": 0.0,
+   "context_per_call": {
+    "n": 443,
+    "sum": 0,
+    "mean": 0,
+    "median": 0,
+    "p90": 0,
+    "p99": 0,
+    "max": 0,
+    "min": 0
+   },
+   "output_per_call": {
+    "n": 443,
+    "sum": 0,
+    "mean": 0,
+    "median": 0,
+    "p90": 0,
+    "p99": 0,
+    "max": 0,
+    "min": 0
+   },
+   "uncached_per_call": {
+    "n": 443,
+    "sum": 0,
+    "mean": 0,
+    "median": 0,
+    "p90": 0,
+    "p99": 0,
+    "max": 0,
+    "min": 0
+   },
+   "tokens_per_response_mean": 0.0,
+   "context_to_output_ratio": 0.0,
+   "sidechain_responses": 177,
+   "sidechain_tokens": 0,
+   "stop_reasons": {
+    "stop_sequence": 435,
+    "refusal": 8
+   },
+   "first_ts": "2026-07-08T09:58:23.201Z",
+   "last_ts": "2026-07-28T11:03:14.023Z"
+  }
+ },
+ "session_count": 153,
+ "top_sessions": {
+  "2fadb074-db3e-406b-aaef-1ef3734884a3": {
+   "responses": 7610,
+   "total": 1116264915,
+   "uncached_input": 595460,
+   "cache_read": 1074983755,
+   "output": 8997125,
+   "start": "2026-07-27T20:28:22.906Z",
+   "end": "2026-07-28T11:21:08.333Z",
+   "duration_s": 53565,
+   "tokens_per_hour": 75021407,
+   "models": {
+    "claude-opus-5": 1116264915,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 7271,
+   "max_single_response_context": 851390
+  },
+  "95772b7a-eccb-4f31-b41a-7c2d92c6ec18": {
+   "responses": 3576,
+   "total": 947199766,
+   "uncached_input": 446192,
+   "cache_read": 932795732,
+   "output": 2293502,
+   "start": "2026-07-27T16:42:16.826Z",
+   "end": "2026-07-28T11:21:18.473Z",
+   "duration_s": 67142,
+   "tokens_per_hour": 50786945,
+   "models": {
+    "claude-opus-5": 947199766,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 1865,
+   "max_single_response_context": 998033
+  },
+  "ee309892-8805-4404-9036-f8cd085d90a9": {
+   "responses": 2219,
+   "total": 888377988,
+   "uncached_input": 404980,
+   "cache_read": 873306916,
+   "output": 1642613,
+   "start": "2026-07-27T11:18:44.583Z",
+   "end": "2026-07-28T11:20:54.472Z",
+   "duration_s": 86530,
+   "tokens_per_hour": 36960186,
+   "models": {
+    "claude-opus-5": 888377988,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 446,
+   "max_single_response_context": 999797
+  },
+  "1692332f-129e-4ac6-be20-c1abf1a3200f": {
+   "responses": 2388,
+   "total": 692421649,
+   "uncached_input": 255539,
+   "cache_read": 681560829,
+   "output": 1920184,
+   "start": "2026-07-26T23:38:28.463Z",
+   "end": "2026-07-27T16:37:54.936Z",
+   "duration_s": 61166,
+   "tokens_per_hour": 40753011,
+   "models": {
+    "claude-opus-5": 686453127,
+    "claude-opus-4-8": 5968522,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 291,
+   "max_single_response_context": 860725
+  },
+  "ef45d794-d053-4e00-afd5-6a82eba5d487": {
+   "responses": 3802,
+   "total": 663920451,
+   "uncached_input": 639228,
+   "cache_read": 636665487,
+   "output": 4302795,
+   "start": "2026-07-27T18:33:58.596Z",
+   "end": "2026-07-28T06:34:17.022Z",
+   "duration_s": 43218,
+   "tokens_per_hour": 55303116,
+   "models": {
+    "claude-opus-5": 663920451,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 3432,
+   "max_single_response_context": 927167
+  },
+  "71344136-0753-430e-b8d9-2b3e3e949bfb": {
+   "responses": 1430,
+   "total": 594194877,
+   "uncached_input": 104799,
+   "cache_read": 576047551,
+   "output": 1213277,
+   "start": "2026-07-27T11:24:32.262Z",
+   "end": "2026-07-28T11:14:19.508Z",
+   "duration_s": 85787,
+   "tokens_per_hour": 24934960,
+   "models": {
+    "claude-opus-5": 594194877,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 44,
+   "max_single_response_context": 999257
+  },
+  "07a3f3f9-0d8e-4dea-8a79-c16837784344": {
+   "responses": 1133,
+   "total": 577450402,
+   "uncached_input": 59491,
+   "cache_read": 557418888,
+   "output": 1039692,
+   "start": "2026-07-27T11:24:30.486Z",
+   "end": "2026-07-28T11:02:36.490Z",
+   "duration_s": 85086,
+   "tokens_per_hour": 24432002,
+   "models": {
+    "claude-opus-5": 577450402,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 0,
+   "max_single_response_context": 999099
+  },
+  "677a1a89-3fca-4943-9f16-dec741f56a53": {
+   "responses": 2410,
+   "total": 503552189,
+   "uncached_input": 1003283,
+   "cache_read": 486957838,
+   "output": 2722600,
+   "start": "2026-07-28T06:06:13.987Z",
+   "end": "2026-07-28T11:21:16.624Z",
+   "duration_s": 18903,
+   "tokens_per_hour": 95901322,
+   "models": {
+    "claude-opus-5": 503552189,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 1883,
+   "max_single_response_context": 997502
+  },
+  "19f12f00-2f93-4624-96b4-43d602553bc5": {
+   "responses": 2922,
+   "total": 384955020,
+   "uncached_input": 735539,
+   "cache_read": 368923505,
+   "output": 2004047,
+   "start": "2026-07-27T17:12:52.917Z",
+   "end": "2026-07-27T18:30:17.347Z",
+   "duration_s": 4644,
+   "tokens_per_hour": 298387116,
+   "models": {
+    "claude-opus-5": 384955020,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 2872,
+   "max_single_response_context": 390603
+  },
+  "b0a0b75c-9f7d-4ee6-9a0d-81c58d8e68e4": {
+   "responses": 1110,
+   "total": 296664770,
+   "uncached_input": 150588,
+   "cache_read": 287894520,
+   "output": 1235137,
+   "start": "2026-07-26T23:39:06.428Z",
+   "end": "2026-07-27T16:23:58.757Z",
+   "duration_s": 60292,
+   "tokens_per_hour": 17713583,
+   "models": {
+    "claude-opus-5": 295969574,
+    "claude-opus-4-8": 695196,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 42,
+   "max_single_response_context": 656528
+  },
+  "d13e4177-dad3-42b6-b80f-80b6f001e77b": {
+   "responses": 468,
+   "total": 274123560,
+   "uncached_input": 138883,
+   "cache_read": 271403291,
+   "output": 612933,
+   "start": "2026-07-27T13:21:35.999Z",
+   "end": "2026-07-27T16:45:24.251Z",
+   "duration_s": 12228,
+   "tokens_per_hour": 80702035,
+   "models": {
+    "claude-opus-5": 274123560
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 0,
+   "max_single_response_context": 986203
+  },
+  "70769553-8d95-424b-b28a-fd850615818a": {
+   "responses": 2159,
+   "total": 266111517,
+   "uncached_input": 570739,
+   "cache_read": 254645327,
+   "output": 2536207,
+   "start": "2026-07-28T06:18:41.164Z",
+   "end": "2026-07-28T11:21:16.344Z",
+   "duration_s": 18155,
+   "tokens_per_hour": 52767390,
+   "models": {
+    "claude-opus-5": 266111517,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 1895,
+   "max_single_response_context": 727828
+  },
+  "b2c919c2-52fc-4cee-966d-c0920be2d171": {
+   "responses": 397,
+   "total": 149185553,
+   "uncached_input": 72761,
+   "cache_read": 144360523,
+   "output": 482955,
+   "start": "2026-07-27T13:52:40.901Z",
+   "end": "2026-07-27T18:18:01.203Z",
+   "duration_s": 15920,
+   "tokens_per_hour": 33734787,
+   "models": {
+    "claude-opus-5": 149185553
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 71,
+   "max_single_response_context": 688842
+  },
+  "1f09c37e-8e82-4496-a2fd-2813925a7eed": {
+   "responses": 236,
+   "total": 148061521,
+   "uncached_input": 59866,
+   "cache_read": 139719952,
+   "output": 443097,
+   "start": "2026-07-27T17:30:27.681Z",
+   "end": "2026-07-28T11:20:29.222Z",
+   "duration_s": 64202,
+   "tokens_per_hour": 8302316,
+   "models": {
+    "claude-opus-5": 148061521,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 1,
+   "max_single_response_context": 975701
+  },
+  "ec7800a1-5b3e-4b4c-8aa9-58490feac920": {
+   "responses": 1496,
+   "total": 111964096,
+   "uncached_input": 5474516,
+   "cache_read": 105836032,
+   "output": 653548,
+   "start": "2026-07-10T21:05:52.459Z",
+   "end": "2026-07-11T10:23:51.315Z",
+   "duration_s": 47879,
+   "tokens_per_hour": 8418554,
+   "models": {
+    "claude-opus-4-8": 101049957,
+    "gpt-5.5": 10914139,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-4-8",
+   "sidechain_responses": 1324,
+   "max_single_response_context": 261612
+  },
+  "e90f4926-1466-492e-b528-6a96f3f8e108": {
+   "responses": 847,
+   "total": 111221632,
+   "uncached_input": 3571366,
+   "cache_read": 106997248,
+   "output": 653018,
+   "start": "2026-07-12T16:23:17.464Z",
+   "end": "2026-07-13T02:34:46.320Z",
+   "duration_s": 36689,
+   "tokens_per_hour": 10913338,
+   "models": {
+    "claude-opus-4-8": 111221632,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-4-8",
+   "sidechain_responses": 247,
+   "max_single_response_context": 255662
+  },
+  "0ee867f4-cfcb-4045-8270-b512ada7f32f": {
+   "responses": 288,
+   "total": 108062926,
+   "uncached_input": 72376,
+   "cache_read": 105888276,
+   "output": 302424,
+   "start": "2026-07-28T06:13:42.323Z",
+   "end": "2026-07-28T11:02:41.363Z",
+   "duration_s": 17339,
+   "tokens_per_hour": 22436452,
+   "models": {
+    "claude-opus-5": 108062926,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 3,
+   "max_single_response_context": 578730
+  },
+  "979a02f0-6460-49b0-b8bb-f400ec3b509a": {
+   "responses": 311,
+   "total": 103634628,
+   "uncached_input": 36547,
+   "cache_read": 99937096,
+   "output": 338883,
+   "start": "2026-07-27T13:53:41.630Z",
+   "end": "2026-07-27T18:16:46.799Z",
+   "duration_s": 15785,
+   "tokens_per_hour": 23635139,
+   "models": {
+    "claude-opus-5": 103634628,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 0,
+   "max_single_response_context": 578903
+  },
+  "18ce2af9-7159-437c-86b4-69459519fa62": {
+   "responses": 317,
+   "total": 81092697,
+   "uncached_input": 57634,
+   "cache_read": 77624859,
+   "output": 392386,
+   "start": "2026-07-27T15:55:41.806Z",
+   "end": "2026-07-27T18:21:16.181Z",
+   "duration_s": 8734,
+   "tokens_per_hour": 33423537,
+   "models": {
+    "claude-opus-5": 81092697,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 84,
+   "max_single_response_context": 529166
+  },
+  "4cbcc4c5-7e3f-463c-82fb-645a5101ac88": {
+   "responses": 231,
+   "total": 76171341,
+   "uncached_input": 25946,
+   "cache_read": 73636405,
+   "output": 267449,
+   "start": "2026-07-27T14:00:21.475Z",
+   "end": "2026-07-27T16:12:21.186Z",
+   "duration_s": 7920,
+   "tokens_per_hour": 34624600,
+   "models": {
+    "claude-opus-5": 76171341
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 0,
+   "max_single_response_context": 509475
+  },
+  "4abeafc5-e49f-42e4-8988-7afa986469fe": {
+   "responses": 886,
+   "total": 75918224,
+   "uncached_input": 5672702,
+   "cache_read": 69576704,
+   "output": 668818,
+   "start": "2026-07-11T23:29:08.278Z",
+   "end": "2026-07-12T18:00:28.328Z",
+   "duration_s": 66680,
+   "tokens_per_hour": 4098761,
+   "models": {
+    "claude-opus-4-8": 75246331,
+    "gpt-5.5": 671893,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-4-8",
+   "sidechain_responses": 405,
+   "max_single_response_context": 233184
+  },
+  "9a2baa86-f950-4bc3-b4ac-d9211fde619f": {
+   "responses": 299,
+   "total": 68147916,
+   "uncached_input": 71806,
+   "cache_read": 65252382,
+   "output": 310410,
+   "start": "2026-07-27T16:09:10.501Z",
+   "end": "2026-07-27T18:08:39.856Z",
+   "duration_s": 7169,
+   "tokens_per_hour": 34219605,
+   "models": {
+    "claude-opus-5": 68147916
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 104,
+   "max_single_response_context": 467531
+  },
+  "f697ca52-40c0-4a31-910e-2584305d69cc": {
+   "responses": 211,
+   "total": 61909615,
+   "uncached_input": 11816,
+   "cache_read": 59751312,
+   "output": 237317,
+   "start": "2026-07-27T14:00:04.965Z",
+   "end": "2026-07-27T16:12:46.345Z",
+   "duration_s": 7961,
+   "tokens_per_hour": 27994470,
+   "models": {
+    "claude-opus-5": 61909615
+   },
+   "dominant_model": "claude-opus-5",
+   "sidechain_responses": 0,
+   "max_single_response_context": 450992
+  },
+  "6fef0062-33bf-4f1f-a87b-902a90ae3569": {
+   "responses": 459,
+   "total": 60767035,
+   "uncached_input": 2974991,
+   "cache_read": 57303552,
+   "output": 488492,
+   "start": "2026-07-12T18:15:36.026Z",
+   "end": "2026-07-13T10:36:40.218Z",
+   "duration_s": 58864,
+   "tokens_per_hour": 3716374,
+   "models": {
+    "claude-opus-4-8": 60767035,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-4-8",
+   "sidechain_responses": 104,
+   "max_single_response_context": 237024
+  },
+  "4e407799-5e41-4b5d-9f0d-f296f40aad02": {
+   "responses": 340,
+   "total": 43983801,
+   "uncached_input": 8666335,
+   "cache_read": 35057518,
+   "output": 224255,
+   "start": "2026-07-17T16:25:29.665Z",
+   "end": "2026-07-20T08:03:21.756Z",
+   "duration_s": 56272,
+   "tokens_per_hour": 2813858,
+   "models": {
+    "claude-opus-4-8": 43983801,
+    "<synthetic>": 0
+   },
+   "dominant_model": "claude-opus-4-8",
+   "sidechain_responses": 0,
+   "max_single_response_context": 265216
+  }
+ },
+ "sessions_slim": [
+  {
+   "id": "c888af12",
+   "start": "2026-07-08T06:54:30.759Z",
+   "end": "2026-07-08T06:55:13.557Z",
+   "total": 37132,
+   "responses": 2,
+   "model": "claude-opus-4-8",
+   "duration_s": 43,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "b28372b6",
+   "start": "2026-07-08T09:55:51.045Z",
+   "end": "2026-07-08T11:22:15.979Z",
+   "total": 5301355,
+   "responses": 72,
+   "model": "claude-opus-4-8",
+   "duration_s": 5185,
+   "sub": 0,
+   "cache_read": 4989440
+  },
+  {
+   "id": "e4a05b48",
+   "start": "2026-07-08T17:18:05.055Z",
+   "end": "2026-07-09T04:39:17.653Z",
+   "total": 9315393,
+   "responses": 117,
+   "model": "claude-opus-4-8",
+   "duration_s": 40873,
+   "sub": 36,
+   "cache_read": 8623616
+  },
+  {
+   "id": "c8014aec",
+   "start": "2026-07-09T03:20:02.378Z",
+   "end": "2026-07-09T06:19:01.271Z",
+   "total": 2366225,
+   "responses": 28,
+   "model": "claude-opus-4-8",
+   "duration_s": 10739,
+   "sub": 0,
+   "cache_read": 2271232
+  },
+  {
+   "id": "46d6a83e",
+   "start": "2026-07-09T05:47:25.931Z",
+   "end": "2026-07-09T05:47:25.931Z",
+   "total": 18471,
+   "responses": 1,
+   "model": "claude-opus-4-8",
+   "duration_s": null,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "e066d59c",
+   "start": "2026-07-09T06:43:12.254Z",
+   "end": "2026-07-09T07:10:41.754Z",
+   "total": 4141338,
+   "responses": 41,
+   "model": "claude-opus-4-8",
+   "duration_s": 1650,
+   "sub": 0,
+   "cache_read": 3930624
+  },
+  {
+   "id": "8f376b6a",
+   "start": "2026-07-09T07:36:19.380Z",
+   "end": "2026-07-09T07:49:23.232Z",
+   "total": 306154,
+   "responses": 8,
+   "model": "claude-opus-4-8",
+   "duration_s": 784,
+   "sub": 0,
+   "cache_read": 211456
+  },
+  {
+   "id": "1daa7208",
+   "start": "2026-07-09T07:59:57.276Z",
+   "end": "2026-07-09T08:13:53.392Z",
+   "total": 201091,
+   "responses": 6,
+   "model": "claude-opus-4-8",
+   "duration_s": 836,
+   "sub": 0,
+   "cache_read": 129536
+  },
+  {
+   "id": "228492e8",
+   "start": "2026-07-09T08:13:17.203Z",
+   "end": "2026-07-09T08:18:46.178Z",
+   "total": 1010908,
+   "responses": 16,
+   "model": "claude-opus-4-8",
+   "duration_s": 329,
+   "sub": 0,
+   "cache_read": 886272
+  },
+  {
+   "id": "90a93c6f",
+   "start": "2026-07-09T09:24:39.756Z",
+   "end": "2026-07-09T10:23:31.113Z",
+   "total": 11174146,
+   "responses": 91,
+   "model": "claude-opus-4-8",
+   "duration_s": 3531,
+   "sub": 0,
+   "cache_read": 10866688
+  },
+  {
+   "id": "f8f45e2c",
+   "start": "2026-07-09T11:35:47.230Z",
+   "end": "2026-07-09T13:12:46.247Z",
+   "total": 28194410,
+   "responses": 188,
+   "model": "claude-opus-4-8",
+   "duration_s": 5819,
+   "sub": 57,
+   "cache_read": 27068416
+  },
+  {
+   "id": "b30d540c",
+   "start": "2026-07-09T12:25:18.444Z",
+   "end": "2026-07-10T00:14:45.546Z",
+   "total": 5317107,
+   "responses": 59,
+   "model": "gpt-5.5",
+   "duration_s": 42567,
+   "sub": 0,
+   "cache_read": 4742656
+  },
+  {
+   "id": "82392f6e",
+   "start": "2026-07-09T13:32:16.657Z",
+   "end": "2026-07-09T13:47:01.065Z",
+   "total": 1026212,
+   "responses": 7,
+   "model": "claude-opus-4-8",
+   "duration_s": 884,
+   "sub": 0,
+   "cache_read": 804352
+  },
+  {
+   "id": "d6c15f66",
+   "start": "2026-07-09T13:40:29.712Z",
+   "end": "2026-07-09T14:16:28.435Z",
+   "total": 4244440,
+   "responses": 25,
+   "model": "claude-opus-4-8",
+   "duration_s": 2159,
+   "sub": 0,
+   "cache_read": 3728896
+  },
+  {
+   "id": "59a464d2",
+   "start": "2026-07-09T13:46:09.470Z",
+   "end": "2026-07-09T14:27:08.366Z",
+   "total": 6454233,
+   "responses": 74,
+   "model": "claude-opus-4-8",
+   "duration_s": 2459,
+   "sub": 51,
+   "cache_read": 5648384
+  },
+  {
+   "id": "52e82095",
+   "start": "2026-07-09T13:48:41.017Z",
+   "end": "2026-07-09T13:49:59.078Z",
+   "total": 766842,
+   "responses": 5,
+   "model": "claude-opus-4-8",
+   "duration_s": 78,
+   "sub": 0,
+   "cache_read": 544256
+  },
+  {
+   "id": "75a152c2",
+   "start": "2026-07-09T13:58:15.173Z",
+   "end": "2026-07-09T14:00:29.831Z",
+   "total": 1178007,
+   "responses": 7,
+   "model": "claude-opus-4-8",
+   "duration_s": 135,
+   "sub": 0,
+   "cache_read": 936960
+  },
+  {
+   "id": "1cb5164e",
+   "start": "2026-07-09T14:03:47.989Z",
+   "end": "2026-07-09T14:16:07.236Z",
+   "total": 1000621,
+   "responses": 7,
+   "model": "claude-opus-4-8",
+   "duration_s": 739,
+   "sub": 0,
+   "cache_read": 772608
+  },
+  {
+   "id": "3a10b269",
+   "start": "2026-07-09T14:31:52.031Z",
+   "end": "2026-07-09T15:07:05.673Z",
+   "total": 7746303,
+   "responses": 40,
+   "model": "claude-opus-4-8",
+   "duration_s": 2114,
+   "sub": 0,
+   "cache_read": 7426560
+  },
+  {
+   "id": "13d49f03",
+   "start": "2026-07-09T14:33:19.318Z",
+   "end": "2026-07-09T17:21:37.408Z",
+   "total": 33401419,
+   "responses": 202,
+   "model": "claude-opus-4-8",
+   "duration_s": 10098,
+   "sub": 0,
+   "cache_read": 32989696
+  },
+  {
+   "id": "3c26b4b1",
+   "start": "2026-07-09T15:52:39.245Z",
+   "end": "2026-07-09T18:04:23.860Z",
+   "total": 7734224,
+   "responses": 39,
+   "model": "claude-opus-4-8",
+   "duration_s": 7905,
+   "sub": 0,
+   "cache_read": 7214592
+  },
+  {
+   "id": "838147ec",
+   "start": "2026-07-09T17:54:38.940Z",
+   "end": "2026-07-09T17:57:57.825Z",
+   "total": 64366,
+   "responses": 3,
+   "model": "claude-opus-4-8",
+   "duration_s": 199,
+   "sub": 0,
+   "cache_read": 30208
+  },
+  {
+   "id": "ce5f4041",
+   "start": "2026-07-09T18:09:40.953Z",
+   "end": "2026-07-09T18:27:35.361Z",
+   "total": 4398061,
+   "responses": 24,
+   "model": "claude-opus-4-8",
+   "duration_s": 1074,
+   "sub": 0,
+   "cache_read": 4160512
+  },
+  {
+   "id": "55a3d55c",
+   "start": "2026-07-09T18:12:15.676Z",
+   "end": "2026-07-09T20:42:51.810Z",
+   "total": 8852398,
+   "responses": 53,
+   "model": "claude-opus-4-8",
+   "duration_s": 9036,
+   "sub": 0,
+   "cache_read": 8571392
+  },
+  {
+   "id": "43f66a66",
+   "start": "2026-07-09T18:33:00.493Z",
+   "end": "2026-07-09T18:43:07.961Z",
+   "total": 458599,
+   "responses": 8,
+   "model": "claude-opus-4-8",
+   "duration_s": 607,
+   "sub": 0,
+   "cache_read": 378368
+  },
+  {
+   "id": "7f6e17eb",
+   "start": "2026-07-09T19:00:01.495Z",
+   "end": "2026-07-09T19:14:47.586Z",
+   "total": 1759560,
+   "responses": 15,
+   "model": "claude-opus-4-8",
+   "duration_s": 886,
+   "sub": 0,
+   "cache_read": 1500672
+  },
+  {
+   "id": "5e313bfa",
+   "start": "2026-07-09T19:51:37.211Z",
+   "end": "2026-07-09T19:53:51.989Z",
+   "total": 548890,
+   "responses": 7,
+   "model": "claude-opus-4-8",
+   "duration_s": 135,
+   "sub": 0,
+   "cache_read": 431616
+  },
+  {
+   "id": "b89402b4",
+   "start": "2026-07-09T19:54:51.897Z",
+   "end": "2026-07-09T21:11:18.618Z",
+   "total": 11606921,
+   "responses": 74,
+   "model": "claude-opus-4-8",
+   "duration_s": 4587,
+   "sub": 0,
+   "cache_read": 11315712
+  },
+  {
+   "id": "2dfded37",
+   "start": "2026-07-09T23:54:08.910Z",
+   "end": "2026-07-10T00:10:39.616Z",
+   "total": 1903202,
+   "responses": 33,
+   "model": "claude-opus-4-8",
+   "duration_s": 991,
+   "sub": 0,
+   "cache_read": 1713664
+  },
+  {
+   "id": "7e59e533",
+   "start": "2026-07-09T23:55:03.885Z",
+   "end": "2026-07-10T00:26:55.083Z",
+   "total": 15157837,
+   "responses": 73,
+   "model": "claude-opus-4-8",
+   "duration_s": 1911,
+   "sub": 0,
+   "cache_read": 14372864
+  },
+  {
+   "id": "7347baa4",
+   "start": "2026-07-09T23:57:43.699Z",
+   "end": "2026-07-10T00:45:51.940Z",
+   "total": 7276811,
+   "responses": 46,
+   "model": "claude-opus-4-8",
+   "duration_s": 2888,
+   "sub": 0,
+   "cache_read": 6731264
+  },
+  {
+   "id": "b5d1e285",
+   "start": "2026-07-10T00:11:36.651Z",
+   "end": "2026-07-10T01:23:48.460Z",
+   "total": 14243126,
+   "responses": 160,
+   "model": "claude-opus-4-8",
+   "duration_s": 4332,
+   "sub": 93,
+   "cache_read": 12789760
+  },
+  {
+   "id": "d1598a03",
+   "start": "2026-07-10T00:33:15.179Z",
+   "end": "2026-07-10T16:00:24.452Z",
+   "total": 24601275,
+   "responses": 151,
+   "model": "claude-opus-4-8",
+   "duration_s": 55629,
+   "sub": 0,
+   "cache_read": 24093184
+  },
+  {
+   "id": "f9e147af",
+   "start": "2026-07-10T01:04:59.505Z",
+   "end": "2026-07-10T01:22:19.763Z",
+   "total": 2573306,
+   "responses": 19,
+   "model": "claude-opus-4-8",
+   "duration_s": 1040,
+   "sub": 0,
+   "cache_read": 2106368
+  },
+  {
+   "id": "844d49ff",
+   "start": "2026-07-10T10:52:03.920Z",
+   "end": "2026-07-10T11:39:12.561Z",
+   "total": 9072201,
+   "responses": 56,
+   "model": "claude-opus-4-8",
+   "duration_s": 2829,
+   "sub": 0,
+   "cache_read": 8776192
+  },
+  {
+   "id": "749a59c8",
+   "start": "2026-07-10T11:14:56.904Z",
+   "end": "2026-07-10T21:03:20.211Z",
+   "total": 15869407,
+   "responses": 121,
+   "model": "claude-opus-4-8",
+   "duration_s": 35303,
+   "sub": 43,
+   "cache_read": 15099392
+  },
+  {
+   "id": "0dc3e712",
+   "start": "2026-07-10T16:04:06.435Z",
+   "end": "2026-07-10T16:04:06.435Z",
+   "total": 20521,
+   "responses": 1,
+   "model": "claude-opus-4-8",
+   "duration_s": null,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "6a15dbea",
+   "start": "2026-07-10T16:34:51.751Z",
+   "end": "2026-07-10T16:35:55.121Z",
+   "total": 330624,
+   "responses": 5,
+   "model": "claude-opus-4-8",
+   "duration_s": 63,
+   "sub": 0,
+   "cache_read": 240128
+  },
+  {
+   "id": "43deb4ca",
+   "start": "2026-07-10T20:52:25.033Z",
+   "end": "2026-07-12T20:10:19.857Z",
+   "total": 29570885,
+   "responses": 194,
+   "model": "claude-opus-4-8",
+   "duration_s": 83875,
+   "sub": 0,
+   "cache_read": 28210176
+  },
+  {
+   "id": "ec7800a1",
+   "start": "2026-07-10T21:05:52.459Z",
+   "end": "2026-07-11T10:23:51.315Z",
+   "total": 111964096,
+   "responses": 1496,
+   "model": "claude-opus-4-8",
+   "duration_s": 47879,
+   "sub": 1324,
+   "cache_read": 105836032
+  },
+  {
+   "id": "673a82c9",
+   "start": "2026-07-10T21:36:09.307Z",
+   "end": "2026-07-10T21:45:43.463Z",
+   "total": 1077994,
+   "responses": 41,
+   "model": "claude-opus-4-8",
+   "duration_s": 574,
+   "sub": 35,
+   "cache_read": 828928
+  },
+  {
+   "id": "d90b024a",
+   "start": "2026-07-10T21:52:41.868Z",
+   "end": "2026-07-10T22:08:44.962Z",
+   "total": 467021,
+   "responses": 17,
+   "model": "claude-opus-4-8",
+   "duration_s": 963,
+   "sub": 10,
+   "cache_read": 361984
+  },
+  {
+   "id": "a0900789",
+   "start": "2026-07-11T09:09:12.334Z",
+   "end": "2026-07-11T10:49:08.080Z",
+   "total": 9769893,
+   "responses": 79,
+   "model": "claude-opus-4-8",
+   "duration_s": 5996,
+   "sub": 28,
+   "cache_read": 9040896
+  },
+  {
+   "id": "d6198b36",
+   "start": "2026-07-11T10:47:28.188Z",
+   "end": "2026-07-11T10:51:16.057Z",
+   "total": 2103518,
+   "responses": 33,
+   "model": "claude-opus-4-8",
+   "duration_s": 228,
+   "sub": 24,
+   "cache_read": 1661440
+  },
+  {
+   "id": "e23e94cc",
+   "start": "2026-07-11T10:52:03.106Z",
+   "end": "2026-07-13T10:25:40.899Z",
+   "total": 22829787,
+   "responses": 247,
+   "model": "claude-opus-4-8",
+   "duration_s": 84818,
+   "sub": 135,
+   "cache_read": 21162496
+  },
+  {
+   "id": "59ed660f",
+   "start": "2026-07-11T17:54:30.349Z",
+   "end": "2026-07-11T18:49:54.456Z",
+   "total": 7499043,
+   "responses": 65,
+   "model": "claude-opus-4-8",
+   "duration_s": 3324,
+   "sub": 0,
+   "cache_read": 6980608
+  },
+  {
+   "id": "cb1a093a",
+   "start": "2026-07-11T18:38:15.367Z",
+   "end": "2026-07-11T19:42:15.741Z",
+   "total": 8967586,
+   "responses": 99,
+   "model": "claude-opus-4-8",
+   "duration_s": 3840,
+   "sub": 46,
+   "cache_read": 8365056
+  },
+  {
+   "id": "450c59ae",
+   "start": "2026-07-11T18:41:44.349Z",
+   "end": "2026-07-11T19:38:45.581Z",
+   "total": 12893084,
+   "responses": 118,
+   "model": "claude-opus-4-8",
+   "duration_s": 3421,
+   "sub": 69,
+   "cache_read": 11313664
+  },
+  {
+   "id": "4fa0d323",
+   "start": "2026-07-11T20:23:03.533Z",
+   "end": "2026-07-11T20:46:38.224Z",
+   "total": 10065558,
+   "responses": 76,
+   "model": "claude-opus-4-8",
+   "duration_s": 1415,
+   "sub": 0,
+   "cache_read": 9849856
+  },
+  {
+   "id": "88787c23",
+   "start": "2026-07-11T21:04:07.148Z",
+   "end": "2026-07-11T21:44:56.074Z",
+   "total": 9285121,
+   "responses": 64,
+   "model": "claude-opus-4-8",
+   "duration_s": 2449,
+   "sub": 0,
+   "cache_read": 8999936
+  },
+  {
+   "id": "53c54d2d",
+   "start": "2026-07-11T21:36:36.224Z",
+   "end": "2026-07-11T23:18:00.634Z",
+   "total": 27668559,
+   "responses": 235,
+   "model": "claude-opus-4-8",
+   "duration_s": 6084,
+   "sub": 97,
+   "cache_read": 26082304
+  },
+  {
+   "id": "20e7d10d",
+   "start": "2026-07-11T23:27:09.598Z",
+   "end": "2026-07-11T23:28:02.548Z",
+   "total": 189623,
+   "responses": 4,
+   "model": "claude-opus-4-8",
+   "duration_s": 53,
+   "sub": 0,
+   "cache_read": 124416
+  },
+  {
+   "id": "4abeafc5",
+   "start": "2026-07-11T23:29:08.278Z",
+   "end": "2026-07-12T18:00:28.328Z",
+   "total": 75918224,
+   "responses": 886,
+   "model": "claude-opus-4-8",
+   "duration_s": 66680,
+   "sub": 405,
+   "cache_read": 69576704
+  },
+  {
+   "id": "e90f4926",
+   "start": "2026-07-12T16:23:17.464Z",
+   "end": "2026-07-13T02:34:46.320Z",
+   "total": 111221632,
+   "responses": 847,
+   "model": "claude-opus-4-8",
+   "duration_s": 36689,
+   "sub": 247,
+   "cache_read": 106997248
+  },
+  {
+   "id": "6fef0062",
+   "start": "2026-07-12T18:15:36.026Z",
+   "end": "2026-07-13T10:36:40.218Z",
+   "total": 60767035,
+   "responses": 459,
+   "model": "claude-opus-4-8",
+   "duration_s": 58864,
+   "sub": 104,
+   "cache_read": 57303552
+  },
+  {
+   "id": "75627d63",
+   "start": "2026-07-13T17:29:49.358Z",
+   "end": "2026-07-13T18:16:56.895Z",
+   "total": 11255056,
+   "responses": 62,
+   "model": "claude-opus-4-8",
+   "duration_s": 2828,
+   "sub": 0,
+   "cache_read": 10613248
+  },
+  {
+   "id": "99296dc0",
+   "start": "2026-07-13T18:33:32.840Z",
+   "end": "2026-07-14T08:34:18.113Z",
+   "total": 9952962,
+   "responses": 84,
+   "model": "claude-opus-4-8",
+   "duration_s": 50445,
+   "sub": 1,
+   "cache_read": 9285632
+  },
+  {
+   "id": "6dff8fa2",
+   "start": "2026-07-14T09:01:53.754Z",
+   "end": "2026-07-14T09:24:19.847Z",
+   "total": 20648,
+   "responses": 2,
+   "model": "gpt-5.5",
+   "duration_s": 1346,
+   "sub": 0,
+   "cache_read": 18432
+  },
+  {
+   "id": "5006dbae",
+   "start": "2026-07-14T09:29:03.981Z",
+   "end": "2026-07-16T15:40:43.274Z",
+   "total": 12554399,
+   "responses": 255,
+   "model": "claude-opus-4-8",
+   "duration_s": 108699,
+   "sub": 12,
+   "cache_read": 5910199
+  },
+  {
+   "id": "127009f5",
+   "start": "2026-07-14T17:24:39.860Z",
+   "end": "2026-07-14T17:24:39.860Z",
+   "total": 4740,
+   "responses": 1,
+   "model": "claude-opus-4-8",
+   "duration_s": null,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "271b6845",
+   "start": "2026-07-14T17:55:22.937Z",
+   "end": "2026-07-14T17:56:30.966Z",
+   "total": 20150,
+   "responses": 4,
+   "model": "claude-opus-4-8",
+   "duration_s": 68,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "1c620fa8",
+   "start": "2026-07-15T17:20:35.382Z",
+   "end": "2026-07-16T05:48:01.250Z",
+   "total": 65367,
+   "responses": 8,
+   "model": "claude-opus-4-8",
+   "duration_s": 44846,
+   "sub": 0,
+   "cache_read": 61138
+  },
+  {
+   "id": "539504d5",
+   "start": "2026-07-16T05:51:48.120Z",
+   "end": "2026-07-16T05:52:16.652Z",
+   "total": 4837,
+   "responses": 2,
+   "model": "claude-opus-4-8",
+   "duration_s": 29,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "2b4b5b6d",
+   "start": "2026-07-16T05:52:42.548Z",
+   "end": "2026-07-16T18:33:03.006Z",
+   "total": 6840516,
+   "responses": 240,
+   "model": "claude-opus-4-8",
+   "duration_s": 45620,
+   "sub": 0,
+   "cache_read": 1389132
+  },
+  {
+   "id": "07eaf00f",
+   "start": "2026-07-16T08:12:05.187Z",
+   "end": "2026-07-16T08:12:05.187Z",
+   "total": 4976,
+   "responses": 1,
+   "model": "claude-opus-4-8",
+   "duration_s": null,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "4f52db3c",
+   "start": "2026-07-16T15:41:22.589Z",
+   "end": "2026-07-17T17:59:57.251Z",
+   "total": 23095953,
+   "responses": 262,
+   "model": "claude-opus-4-8",
+   "duration_s": 94715,
+   "sub": 0,
+   "cache_read": 17272722
+  },
+  {
+   "id": "7f80c4c9",
+   "start": "2026-07-16T18:33:38.990Z",
+   "end": "2026-07-17T17:34:32.340Z",
+   "total": 29350099,
+   "responses": 374,
+   "model": "claude-opus-4-8",
+   "duration_s": 82853,
+   "sub": 12,
+   "cache_read": 19693363
+  },
+  {
+   "id": "4e407799",
+   "start": "2026-07-17T16:25:29.665Z",
+   "end": "2026-07-20T08:03:21.756Z",
+   "total": 43983801,
+   "responses": 340,
+   "model": "claude-opus-4-8",
+   "duration_s": 56272,
+   "sub": 0,
+   "cache_read": 35057518
+  },
+  {
+   "id": "a09307f8",
+   "start": "2026-07-17T17:35:31.524Z",
+   "end": "2026-07-19T09:12:39.896Z",
+   "total": 31981547,
+   "responses": 343,
+   "model": "claude-opus-4-8",
+   "duration_s": 56228,
+   "sub": 30,
+   "cache_read": 27912409
+  },
+  {
+   "id": "14a7c1c0",
+   "start": "2026-07-17T19:44:51.243Z",
+   "end": "2026-07-17T19:48:21.962Z",
+   "total": 54377,
+   "responses": 5,
+   "model": "claude-opus-4-8",
+   "duration_s": 211,
+   "sub": 0,
+   "cache_read": 49448
+  },
+  {
+   "id": "a5820583",
+   "start": "2026-07-19T09:25:18.118Z",
+   "end": "2026-07-19T23:37:06.497Z",
+   "total": 16262769,
+   "responses": 128,
+   "model": "claude-opus-4-8",
+   "duration_s": 51108,
+   "sub": 0,
+   "cache_read": 13397076
+  },
+  {
+   "id": "d8f02060",
+   "start": "2026-07-19T23:39:12.831Z",
+   "end": "2026-07-21T07:00:09.367Z",
+   "total": 12528238,
+   "responses": 123,
+   "model": "claude-opus-4-8",
+   "duration_s": 26457,
+   "sub": 0,
+   "cache_read": 6019467
+  },
+  {
+   "id": "e19e8547",
+   "start": "2026-07-20T07:59:27.827Z",
+   "end": "2026-07-20T08:37:40.463Z",
+   "total": 3172522,
+   "responses": 51,
+   "model": "claude-opus-4-8",
+   "duration_s": 2293,
+   "sub": 0,
+   "cache_read": 92998
+  },
+  {
+   "id": "011f0b1f",
+   "start": "2026-07-20T08:39:11.164Z",
+   "end": "2026-07-21T12:50:32.536Z",
+   "total": 22669638,
+   "responses": 280,
+   "model": "claude-opus-4-8",
+   "duration_s": 101481,
+   "sub": 111,
+   "cache_read": 8004021
+  },
+  {
+   "id": "7bbb9999",
+   "start": "2026-07-21T06:43:19.441Z",
+   "end": "2026-07-21T06:43:19.441Z",
+   "total": 5546,
+   "responses": 1,
+   "model": "claude-opus-4-8",
+   "duration_s": null,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "7168a323",
+   "start": "2026-07-21T07:21:06.149Z",
+   "end": "2026-07-21T10:40:07.462Z",
+   "total": 402119,
+   "responses": 14,
+   "model": "claude-opus-4-8",
+   "duration_s": 11941,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "9ea046d8",
+   "start": "2026-07-21T11:17:53.843Z",
+   "end": "2026-07-21T11:17:53.843Z",
+   "total": 7,
+   "responses": 1,
+   "model": "claude-opus-4-8",
+   "duration_s": null,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "f59bdc66",
+   "start": "2026-07-21T11:28:58.488Z",
+   "end": "2026-07-21T15:47:14.235Z",
+   "total": 1432943,
+   "responses": 44,
+   "model": "claude-opus-4-8",
+   "duration_s": 15496,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "ef3b61ff",
+   "start": "2026-07-21T13:01:19.926Z",
+   "end": "2026-07-22T06:34:56.937Z",
+   "total": 23872626,
+   "responses": 139,
+   "model": "claude-opus-4-8",
+   "duration_s": 63217,
+   "sub": 5,
+   "cache_read": 2721063
+  },
+  {
+   "id": "4e2bc7d9",
+   "start": "2026-07-21T13:42:28.312Z",
+   "end": "2026-07-22T07:10:44.287Z",
+   "total": 14468753,
+   "responses": 78,
+   "model": "claude-opus-4-8",
+   "duration_s": 62896,
+   "sub": 17,
+   "cache_read": 809228
+  },
+  {
+   "id": "635d444b",
+   "start": "2026-07-22T07:32:24.643Z",
+   "end": "2026-07-23T09:48:45.259Z",
+   "total": 16603020,
+   "responses": 118,
+   "model": "claude-opus-4-8",
+   "duration_s": 94581,
+   "sub": 0,
+   "cache_read": 559858
+  },
+  {
+   "id": "b08e1e48",
+   "start": "2026-07-22T07:37:17.113Z",
+   "end": "2026-07-23T04:56:23.286Z",
+   "total": 23400033,
+   "responses": 167,
+   "model": "claude-opus-4-8",
+   "duration_s": 76746,
+   "sub": 0,
+   "cache_read": 590689
+  },
+  {
+   "id": "f5c57169",
+   "start": "2026-07-22T08:12:00.351Z",
+   "end": "2026-07-22T08:22:28.139Z",
+   "total": 494834,
+   "responses": 9,
+   "model": "claude-opus-4-8",
+   "duration_s": 628,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "242c3746",
+   "start": "2026-07-22T13:47:21.085Z",
+   "end": "2026-07-22T13:47:21.085Z",
+   "total": 37407,
+   "responses": 1,
+   "model": "claude-opus-4-8",
+   "duration_s": null,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "8517263e",
+   "start": "2026-07-23T06:44:32.522Z",
+   "end": "2026-07-23T06:44:32.522Z",
+   "total": 32402,
+   "responses": 1,
+   "model": "claude-opus-4-8",
+   "duration_s": null,
+   "sub": 0,
+   "cache_read": 28445
+  },
+  {
+   "id": "b5780076",
+   "start": "2026-07-23T06:51:27.611Z",
+   "end": "2026-07-23T07:08:18.131Z",
+   "total": 1768398,
+   "responses": 11,
+   "model": "claude-opus-4-8",
+   "duration_s": 1011,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "52e84d55",
+   "start": "2026-07-23T07:17:18.058Z",
+   "end": "2026-07-24T08:05:05.417Z",
+   "total": 8096904,
+   "responses": 49,
+   "model": "claude-opus-4-8",
+   "duration_s": 89267,
+   "sub": 0,
+   "cache_read": 587909
+  },
+  {
+   "id": "f8933e90",
+   "start": "2026-07-23T07:40:08.274Z",
+   "end": "2026-07-23T11:14:58.539Z",
+   "total": 9562270,
+   "responses": 84,
+   "model": "claude-opus-4-8",
+   "duration_s": 12890,
+   "sub": 0,
+   "cache_read": 2136447
+  },
+  {
+   "id": "39b9aade",
+   "start": "2026-07-23T09:00:45.127Z",
+   "end": "2026-07-23T09:03:21.993Z",
+   "total": 89610,
+   "responses": 2,
+   "model": "claude-opus-4-8",
+   "duration_s": 157,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "cd908462",
+   "start": "2026-07-24T07:53:53.998Z",
+   "end": "2026-07-24T07:53:53.998Z",
+   "total": 37611,
+   "responses": 1,
+   "model": "claude-opus-4-8",
+   "duration_s": null,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "51244d0d",
+   "start": "2026-07-25T08:15:37.504Z",
+   "end": "2026-07-25T08:35:36.204Z",
+   "total": 2253339,
+   "responses": 14,
+   "model": "claude-opus-4-8",
+   "duration_s": 1199,
+   "sub": 0,
+   "cache_read": 143067
+  },
+  {
+   "id": "e743c117",
+   "start": "2026-07-25T12:05:35.499Z",
+   "end": "2026-07-25T13:19:00.553Z",
+   "total": 8816880,
+   "responses": 95,
+   "model": "claude-opus-4-8",
+   "duration_s": 4405,
+   "sub": 54,
+   "cache_read": 1848911
+  },
+  {
+   "id": "cfce1357",
+   "start": "2026-07-25T18:10:56.582Z",
+   "end": "2026-07-25T18:31:35.270Z",
+   "total": 701561,
+   "responses": 16,
+   "model": "claude-opus-4-8",
+   "duration_s": 1239,
+   "sub": 0,
+   "cache_read": 308707
+  },
+  {
+   "id": "33fd3769",
+   "start": "2026-07-25T18:34:08.832Z",
+   "end": "2026-07-25T18:34:08.832Z",
+   "total": 32505,
+   "responses": 1,
+   "model": "claude-opus-4-8",
+   "duration_s": null,
+   "sub": 0,
+   "cache_read": 28466
+  },
+  {
+   "id": "b4701451",
+   "start": "2026-07-25T18:35:14.518Z",
+   "end": "2026-07-25T19:27:52.777Z",
+   "total": 11100496,
+   "responses": 82,
+   "model": "claude-opus-4-8",
+   "duration_s": 3158,
+   "sub": 0,
+   "cache_read": 2115751
+  },
+  {
+   "id": "9a13b068",
+   "start": "2026-07-25T19:53:34.607Z",
+   "end": "2026-07-25T20:12:41.421Z",
+   "total": 3766888,
+   "responses": 33,
+   "model": "claude-opus-4-8",
+   "duration_s": 1147,
+   "sub": 0,
+   "cache_read": 227633
+  },
+  {
+   "id": "8501072c",
+   "start": "2026-07-25T20:07:57.821Z",
+   "end": "2026-07-25T22:04:20.796Z",
+   "total": 20435352,
+   "responses": 160,
+   "model": "claude-opus-4-8",
+   "duration_s": 6983,
+   "sub": 0,
+   "cache_read": 2215048
+  },
+  {
+   "id": "89049797",
+   "start": "2026-07-25T20:23:14.029Z",
+   "end": "2026-07-25T20:50:12.618Z",
+   "total": 4264716,
+   "responses": 45,
+   "model": "claude-opus-4-8",
+   "duration_s": 1619,
+   "sub": 0,
+   "cache_read": 853803
+  },
+  {
+   "id": "ff19c613",
+   "start": "2026-07-25T20:52:56.927Z",
+   "end": "2026-07-25T22:15:58.444Z",
+   "total": 12510330,
+   "responses": 102,
+   "model": "claude-opus-4-8",
+   "duration_s": 4982,
+   "sub": 0,
+   "cache_read": 1132793
+  },
+  {
+   "id": "68782077",
+   "start": "2026-07-26T06:31:13.698Z",
+   "end": "2026-07-26T06:49:19.672Z",
+   "total": 2814205,
+   "responses": 28,
+   "model": "claude-opus-4-8",
+   "duration_s": 1086,
+   "sub": 0,
+   "cache_read": 255983
+  },
+  {
+   "id": "544bce48",
+   "start": "2026-07-26T06:57:19.227Z",
+   "end": "2026-07-26T07:25:00.986Z",
+   "total": 4014997,
+   "responses": 33,
+   "model": "claude-opus-4-8",
+   "duration_s": 1662,
+   "sub": 0,
+   "cache_read": 196717
+  },
+  {
+   "id": "2d78a5b7",
+   "start": "2026-07-26T07:39:20.821Z",
+   "end": "2026-07-26T10:04:35.817Z",
+   "total": 15015294,
+   "responses": 99,
+   "model": "claude-opus-4-8",
+   "duration_s": 8715,
+   "sub": 0,
+   "cache_read": 376733
+  },
+  {
+   "id": "c4a90bf9",
+   "start": "2026-07-26T08:22:14.348Z",
+   "end": "2026-07-26T09:56:37.013Z",
+   "total": 15268740,
+   "responses": 133,
+   "model": "claude-opus-4-8",
+   "duration_s": 5663,
+   "sub": 0,
+   "cache_read": 243008
+  },
+  {
+   "id": "6272ed60",
+   "start": "2026-07-26T08:29:53.459Z",
+   "end": "2026-07-26T09:23:42.115Z",
+   "total": 5498373,
+   "responses": 60,
+   "model": "claude-opus-4-8",
+   "duration_s": 3229,
+   "sub": 0,
+   "cache_read": 330132
+  },
+  {
+   "id": "1ed50166",
+   "start": "2026-07-26T11:57:41.566Z",
+   "end": "2026-07-26T11:58:44.582Z",
+   "total": 88,
+   "responses": 2,
+   "model": "claude-opus-4-8",
+   "duration_s": 63,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "c5448138",
+   "start": "2026-07-26T13:22:44.956Z",
+   "end": "2026-07-26T14:00:04.303Z",
+   "total": 30794,
+   "responses": 59,
+   "model": "claude-opus-4-8",
+   "duration_s": 2239,
+   "sub": 33,
+   "cache_read": 0
+  },
+  {
+   "id": "daf367fb",
+   "start": "2026-07-26T14:01:09.094Z",
+   "end": "2026-07-26T14:08:44.321Z",
+   "total": 8377,
+   "responses": 23,
+   "model": "claude-opus-4-8",
+   "duration_s": 455,
+   "sub": 0,
+   "cache_read": 0
+  },
+  {
+   "id": "36d64a70",
+   "start": "2026-07-26T14:04:30.580Z",
+   "end": "2026-07-26T17:38:43.327Z",
+   "total": 4206228,
+   "responses": 46,
+   "model": "claude-opus-4-8",
+   "duration_s": 12853,
+   "sub": 11,
+   "cache_read": 116188
+  },
+  {
+   "id": "aae185d1",
+   "start": "2026-07-26T14:15:42.202Z",
+   "end": "2026-07-26T17:01:43.684Z",
+   "total": 13848969,
+   "responses": 182,
+   "model": "claude-opus-4-8",
+   "duration_s": 9961,
+   "sub": 38,
+   "cache_read": 724540
+  },
+  {
+   "id": "776bc5a1",
+   "start": "2026-07-26T17:35:45.590Z",
+   "end": "2026-07-26T17:36:18.881Z",
+   "total": 156628,
+   "responses": 4,
+   "model": "claude-opus-4-8",
+   "duration_s": 33,
+   "sub": 0,
+   "cache_read": 60528
+  },
+  {
+   "id": "e66bc35c",
+   "start": "2026-07-26T17:53:02.445Z",
+   "end": "2026-07-26T18:33:39.148Z",
+   "total": 28517486,
+   "responses": 124,
+   "model": "claude-fable-5",
+   "duration_s": 2437,
+   "sub": 0,
+   "cache_read": 28025949
+  },
+  {
+   "id": "242604c6",
+   "start": "2026-07-26T17:58:09.419Z",
+   "end": "2026-07-26T18:33:35.090Z",
+   "total": 25124053,
+   "responses": 155,
+   "model": "claude-opus-5",
+   "duration_s": 2126,
+   "sub": 0,
+   "cache_read": 24771736
+  },
+  {
+   "id": "b3d38e14",
+   "start": "2026-07-26T18:00:11.048Z",
+   "end": "2026-07-26T18:36:01.621Z",
+   "total": 26279929,
+   "responses": 122,
+   "model": "claude-opus-5",
+   "duration_s": 2151,
+   "sub": 0,
+   "cache_read": 25848009
+  },
+  {
+   "id": "c723953a",
+   "start": "2026-07-26T23:22:30.029Z",
+   "end": "2026-07-26T23:32:56.483Z",
+   "total": 861390,
+   "responses": 10,
+   "model": "claude-opus-5",
+   "duration_s": 626,
+   "sub": 0,
+   "cache_read": 355650
+  },
+  {
+   "id": "1692332f",
+   "start": "2026-07-26T23:38:28.463Z",
+   "end": "2026-07-27T16:37:54.936Z",
+   "total": 692421649,
+   "responses": 2388,
+   "model": "claude-opus-5",
+   "duration_s": 61166,
+   "sub": 291,
+   "cache_read": 681560829
+  },
+  {
+   "id": "823bee1a",
+   "start": "2026-07-26T23:38:37.390Z",
+   "end": "2026-07-26T23:38:47.549Z",
+   "total": 102913,
+   "responses": 2,
+   "model": "claude-opus-5",
+   "duration_s": 10,
+   "sub": 0,
+   "cache_read": 64986
+  },
+  {
+   "id": "b0a0b75c",
+   "start": "2026-07-26T23:39:06.428Z",
+   "end": "2026-07-27T16:23:58.757Z",
+   "total": 296664770,
+   "responses": 1110,
+   "model": "claude-opus-5",
+   "duration_s": 60292,
+   "sub": 42,
+   "cache_read": 287894520
+  },
+  {
+   "id": "ee309892",
+   "start": "2026-07-27T11:18:44.583Z",
+   "end": "2026-07-28T11:20:54.472Z",
+   "total": 888377988,
+   "responses": 2219,
+   "model": "claude-opus-5",
+   "duration_s": 86530,
+   "sub": 446,
+   "cache_read": 873306916
+  },
+  {
+   "id": "07a3f3f9",
+   "start": "2026-07-27T11:24:30.486Z",
+   "end": "2026-07-28T11:02:36.490Z",
+   "total": 577450402,
+   "responses": 1133,
+   "model": "claude-opus-5",
+   "duration_s": 85086,
+   "sub": 0,
+   "cache_read": 557418888
+  },
+  {
+   "id": "71344136",
+   "start": "2026-07-27T11:24:32.262Z",
+   "end": "2026-07-28T11:14:19.508Z",
+   "total": 594194877,
+   "responses": 1430,
+   "model": "claude-opus-5",
+   "duration_s": 85787,
+   "sub": 44,
+   "cache_read": 576047551
+  },
+  {
+   "id": "d13e4177",
+   "start": "2026-07-27T13:21:35.999Z",
+   "end": "2026-07-27T16:45:24.251Z",
+   "total": 274123560,
+   "responses": 468,
+   "model": "claude-opus-5",
+   "duration_s": 12228,
+   "sub": 0,
+   "cache_read": 271403291
+  },
+  {
+   "id": "bea44f46",
+   "start": "2026-07-27T13:52:39.784Z",
+   "end": "2026-07-27T16:08:37.829Z",
+   "total": 39966492,
+   "responses": 150,
+   "model": "claude-opus-5",
+   "duration_s": 8158,
+   "sub": 0,
+   "cache_read": 36986409
+  },
+  {
+   "id": "b2c919c2",
+   "start": "2026-07-27T13:52:40.901Z",
+   "end": "2026-07-27T18:18:01.203Z",
+   "total": 149185553,
+   "responses": 397,
+   "model": "claude-opus-5",
+   "duration_s": 15920,
+   "sub": 71,
+   "cache_read": 144360523
+  },
+  {
+   "id": "979a02f0",
+   "start": "2026-07-27T13:53:41.630Z",
+   "end": "2026-07-27T18:16:46.799Z",
+   "total": 103634628,
+   "responses": 311,
+   "model": "claude-opus-5",
+   "duration_s": 15785,
+   "sub": 0,
+   "cache_read": 99937096
+  },
+  {
+   "id": "f697ca52",
+   "start": "2026-07-27T14:00:04.965Z",
+   "end": "2026-07-27T16:12:46.345Z",
+   "total": 61909615,
+   "responses": 211,
+   "model": "claude-opus-5",
+   "duration_s": 7961,
+   "sub": 0,
+   "cache_read": 59751312
+  },
+  {
+   "id": "4cbcc4c5",
+   "start": "2026-07-27T14:00:21.475Z",
+   "end": "2026-07-27T16:12:21.186Z",
+   "total": 76171341,
+   "responses": 231,
+   "model": "claude-opus-5",
+   "duration_s": 7920,
+   "sub": 0,
+   "cache_read": 73636405
+  },
+  {
+   "id": "18ce2af9",
+   "start": "2026-07-27T15:55:41.806Z",
+   "end": "2026-07-27T18:21:16.181Z",
+   "total": 81092697,
+   "responses": 317,
+   "model": "claude-opus-5",
+   "duration_s": 8734,
+   "sub": 84,
+   "cache_read": 77624859
+  },
+  {
+   "id": "e5a8adad",
+   "start": "2026-07-27T16:07:48.728Z",
+   "end": "2026-07-27T18:13:21.082Z",
+   "total": 39398478,
+   "responses": 204,
+   "model": "claude-opus-5",
+   "duration_s": 7532,
+   "sub": 37,
+   "cache_read": 38101335
+  },
+  {
+   "id": "9a2baa86",
+   "start": "2026-07-27T16:09:10.501Z",
+   "end": "2026-07-27T18:08:39.856Z",
+   "total": 68147916,
+   "responses": 299,
+   "model": "claude-opus-5",
+   "duration_s": 7169,
+   "sub": 104,
+   "cache_read": 65252382
+  },
+  {
+   "id": "76b70a83",
+   "start": "2026-07-27T16:11:26.144Z",
+   "end": "2026-07-27T18:21:12.917Z",
+   "total": 21702828,
+   "responses": 126,
+   "model": "claude-opus-5",
+   "duration_s": 7787,
+   "sub": 0,
+   "cache_read": 20196471
+  },
+  {
+   "id": "e2911284",
+   "start": "2026-07-27T16:12:59.102Z",
+   "end": "2026-07-27T18:06:17.662Z",
+   "total": 39982517,
+   "responses": 221,
+   "model": "claude-opus-5",
+   "duration_s": 6799,
+   "sub": 61,
+   "cache_read": 38451541
+  },
+  {
+   "id": "d9b63ef1",
+   "start": "2026-07-27T16:26:46.512Z",
+   "end": "2026-07-27T17:35:06.666Z",
+   "total": 30314720,
+   "responses": 155,
+   "model": "claude-opus-5",
+   "duration_s": 4100,
+   "sub": 0,
+   "cache_read": 29847635
+  },
+  {
+   "id": "95772b7a",
+   "start": "2026-07-27T16:42:16.826Z",
+   "end": "2026-07-28T11:21:18.473Z",
+   "total": 947199766,
+   "responses": 3576,
+   "model": "claude-opus-5",
+   "duration_s": 67142,
+   "sub": 1865,
+   "cache_read": 932795732
+  },
+  {
+   "id": "19f12f00",
+   "start": "2026-07-27T17:12:52.917Z",
+   "end": "2026-07-27T18:30:17.347Z",
+   "total": 384955020,
+   "responses": 2922,
+   "model": "claude-opus-5",
+   "duration_s": 4644,
+   "sub": 2872,
+   "cache_read": 368923505
+  },
+  {
+   "id": "734dc346",
+   "start": "2026-07-27T17:16:48.801Z",
+   "end": "2026-07-27T17:49:26.071Z",
+   "total": 7998661,
+   "responses": 125,
+   "model": "claude-opus-5",
+   "duration_s": 1957,
+   "sub": 92,
+   "cache_read": 7534305
+  },
+  {
+   "id": "1f09c37e",
+   "start": "2026-07-27T17:30:27.681Z",
+   "end": "2026-07-28T11:20:29.222Z",
+   "total": 148061521,
+   "responses": 236,
+   "model": "claude-opus-5",
+   "duration_s": 64202,
+   "sub": 1,
+   "cache_read": 139719952
+  },
+  {
+   "id": "ef45d794",
+   "start": "2026-07-27T18:33:58.596Z",
+   "end": "2026-07-28T06:34:17.022Z",
+   "total": 663920451,
+   "responses": 3802,
+   "model": "claude-opus-5",
+   "duration_s": 43218,
+   "sub": 3432,
+   "cache_read": 636665487
+  },
+  {
+   "id": "c0809b53",
+   "start": "2026-07-27T19:51:42.387Z",
+   "end": "2026-07-27T20:11:57.495Z",
+   "total": 10542534,
+   "responses": 134,
+   "model": "claude-opus-5",
+   "duration_s": 1215,
+   "sub": 119,
+   "cache_read": 9564803
+  },
+  {
+   "id": "2fadb074",
+   "start": "2026-07-27T20:28:22.906Z",
+   "end": "2026-07-28T11:21:08.333Z",
+   "total": 1116264915,
+   "responses": 7610,
+   "model": "claude-opus-5",
+   "duration_s": 53565,
+   "sub": 7271,
+   "cache_read": 1074983755
+  },
+  {
+   "id": "677a1a89",
+   "start": "2026-07-28T06:06:13.987Z",
+   "end": "2026-07-28T11:21:16.624Z",
+   "total": 503552189,
+   "responses": 2410,
+   "model": "claude-opus-5",
+   "duration_s": 18903,
+   "sub": 1883,
+   "cache_read": 486957838
+  },
+  {
+   "id": "0ee867f4",
+   "start": "2026-07-28T06:13:42.323Z",
+   "end": "2026-07-28T11:02:41.363Z",
+   "total": 108062926,
+   "responses": 288,
+   "model": "claude-opus-5",
+   "duration_s": 17339,
+   "sub": 3,
+   "cache_read": 105888276
+  },
+  {
+   "id": "70769553",
+   "start": "2026-07-28T06:18:41.164Z",
+   "end": "2026-07-28T11:21:16.344Z",
+   "total": 266111517,
+   "responses": 2159,
+   "model": "claude-opus-5",
+   "duration_s": 18155,
+   "sub": 1895,
+   "cache_read": 254645327
+  }
+ ],
+ "day_hour_matrix": {
+  "2026-07-08|06": 37132,
+  "2026-07-08|09": 450134,
+  "2026-07-08|10": 0,
+  "2026-07-08|11": 4851221,
+  "2026-07-08|17": 2943699,
+  "2026-07-08|18": 130432,
+  "2026-07-08|20": 0,
+  "2026-07-09|03": 6259739,
+  "2026-07-09|04": 0,
+  "2026-07-09|05": 2033163,
+  "2026-07-09|06": 2041619,
+  "2026-07-09|07": 2761782,
+  "2026-07-09|08": 1189146,
+  "2026-07-09|09": 6362218,
+  "2026-07-09|10": 4811928,
+  "2026-07-09|11": 6002045,
+  "2026-07-09|12": 23430088,
+  "2026-07-09|13": 10742254,
+  "2026-07-09|14": 20899989,
+  "2026-07-09|15": 23032975,
+  "2026-07-09|16": 8560451,
+  "2026-07-09|17": 1299918,
+  "2026-07-09|18": 9902033,
+  "2026-07-09|19": 5064979,
+  "2026-07-09|20": 13170641,
+  "2026-07-09|21": 0,
+  "2026-07-09|23": 3165192,
+  "2026-07-10|00": 39326619,
+  "2026-07-10|01": 6814327,
+  "2026-07-10|10": 3103639,
+  "2026-07-10|11": 35193311,
+  "2026-07-10|12": 5741317,
+  "2026-07-10|15": 0,
+  "2026-07-10|16": 351145,
+  "2026-07-10|20": 2883706,
+  "2026-07-10|21": 53137458,
+  "2026-07-10|22": 55489629,
+  "2026-07-10|23": 3590074,
+  "2026-07-11|08": 1966605,
+  "2026-07-11|09": 21476184,
+  "2026-07-11|10": 13312912,
+  "2026-07-11|11": 893833,
+  "2026-07-11|16": 1018050,
+  "2026-07-11|17": 12773164,
+  "2026-07-11|18": 20067507,
+  "2026-07-11|19": 10899872,
+  "2026-07-11|20": 10065558,
+  "2026-07-11|21": 15563305,
+  "2026-07-11|22": 18109179,
+  "2026-07-11|23": 11990918,
+  "2026-07-12|00": 17850244,
+  "2026-07-12|01": 1520471,
+  "2026-07-12|05": 6502065,
+  "2026-07-12|12": 3179325,
+  "2026-07-12|13": 4700918,
+  "2026-07-12|14": 2266252,
+  "2026-07-12|15": 9870854,
+  "2026-07-12|16": 17304516,
+  "2026-07-12|17": 25047042,
+  "2026-07-12|18": 20079344,
+  "2026-07-12|19": 39790564,
+  "2026-07-12|20": 37054782,
+  "2026-07-12|21": 16614734,
+  "2026-07-12|22": 10418469,
+  "2026-07-12|23": 1700620,
+  "2026-07-13|01": 14365257,
+  "2026-07-13|02": 12299476,
+  "2026-07-13|04": 4590539,
+  "2026-07-13|05": 0,
+  "2026-07-13|09": 0,
+  "2026-07-13|10": 3865233,
+  "2026-07-13|17": 5229399,
+  "2026-07-13|18": 10008883,
+  "2026-07-13|19": 5129055,
+  "2026-07-14|05": 22013,
+  "2026-07-14|08": 818668,
+  "2026-07-14|09": 5535353,
+  "2026-07-14|16": 0,
+  "2026-07-14|17": 1004403,
+  "2026-07-14|18": 1762970,
+  "2026-07-15|06": 1409946,
+  "2026-07-15|17": 65367,
+  "2026-07-15|18": 0,
+  "2026-07-16|05": 64812,
+  "2026-07-16|06": 1321234,
+  "2026-07-16|07": 1126704,
+  "2026-07-16|08": 1785365,
+  "2026-07-16|09": 4258653,
+  "2026-07-16|11": 0,
+  "2026-07-16|14": 145503,
+  "2026-07-16|15": 767997,
+  "2026-07-16|16": 0,
+  "2026-07-16|18": 1379929,
+  "2026-07-16|19": 1948148,
+  "2026-07-16|20": 1582063,
+  "2026-07-16|21": 9056168,
+  "2026-07-17|06": 2742318,
+  "2026-07-17|07": 7683689,
+  "2026-07-17|08": 598195,
+  "2026-07-17|10": 0,
+  "2026-07-17|16": 15925183,
+  "2026-07-17|17": 17772348,
+  "2026-07-17|18": 2313666,
+  "2026-07-17|19": 1918487,
+  "2026-07-17|20": 241063,
+  "2026-07-17|21": 2545145,
+  "2026-07-17|22": 1095815,
+  "2026-07-17|23": 4290545,
+  "2026-07-18|00": 2227706,
+  "2026-07-18|04": 1713175,
+  "2026-07-18|11": 1448608,
+  "2026-07-18|12": 2425441,
+  "2026-07-18|13": 4326994,
+  "2026-07-18|14": 1879249,
+  "2026-07-18|15": 1893921,
+  "2026-07-18|16": 1340669,
+  "2026-07-18|17": 1547266,
+  "2026-07-18|18": 3823248,
+  "2026-07-18|19": 2316545,
+  "2026-07-18|20": 3408889,
+  "2026-07-18|21": 3359775,
+  "2026-07-18|22": 4370604,
+  "2026-07-18|23": 4989577,
+  "2026-07-19|08": 855182,
+  "2026-07-19|09": 460059,
+  "2026-07-19|10": 235860,
+  "2026-07-19|11": 403268,
+  "2026-07-19|12": 1503142,
+  "2026-07-19|13": 59167,
+  "2026-07-19|14": 2538166,
+  "2026-07-19|15": 929630,
+  "2026-07-19|16": 1496913,
+  "2026-07-19|17": 1982056,
+  "2026-07-19|18": 3223122,
+  "2026-07-19|19": 3044473,
+  "2026-07-19|20": 3689190,
+  "2026-07-19|21": 200057,
+  "2026-07-19|22": 2874475,
+  "2026-07-19|23": 6933834,
+  "2026-07-20|05": 560176,
+  "2026-07-20|06": 147933,
+  "2026-07-20|07": 2536334,
+  "2026-07-20|08": 3840664,
+  "2026-07-20|09": 1099277,
+  "2026-07-20|10": 2144194,
+  "2026-07-20|11": 1651235,
+  "2026-07-20|12": 2893996,
+  "2026-07-20|13": 1570896,
+  "2026-07-20|14": 146983,
+  "2026-07-20|15": 79495,
+  "2026-07-20|17": 1170106,
+  "2026-07-20|18": 1283830,
+  "2026-07-20|20": 2906118,
+  "2026-07-20|21": 1485411,
+  "2026-07-20|22": 4059864,
+  "2026-07-20|23": 1715236,
+  "2026-07-21|04": 1521865,
+  "2026-07-21|05": 159309,
+  "2026-07-21|06": 2745575,
+  "2026-07-21|07": 3124859,
+  "2026-07-21|08": 2789576,
+  "2026-07-21|09": 391055,
+  "2026-07-21|10": 0,
+  "2026-07-21|11": 109177,
+  "2026-07-21|12": 1159038,
+  "2026-07-21|13": 24447,
+  "2026-07-21|14": 6462,
+  "2026-07-21|15": 4597732,
+  "2026-07-21|16": 2629918,
+  "2026-07-21|17": 2632710,
+  "2026-07-21|18": 6399414,
+  "2026-07-21|19": 4723077,
+  "2026-07-21|20": 5910241,
+  "2026-07-21|21": 4575651,
+  "2026-07-22|06": 6932343,
+  "2026-07-22|07": 5620749,
+  "2026-07-22|08": 7772002,
+  "2026-07-22|09": 7890478,
+  "2026-07-22|10": 3643173,
+  "2026-07-22|11": 3274412,
+  "2026-07-22|12": 3096610,
+  "2026-07-22|13": 864512,
+  "2026-07-22|14": 1661278,
+  "2026-07-22|16": 2632351,
+  "2026-07-22|17": 199756,
+  "2026-07-22|19": 821850,
+  "2026-07-22|20": 327158,
+  "2026-07-23|04": 1814216,
+  "2026-07-23|05": 602757,
+  "2026-07-23|06": 1324803,
+  "2026-07-23|07": 4606102,
+  "2026-07-23|08": 3193432,
+  "2026-07-23|09": 3449199,
+  "2026-07-23|10": 521477,
+  "2026-07-23|11": 5190434,
+  "2026-07-23|12": 2671394,
+  "2026-07-23|17": 0,
+  "2026-07-24|07": 37611,
+  "2026-07-24|08": 137779,
+  "2026-07-25|08": 2253339,
+  "2026-07-25|12": 6901709,
+  "2026-07-25|13": 1915171,
+  "2026-07-25|18": 6051320,
+  "2026-07-25|19": 6998558,
+  "2026-07-25|20": 8282937,
+  "2026-07-25|21": 26006871,
+  "2026-07-25|22": 5472162,
+  "2026-07-26|06": 3101303,
+  "2026-07-26|07": 4606520,
+  "2026-07-26|08": 12957149,
+  "2026-07-26|09": 20664112,
+  "2026-07-26|10": 1282525,
+  "2026-07-26|11": 88,
+  "2026-07-26|13": 30245,
+  "2026-07-26|14": 80271,
+  "2026-07-26|15": 6357,
+  "2026-07-26|16": 12763593,
+  "2026-07-26|17": 6687675,
+  "2026-07-26|18": 78604323,
+  "2026-07-26|22": 0,
+  "2026-07-26|23": 6569982,
+  "2026-07-27|00": 114517224,
+  "2026-07-27|01": 44158781,
+  "2026-07-27|04": 24271794,
+  "2026-07-27|05": 50925891,
+  "2026-07-27|06": 49877232,
+  "2026-07-27|07": 10638098,
+  "2026-07-27|08": 16679676,
+  "2026-07-27|09": 69049885,
+  "2026-07-27|10": 39920035,
+  "2026-07-27|11": 92842687,
+  "2026-07-27|12": 167231634,
+  "2026-07-27|13": 205414233,
+  "2026-07-27|14": 445984309,
+  "2026-07-27|15": 590429680,
+  "2026-07-27|16": 632191052,
+  "2026-07-27|17": 711101359,
+  "2026-07-27|18": 578583652,
+  "2026-07-27|19": 418206794,
+  "2026-07-27|20": 454890870,
+  "2026-07-27|21": 135460142,
+  "2026-07-27|22": 60581797,
+  "2026-07-27|23": 70883656,
+  "2026-07-28|00": 72922104,
+  "2026-07-28|01": 431468335,
+  "2026-07-28|02": 75172514,
+  "2026-07-28|03": 65931410,
+  "2026-07-28|04": 241617645,
+  "2026-07-28|05": 273309086,
+  "2026-07-28|06": 610264528,
+  "2026-07-28|07": 233994191,
+  "2026-07-28|08": 103559372,
+  "2026-07-28|09": 194015245,
+  "2026-07-28|10": 689475638,
+  "2026-07-28|11": 210233303
+ },
+ "by_day_full": {
+  "2026-07-08": {
+   "inp": 701063,
+   "cc": 0,
+   "cr": 7622656,
+   "out": 88899,
+   "n": 144,
+   "total": 8412618,
+   "cache_pct": 91.58
+  },
+  "2026-07-09": {
+   "inp": 6689610,
+   "cc": 0,
+   "cr": 143033344,
+   "out": 1007206,
+   "n": 1096,
+   "total": 150730160,
+   "cache_pct": 95.53
+  },
+  "2026-07-10": {
+   "inp": 10366411,
+   "cc": 0,
+   "cr": 194134016,
+   "out": 1130798,
+   "n": 2180,
+   "total": 205631225,
+   "cache_pct": 94.93
+  },
+  "2026-07-11": {
+   "inp": 7371785,
+   "cc": 0,
+   "cr": 129742336,
+   "out": 1022966,
+   "n": 1187,
+   "total": 138137087,
+   "cache_pct": 94.62
+  },
+  "2026-07-12": {
+   "inp": 10228047,
+   "cc": 0,
+   "cr": 202180608,
+   "out": 1491545,
+   "n": 1924,
+   "total": 213900200,
+   "cache_pct": 95.18
+  },
+  "2026-07-13": {
+   "inp": 3630975,
+   "cc": 0,
+   "cr": 51376128,
+   "out": 480739,
+   "n": 442,
+   "total": 55487842,
+   "cache_pct": 93.4
+  },
+  "2026-07-14": {
+   "inp": 2776372,
+   "cc": 0,
+   "cr": 6283910,
+   "out": 83125,
+   "n": 181,
+   "total": 9143407,
+   "cache_pct": 69.36
+  },
+  "2026-07-15": {
+   "inp": 1157427,
+   "cc": 0,
+   "cr": 308483,
+   "out": 9403,
+   "n": 42,
+   "total": 1475313,
+   "cache_pct": 21.04
+  },
+  "2026-07-16": {
+   "inp": 17751564,
+   "cc": 0,
+   "cr": 5453601,
+   "out": 231411,
+   "n": 666,
+   "total": 23436576,
+   "cache_pct": 23.5
+  },
+  "2026-07-17": {
+   "inp": 6880585,
+   "cc": 35693,
+   "cr": 50008151,
+   "out": 202025,
+   "n": 549,
+   "total": 57126454,
+   "cache_pct": 87.85
+  },
+  "2026-07-18": {
+   "inp": 4480437,
+   "cc": 0,
+   "cr": 36337891,
+   "out": 253339,
+   "n": 339,
+   "total": 41071667,
+   "cache_pct": 89.02
+  },
+  "2026-07-19": {
+   "inp": 7068573,
+   "cc": 0,
+   "cr": 23197752,
+   "out": 162269,
+   "n": 210,
+   "total": 30428594,
+   "cache_pct": 76.65
+  },
+  "2026-07-20": {
+   "inp": 15643348,
+   "cc": 0,
+   "cr": 13335635,
+   "out": 312765,
+   "n": 412,
+   "total": 29291748,
+   "cache_pct": 46.02
+  },
+  "2026-07-21": {
+   "inp": 34769034,
+   "cc": 4342954,
+   "cr": 3939510,
+   "out": 448608,
+   "n": 299,
+   "total": 43500106,
+   "cache_pct": 9.15
+  },
+  "2026-07-22": {
+   "inp": 39879579,
+   "cc": 3212469,
+   "cr": 1062584,
+   "out": 582040,
+   "n": 299,
+   "total": 44736672,
+   "cache_pct": 2.41
+  },
+  "2026-07-23": {
+   "inp": 17224820,
+   "cc": 2909617,
+   "cr": 2986669,
+   "out": 252708,
+   "n": 163,
+   "total": 23373814,
+   "cache_pct": 12.92
+  },
+  "2026-07-24": {
+   "inp": 125960,
+   "cc": 48412,
+   "cr": 0,
+   "out": 1018,
+   "n": 5,
+   "total": 175390,
+   "cache_pct": 0.0
+  },
+  "2026-07-25": {
+   "inp": 48086394,
+   "cc": 6264896,
+   "cr": 8874179,
+   "out": 656598,
+   "n": 548,
+   "total": 63882067,
+   "cache_pct": 14.04
+  },
+  "2026-07-26": {
+   "inp": 52342422,
+   "cc": 8021659,
+   "cr": 85927827,
+   "out": 1062235,
+   "n": 1194,
+   "total": 147354143,
+   "cache_pct": 58.74
+  },
+  "2026-07-27": {
+   "inp": 2666980,
+   "cc": 111149182,
+   "cr": 4852727103,
+   "out": 17297216,
+   "n": 18157,
+   "total": 4983840481,
+   "cache_pct": 97.71
+  },
+  "2026-07-28": {
+   "inp": 2966677,
+   "cc": 89656221,
+   "cr": 3092172172,
+   "out": 17168301,
+   "n": 16372,
+   "total": 3201963371,
+   "cache_pct": 97.09
+  }
+ },
+ "subagent_share_by_day": {
+  "2026-07-08": {
+   "main": 6737696,
+   "sub": 1674922,
+   "sub_pct": 19.91
+  },
+  "2026-07-09": {
+   "main": 141632832,
+   "sub": 9097328,
+   "sub_pct": 6.04
+  },
+  "2026-07-10": {
+   "main": 114253550,
+   "sub": 91377675,
+   "sub_pct": 44.44
+  },
+  "2026-07-11": {
+   "main": 102711144,
+   "sub": 35425943,
+   "sub_pct": 25.65
+  },
+  "2026-07-12": {
+   "main": 153993108,
+   "sub": 59907092,
+   "sub_pct": 28.01
+  },
+  "2026-07-13": {
+   "main": 48207981,
+   "sub": 7279861,
+   "sub_pct": 13.12
+  },
+  "2026-07-14": {
+   "main": 8486179,
+   "sub": 657228,
+   "sub_pct": 7.19
+  },
+  "2026-07-15": {
+   "main": 1475313,
+   "sub": 0,
+   "sub_pct": 0.0
+  },
+  "2026-07-16": {
+   "main": 22886212,
+   "sub": 550364,
+   "sub_pct": 2.35
+  },
+  "2026-07-17": {
+   "main": 56550146,
+   "sub": 576308,
+   "sub_pct": 1.01
+  },
+  "2026-07-18": {
+   "main": 41071667,
+   "sub": 0,
+   "sub_pct": 0.0
+  },
+  "2026-07-19": {
+   "main": 30428594,
+   "sub": 0,
+   "sub_pct": 0.0
+  },
+  "2026-07-20": {
+   "main": 28364870,
+   "sub": 926878,
+   "sub_pct": 3.16
+  },
+  "2026-07-21": {
+   "main": 43335370,
+   "sub": 164736,
+   "sub_pct": 0.38
+  },
+  "2026-07-22": {
+   "main": 44736672,
+   "sub": 0,
+   "sub_pct": 0.0
+  },
+  "2026-07-23": {
+   "main": 23373814,
+   "sub": 0,
+   "sub_pct": 0.0
+  },
+  "2026-07-24": {
+   "main": 175390,
+   "sub": 0,
+   "sub_pct": 0.0
+  },
+  "2026-07-25": {
+   "main": 61074938,
+   "sub": 2807129,
+   "sub_pct": 4.39
+  },
+  "2026-07-26": {
+   "main": 145678210,
+   "sub": 1675933,
+   "sub_pct": 1.14
+  },
+  "2026-07-27": {
+   "main": 4038491592,
+   "sub": 945348889,
+   "sub_pct": 18.97
+  },
+  "2026-07-28": {
+   "main": 1745422757,
+   "sub": 1456540614,
+   "sub_pct": 45.49
+  }
+ },
+ "session_size_distribution": {
+  "n": 153,
+  "sum": 9473098935,
+  "mean": 61915679.3,
+  "median": 7746303,
+  "p90": 111221632,
+  "p99": 888377988,
+  "max": 1116264915,
+  "min": 0
+ },
+ "concentration": {
+  "top_1_sessions_pct": 11.78,
+  "top_3_sessions_pct": 31.16,
+  "top_5_sessions_pct": 45.48,
+  "top_10_sessions_pct": 70.36,
+  "top_20_sessions_pct": 85.45,
+  "top_50_sessions_pct": 95.66
+ },
+ "session_size_histogram": {
+  "0": 11,
+  "1e0": 1,
+  "1e1": 1,
+  "1e3": 5,
+  "1e4": 14,
+  "1e5": 14,
+  "1e6": 42,
+  "1e7": 47,
+  "1e8": 17,
+  "1e9": 1
+ },
+ "context_growth_by_call_index": {
+  "calls_0_24": {
+   "responses": 2791,
+   "mean_context": 73434,
+   "median_context": 65099,
+   "p90_context": 152144
+  },
+  "calls_25_49": {
+   "responses": 2279,
+   "mean_context": 115821,
+   "median_context": 117144,
+   "p90_context": 207033
+  },
+  "calls_50_74": {
+   "responses": 1922,
+   "mean_context": 133431,
+   "median_context": 138220,
+   "p90_context": 235267
+  },
+  "calls_75_99": {
+   "responses": 1617,
+   "mean_context": 153088,
+   "median_context": 152876,
+   "p90_context": 276913
+  },
+  "calls_100_124": {
+   "responses": 1445,
+   "mean_context": 178798,
+   "median_context": 180247,
+   "p90_context": 330309
+  },
+  "calls_125_149": {
+   "responses": 1185,
+   "mean_context": 198637,
+   "median_context": 198347,
+   "p90_context": 369970
+  },
+  "calls_150_174": {
+   "responses": 1023,
+   "mean_context": 207970,
+   "median_context": 195464,
+   "p90_context": 393103
+  },
+  "calls_175_199": {
+   "responses": 939,
+   "mean_context": 233005,
+   "median_context": 209426,
+   "p90_context": 433835
+  },
+  "calls_200_224": {
+   "responses": 838,
+   "mean_context": 236828,
+   "median_context": 176992,
+   "p90_context": 475747
+  },
+  "calls_225_plus": {
+   "responses": 32370,
+   "mean_context": 226521,
+   "median_context": 147502,
+   "p90_context": 591402
+  }
+ },
+ "main_vs_subagent": {
+  "main": {
+   "responses": 22668,
+   "total": 6859088035,
+   "share_pct": 72.41,
+   "mean_tokens_per_response": 302589,
+   "output": 20321394,
+   "cache_read": 6420608751,
+   "models": {
+    "claude-opus-5": 5840264029,
+    "claude-opus-4-8": 980836281,
+    "claude-fable-5": 28566383,
+    "gpt-5.5": 9421342,
+    "<synthetic>": 0,
+    "claude-sonnet-5": 0
+   }
+  },
+  "subagent": {
+   "responses": 23741,
+   "total": 2614010900,
+   "share_pct": 27.59,
+   "mean_tokens_per_response": 110105,
+   "output": 23623820,
+   "cache_read": 2490095804,
+   "models": {
+    "claude-opus-5": 2396850069,
+    "claude-opus-4-8": 205062750,
+    "gpt-5.5": 12074374,
+    "claude-sonnet-5": 23707,
+    "<synthetic>": 0,
+    "claude-fable-5": 0
+   }
+  }
+ },
+ "by_day_model": {
+  "2026-07-08": {
+   "claude-opus-4-8": 8359945,
+   "gpt-5.5": 52673,
+   "<synthetic>": 0
+  },
+  "2026-07-09": {
+   "claude-opus-4-8": 147432295,
+   "gpt-5.5": 3297865,
+   "<synthetic>": 0
+  },
+  "2026-07-10": {
+   "claude-opus-4-8": 194533974,
+   "gpt-5.5": 11097251,
+   "<synthetic>": 0
+  },
+  "2026-07-11": {
+   "claude-opus-4-8": 138137087,
+   "<synthetic>": 0
+  },
+  "2026-07-12": {
+   "claude-opus-4-8": 213228307,
+   "gpt-5.5": 671893,
+   "<synthetic>": 0
+  },
+  "2026-07-13": {
+   "claude-opus-4-8": 55487842,
+   "<synthetic>": 0
+  },
+  "2026-07-14": {
+   "gpt-5.5": 6376034,
+   "claude-opus-4-8": 2767373,
+   "<synthetic>": 0
+  },
+  "2026-07-15": {
+   "claude-opus-4-8": 1475313,
+   "<synthetic>": 0
+  },
+  "2026-07-16": {
+   "claude-opus-4-8": 23436576,
+   "<synthetic>": 0
+  },
+  "2026-07-17": {
+   "claude-opus-4-8": 57126454,
+   "<synthetic>": 0
+  },
+  "2026-07-18": {
+   "claude-opus-4-8": 41071667
+  },
+  "2026-07-19": {
+   "claude-opus-4-8": 30428594,
+   "<synthetic>": 0
+  },
+  "2026-07-20": {
+   "claude-opus-4-8": 29291748,
+   "<synthetic>": 0
+  },
+  "2026-07-21": {
+   "claude-opus-4-8": 43500106,
+   "<synthetic>": 0
+  },
+  "2026-07-22": {
+   "claude-opus-4-8": 44736672,
+   "<synthetic>": 0
+  },
+  "2026-07-23": {
+   "claude-opus-4-8": 23373814,
+   "<synthetic>": 0
+  },
+  "2026-07-24": {
+   "claude-opus-4-8": 126493,
+   "claude-fable-5": 48897,
+   "<synthetic>": 0
+  },
+  "2026-07-25": {
+   "claude-opus-4-8": 63882067,
+   "<synthetic>": 0
+  },
+  "2026-07-26": {
+   "claude-opus-4-8": 62463270,
+   "claude-opus-5": 56349680,
+   "claude-fable-5": 28517486,
+   "claude-sonnet-5": 23707,
+   "<synthetic>": 0
+  },
+  "2026-07-27": {
+   "claude-opus-5": 4978801047,
+   "claude-opus-4-8": 5039434,
+   "<synthetic>": 0
+  },
+  "2026-07-28": {
+   "claude-opus-5": 3201963371,
+   "<synthetic>": 0
+  }
+ },
+ "by_hour_of_day_model": {
+  "00": {
+   "claude-opus-5": 182399894,
+   "claude-opus-4-8": 63790786,
+   "gpt-5.5": 653217,
+   "<synthetic>": 0
+  },
+  "01": {
+   "claude-opus-5": 475627116,
+   "claude-opus-4-8": 22700055,
+   "<synthetic>": 0
+  },
+  "02": {
+   "claude-opus-5": 75172514,
+   "claude-opus-4-8": 12299476,
+   "<synthetic>": 0
+  },
+  "03": {
+   "claude-opus-5": 65931410,
+   "claude-opus-4-8": 5631741,
+   "gpt-5.5": 627998,
+   "<synthetic>": 0
+  },
+  "04": {
+   "claude-opus-5": 265889439,
+   "claude-opus-4-8": 9639795,
+   "<synthetic>": 0
+  },
+  "05": {
+   "claude-opus-5": 324234977,
+   "claude-opus-4-8": 9903606,
+   "gpt-5.5": 40689,
+   "<synthetic>": 0
+  },
+  "06": {
+   "claude-opus-5": 660141760,
+   "claude-opus-4-8": 21804206,
+   "<synthetic>": 0
+  },
+  "07": {
+   "claude-opus-5": 244632289,
+   "claude-opus-4-8": 32104350,
+   "<synthetic>": 0
+  },
+  "08": {
+   "claude-opus-5": 120239048,
+   "claude-opus-4-8": 39289537,
+   "gpt-5.5": 818668,
+   "claude-fable-5": 48897,
+   "<synthetic>": 0
+  },
+  "09": {
+   "claude-opus-5": 263065130,
+   "claude-opus-4-8": 66448696,
+   "gpt-5.5": 5588026,
+   "<synthetic>": 0
+  },
+  "10": {
+   "claude-opus-5": 729395673,
+   "claude-opus-4-8": 32920941,
+   "<synthetic>": 0
+  },
+  "11": {
+   "claude-opus-5": 303075990,
+   "claude-opus-4-8": 59017632,
+   "<synthetic>": 0
+  },
+  "12": {
+   "claude-opus-5": 167231634,
+   "claude-opus-4-8": 51764337,
+   "gpt-5.5": 1237723,
+   "<synthetic>": 0
+  },
+  "13": {
+   "claude-opus-5": 205414233,
+   "claude-opus-4-8": 23315684,
+   "gpt-5.5": 918920,
+   "<synthetic>": 0
+  },
+  "14": {
+   "claude-opus-5": 445984309,
+   "claude-opus-4-8": 29600446,
+   "claude-sonnet-5": 23707,
+   "<synthetic>": 0
+  },
+  "15": {
+   "claude-opus-5": 590429680,
+   "claude-opus-4-8": 41178961,
+   "<synthetic>": 0
+  },
+  "16": {
+   "claude-opus-5": 632191052,
+   "claude-opus-4-8": 64022789,
+   "<synthetic>": 0
+  },
+  "17": {
+   "claude-opus-5": 711703928,
+   "claude-opus-4-8": 79037764,
+   "claude-fable-5": 714576,
+   "<synthetic>": 0
+  },
+  "18": {
+   "claude-opus-5": 629385065,
+   "claude-opus-4-8": 85912474,
+   "claude-fable-5": 27802910,
+   "gpt-5.5": 513224,
+   "<synthetic>": 0
+  },
+  "19": {
+   "claude-opus-5": 418206794,
+   "claude-opus-4-8": 82655608,
+   "<synthetic>": 0
+  },
+  "20": {
+   "claude-opus-5": 454890870,
+   "claude-opus-4-8": 89522346,
+   "<synthetic>": 0
+  },
+  "21": {
+   "claude-opus-5": 135460142,
+   "claude-opus-4-8": 126789104,
+   "gpt-5.5": 5755471,
+   "<synthetic>": 0
+  },
+  "22": {
+   "claude-opus-4-8": 96548417,
+   "claude-opus-5": 60581797,
+   "gpt-5.5": 5341780,
+   "<synthetic>": 0
+  },
+  "23": {
+   "claude-opus-5": 75829354,
+   "claude-opus-4-8": 40000280,
+   "<synthetic>": 0
+  }
+ },
+ "output_per_response": {
+  "n": 46409,
+  "sum": 43945214,
+  "mean": 946.9,
+  "median": 520,
+  "p90": 2000,
+  "p99": 8069,
+  "max": 32000,
+  "min": 0
+ },
+ "output_size_buckets": {
+  "1-99": 2924,
+  "100-499": 18997,
+  "500-1999": 19198,
+  "0": 647,
+  "2000-7999": 4174,
+  "8000+": 469
+ },
+ "gap_between_responses_s": {
+  "n": 46407,
+  "sum": 1656976,
+  "mean": 35.7,
+  "median": 2,
+  "p90": 21,
+  "p99": 225,
+  "max": 50847,
+  "min": 0
+ },
+ "active_time_hours_gap_le_300s": 108.9,
+ "tokens_per_active_hour": 86967453
+}

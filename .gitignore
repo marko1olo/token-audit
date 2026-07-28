@@ -1,0 +1,17 @@
+# секреты — никогда
+gitenv.txt
+*.env
+.env*
+*token*.txt
+*credential*
+*secret*
+
+# служебное
+__pycache__/
+*.pyc
+_verify_dom.html
+_preview.html
+_patch_*.py
+*.bak
+*.bak.py
+shot_*.png
