@@ -157,6 +157,40 @@ payload = {
 HTML = r"""<!DOCTYPE html>
 <meta charset="utf-8">
 <title>Token audit — all time</title>
+<script>
+/* Перехватчик ошибок. Стоит ПЕРВЫМ намеренно: Chrome при --dump-dom не пишет
+   в stderr ничего, когда скрипт падает, поэтому упавший дашборд снаружи
+   выглядит как пустой, но исправный. Обработчик вписывает текст ошибки в DOM
+   с меткой JSERR, и проверка рендера в refresh.py её ищет. Так видны оба
+   класса поломок, которые уже случались: столкновение имён на верхнем уровне
+   и обращение к const до объявления. */
+(function () {
+  var E = [];
+  window.__jserr = E;
+  function flush() {
+    if (!E.length || !document.body) return;
+    var d = document.getElementById('jserr');
+    if (!d) {
+      d = document.createElement('div');
+      d.id = 'jserr';
+      d.style.cssText = 'background:#b3261e;color:#fff;padding:8px;font:12px monospace';
+      document.body.insertBefore(d, document.body.firstChild);
+    }
+    d.textContent = 'JSERR ' + E.join(' | ');
+  }
+  window.onerror = function (m, u, l, c) {
+    E.push(m + ' @' + l + ':' + c);
+    flush();
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function (ev) {
+    E.push('unhandledrejection: ' + ev.reason);
+    flush();
+  });
+  document.addEventListener('DOMContentLoaded', flush);
+  window.addEventListener('load', flush);
+})();
+</script>
 <body data-palette="#2a78d6,#1baf7a,#eda100,#008300,#4a3aa7">
 <style>
 :root{
