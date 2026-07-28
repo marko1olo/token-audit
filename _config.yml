@@ -1,0 +1,15 @@
+# Конфигурация GitHub Pages. Нужна только для отображения отчётов в браузере —
+# сам инструмент от неё не зависит и работает полностью офлайн.
+title: token-audit
+description: >-
+  Аудит расхода токенов агентных AI-инструментов по локальным логам:
+  Claude Code, OpenAI Codex, Google Antigravity.
+theme: jekyll-theme-primer
+lang: ru
+
+# Служебные файлы не публикуем.
+exclude:
+  - snapshots.jsonl
+  - "*.py"
+  - .gitignore
+  - LICENSE

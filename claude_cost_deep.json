@@ -1,11 +1,11 @@
 {
  "claude_cost_by_model": {
   "claude-opus-5": {
-   "unc": 28.208685,
-   "cw": 1261.0621999999998,
-   "cr": 3997.5687805,
-   "out": 864.1211999999999,
-   "total": 6150.960865499999
+   "unc": 29.979415,
+   "cw": 1324.77966875,
+   "cr": 4149.202991,
+   "out": 910.9096,
+   "total": 6414.87167475
   },
   "claude-opus-4-8": {
    "unc": 1426.909345,
@@ -36,7 +36,7 @@
    "total": 0.23707
   }
  },
- "claude_total_usd": 8448.48,
- "claude_total_tokens": 9469075001,
- "all_time_measurable_tokens": 128527979843
+ "claude_total_usd": 8712.39,
+ "claude_total_tokens": 9770172139,
+ "all_time_measurable_tokens": 128829076981
 }

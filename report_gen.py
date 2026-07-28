@@ -102,7 +102,8 @@ def block(name):
 
 @block("stamp")
 def _stamp(c):
-    return ["*Числа в этом блоке сгенерированы `report_gen.py` %s. Не править руками.*"
+    return ["*Все числа в блоках `<!-- AUTO:… -->` подставлены `report_gen.py` "
+            "%s из JSON-выкладок. Править данные, а не текст: `python refresh.py`.*"
             % time.strftime("%Y-%m-%d %H:%M")]
 
 
@@ -361,40 +362,96 @@ def _hi(c):
     return r
 
 
+def _size(b):
+    """Байты в человекочитаемое. Ниже килобайта показываем байты, иначе
+    `.gitignore` выглядит как файл нулевого размера."""
+    if b >= 1e6:
+        return "%.2f МБ" % (b / 1e6)
+    if b >= 1000:
+        return "%s КБ" % f(b / 1000)
+    return "%d Б" % b
+
+
+# Файл -> (группа, описание). Группы задают порядок разделов таблицы.
+FILE_DOC = {
+    # --- измерение ---
+    "claude_agg.py": ("измерение", "агрегат Claude Code, 4 разрешения по времени"),
+    "claude_deep.py": ("измерение", "распределения, сессии, перфокарта, рост контекста"),
+    "codex_agg_chains.py": ("измерение", "Codex методом chain-split, три метода сразу"),
+    "codex_agg.py": ("измерение", "Codex, первая версия (максимум по файлу), оставлена для сверки"),
+    "antigravity_agg.py": ("измерение", "прокси-метрики Antigravity: ходы, инструменты, упоры в квоту"),
+    # --- обработка и вывод ---
+    "refresh.py": ("обработка", "точка входа: измеряет, считает, собирает, проверяет"),
+    "cost_model.py": ("обработка", "модель стоимости, классы доказательности, combined.json"),
+    "report_gen.py": ("обработка", "движок AUTO-блоков, проверки целостности, защита от усушки"),
+    "report_blocks_ext.py": ("обработка", "дополнительные AUTO-блоки для книги данных"),
+    "build_dashboard.py": ("обработка", "сборка dashboard.html без внешних зависимостей"),
+    # --- отчёты ---
+    "CURRENT.md": ("отчёты", "актуальные цифры, генерируется целиком"),
+    "FULL_REPORT.md": ("отчёты", "книга данных: 7 частей, все таблицы генерируются"),
+    "SUMMARY.md": ("отчёты", "сводка: проза авторская, числа в AUTO-блоках"),
+    "DEEP_REPORT.md": ("отчёты", "детальный разбор по моделям и паттернам"),
+    "README.md": ("отчёты", "описание инструментария и методики"),
+    "dashboard.html": ("отчёты", "интерактивный дашборд, самодостаточный"),
+    # --- данные ---
+    "claude_totals.json": ("данные", "выкладка Claude Code по времени, моделям, сессиям"),
+    "claude_deep.json": ("данные", "распределения и производные метрики Claude Code"),
+    "claude_cost_deep.json": ("данные", "стоимость Claude Code с разбором по моделям и дням"),
+    "codex_chains_totals.json": ("данные", "выкладка Codex методом chain-split"),
+    "codex_totals.json": ("данные", "выкладка Codex первой версией"),
+    "codex_cost.json": ("данные", "стоимость Codex по обеим границам"),
+    "antigravity_totals.json": ("данные", "выкладка Antigravity"),
+    "reconciliation.json": ("данные", "сведение слагаемых Codex, три метода против друг друга"),
+    "combined.json": ("данные", "сводные данные, которые читает дашборд"),
+    "snapshots.jsonl": ("данные", "история запусков, источник дельт"),
+    # --- прочее ---
+    "GEMINI_PROMPT_HARD.md": ("прочее", "задание для второй машины, с блокирующей проверкой хоста"),
+    "GEMINI_TASK_SHINOBU.md": ("прочее", "первая версия того же задания"),
+    "GEMINI_TASK_SHINOBU_ADDENDUM.md": ("прочее", "дополнение к заданию после первого отчёта"),
+    "LICENSE": ("прочее", "MIT"),
+    "_config.yml": ("прочее", "конфигурация GitHub Pages, на работу инструмента не влияет"),
+    ".gitignore": ("прочее", "исключения: секреты, кэши, временные файлы проверки"),
+}
+GROUPS = ["измерение", "обработка", "отчёты", "данные", "прочее"]
+
+
 @block("files")
 def _fl(c):
-    rows = ["| файл | размер | что |", "|---|---:|---|"]
-    D = {
-        "refresh.py": "точка входа: измеряет, считает, собирает, проверяет",
-        "report_gen.py": "подстановка AUTO-блоков и проверки целостности",
-        "claude_agg.py": "агрегат Claude Code, 4 разрешения по времени",
-        "claude_deep.py": "распределения, сессии, перфокарта, рост контекста",
-        "codex_agg_chains.py": "Codex методом chain-split, три метода сразу",
-        "codex_agg.py": "Codex, первая версия (максимум по файлу)",
-        "antigravity_agg.py": "прокси-метрики Antigravity",
-        "cost_model.py": "модель стоимости и combined.json",
-        "build_dashboard.py": "сборка dashboard.html",
-        "dashboard.html": "интерактивный дашборд, самодостаточный",
-        "CURRENT.md": "актуальные цифры, генерируется целиком",
-        "SUMMARY.md": "сводка: проза авторская, числа в AUTO-блоках",
-        "DEEP_REPORT.md": "детальный разбор",
-        "README.md": "описание инструментария и методики",
-        "snapshots.jsonl": "история запусков, источник дельт",
-        "claude_totals.json": "данные Claude Code",
-        "claude_deep.json": "распределения Claude Code",
-        "codex_chains_totals.json": "данные Codex",
-        "antigravity_totals.json": "данные Antigravity",
-        "reconciliation.json": "сведение слагаемых Codex",
-        "combined.json": "сводные данные для дашборда",
-        "GEMINI_PROMPT_HARD.md": "задание для второй машины",
-    }
-    for n in sorted(D):
+    """Перечисляет то, что реально лежит в каталоге. Файл без описания не
+    выпадает молча, а попадает в таблицу с пометкой — иначе таблица врёт
+    полнотой."""
+    have = set()
+    for n in os.listdir(HERE):
         p = os.path.join(HERE, n)
-        if not os.path.exists(p):
+        if not os.path.isfile(p):
             continue
-        s = os.path.getsize(p)
-        sz = "%.2f МБ" % (s / 1e6) if s > 1e6 else "%s КБ" % f(s / 1000)
-        rows.append("| `%s` | %s | %s |" % (n, sz, D[n]))
+        if n.startswith("_verify") or n.startswith("_patch") or n.endswith(".bak"):
+            continue
+        if n.startswith("shot_") or n.endswith(".pyc"):
+            continue
+        have.add(n)
+
+    rows = ["| файл | размер | что |", "|---|---:|---|"]
+    listed = set()
+    for g in GROUPS:
+        names = sorted(n for n in have
+                       if FILE_DOC.get(n, (None,))[0] == g)
+        if not names:
+            continue
+        rows.append("| **%s** | | |" % g)
+        for n in names:
+            s = os.path.getsize(os.path.join(HERE, n))
+            sz = _size(s)
+            rows.append("| `%s` | %s | %s |" % (n, sz, FILE_DOC[n][1]))
+            listed.add(n)
+
+    rest = sorted(have - listed)
+    if rest:
+        rows.append("| **без описания** | | |")
+        for n in rest:
+            s = os.path.getsize(os.path.join(HERE, n))
+            sz = _size(s)
+            rows.append("| `%s` | %s | — описание не задано в `FILE_DOC` |" % (n, sz))
     return rows
 
 
