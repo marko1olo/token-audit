@@ -66,6 +66,8 @@ python refresh.py --codex        # плюс Codex методом chain-split (10
 python refresh.py --antigravity  # плюс прокси-метрики Antigravity (1.4 ГБ)
 python refresh.py --all          # всё
 python refresh.py --no-verify    # без headless-проверки рендера
+python refresh.py --verify-url https://marko1olo.github.io/token-audit/dashboard.html
+                                 # проверить опубликованную копию, а не локальный файл
 ```
 
 Что происходит за один запуск:

@@ -93,13 +93,20 @@ def usd(n):
     return "$" + "{:,.2f}".format(n).replace(",", " ").replace(".", ",")
 
 
-def verify_dashboard(expect):
-    """Render headless, then check EXTRACTED TEXT — never raw markup."""
-    dash = os.path.join(HERE, "dashboard.html")
+def verify_dashboard(expect, target=None):
+    """Render headless, then check EXTRACTED TEXT — never raw markup.
+
+    `target` defaults to the local dashboard.html. Pass an http(s) URL to verify
+    a *published* copy instead: the dashboard draws its SVG in JS at runtime, so
+    fetching the bytes and grepping for <rect> proves nothing — only a real
+    render does.
+    """
     dom = os.path.join(HERE, "_verify_dom.html")
+    if not target:
+        dash = os.path.join(HERE, "dashboard.html")
+        target = "file:///" + dash.replace("\\", "/")
     p = subprocess.run([CHROME, "--headless=new", "--disable-gpu",
-                        "--virtual-time-budget=9000", "--dump-dom",
-                        "file:///" + dash.replace("\\", "/")],
+                        "--virtual-time-budget=9000", "--dump-dom", target],
                        capture_output=True, text=True, encoding="utf-8",
                        errors="replace")
     raw = p.stdout or ""
@@ -142,6 +149,9 @@ def main():
     ap.add_argument("--codex", action="store_true")
     ap.add_argument("--antigravity", action="store_true")
     ap.add_argument("--no-verify", action="store_true")
+    ap.add_argument("--verify-url", metavar="URL",
+                    help="проверять рендер по этому URL вместо локального файла — "
+                         "так проверяется опубликованная копия")
     a = ap.parse_args()
     do_cx = a.all or a.codex
     do_ag = a.all or a.antigravity
@@ -291,10 +301,11 @@ def main():
         ok, probs, info = True, [], {}
     else:
         expect = [fmt(c["total"]), fmt(c["sessions"]), "чтение кэша"]
-        ok, probs, info = verify_dashboard(expect)
+        ok, probs, info = verify_dashboard(expect, a.verify_url)
+        where = a.verify_url or "локальный файл"
         if ok:
-            print("  ▸ OK: панелей %d, все с данными, DOM %.2f МБ"
-                  % (info["panels"], info["dom_bytes"] / 1e6))
+            print("  ▸ OK: панелей %d, все с данными, DOM %.2f МБ (%s)"
+                  % (info["panels"], info["dom_bytes"] / 1e6, where))
         else:
             print("  ▸ ПРОБЛЕМЫ:")
             for x in probs:
