@@ -1,0 +1,75 @@
+name: tests
+
+# Зависимостей нет и не будет: только стандартная библиотека. Поэтому шага
+# установки здесь тоже нет -- если он однажды понадобится, значит зависимость
+# уже просочилась.
+#
+# Сети в тестах нет, Chrome нет, настоящих данных нет: всё на синтетических
+# фикстурах, собранных на месте. Инструмент писался под Windows, но тесты
+# обязаны проходить на Linux -- иначе они проверяют одну машину, а не код.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.9', '3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: тесты
+        working-directory: tests
+        run: python -m unittest discover -s . -v
+
+  no-dependencies:
+    # Отдельная работа, потому что «зависимостей нет» -- обещание из README, а
+    # обещание без проверки живёт до первого удобного случая.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: только стандартная библиотека
+        run: |
+          set -e
+          for f in requirements.txt pyproject.toml setup.py Pipfile poetry.lock; do
+            if [ -e "$f" ]; then echo "появился файл зависимостей: $f"; exit 1; fi
+          done
+          python - <<'PY'
+          import ast, pathlib, sys
+          std = set(sys.stdlib_module_names)
+          local = {p.stem for p in pathlib.Path('.').glob('*.py')}
+          local |= {p.stem for p in pathlib.Path('tests').glob('*.py')}
+          bad = []
+          for path in list(pathlib.Path('.').glob('*.py')) + list(pathlib.Path('tests').glob('*.py')):
+              tree = ast.parse(path.read_text(encoding='utf-8'))
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Import):
+                      names = [a.name.split('.')[0] for a in node.names]
+                  elif isinstance(node, ast.ImportFrom):
+                      names = [(node.module or '').split('.')[0]]
+                  else:
+                      continue
+                  for n in names:
+                      if n and n not in std and n not in local:
+                          bad.append('%s: %s' % (path, n))
+          if bad:
+              print('сторонние импорты:')
+              for b in bad:
+                  print('  ' + b)
+              sys.exit(1)
+          print('сторонних импортов нет')
+          PY

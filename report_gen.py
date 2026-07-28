@@ -525,7 +525,8 @@ class BlockError(RuntimeError):
 def fill(path, c):
     if not os.path.exists(path):
         return 0, []
-    src = io.open(path, encoding="utf-8").read()
+    with io.open(path, encoding="utf-8") as fh:
+        src = fh.read()
     miss, cnt, empty = [], 0, []
 
     def rep(m):
@@ -560,7 +561,8 @@ def fill(path, c):
                 "Если усушка ожидаема, повторить с SHRINK_OK=1."
                 % (os.path.basename(path), 100.0 * (len(src) - len(out)) / len(src),
                    len(src), len(out), 100.0 * MAX_SHRINK))
-        io.open(path, "w", encoding="utf-8").write(out)
+        with io.open(path, "w", encoding="utf-8") as fh:
+            fh.write(out)
     return cnt, miss
 
 

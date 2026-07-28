@@ -219,6 +219,21 @@ def probes(total, sessions, cost):
     out.append("чтение кэша")
     return out, numeric
 
+def extract_text(raw):
+    r"""Извлечённый текст DOM: сущности разобраны, теги убраны, пробелы сведены.
+
+    Вынесено отдельно, чтобы это проверялось тестом без Chrome. Шесть ложных
+    отрицательных за эту работу пришли ровно отсюда: рукописный список замен
+    ловил &nbsp; и пропускал числовые ссылки на тот же символ (&#160;, &#xa0;,
+    &#8239;), а до него -- cp1251 в пробе и NBSP против обычного пробела.
+    html.unescape покрывает и именованные, и числовые сущности, а \s в
+    str-шаблоне уже включает U+00A0 и U+202F.
+    -> str
+    """
+    txt = html.unescape(raw)
+    txt = re.sub(r"<[^>]+>", " ", txt)
+    return re.sub(r"\s+", " ", txt)
+
 
 def verify_dashboard(expect, numeric, chrome, target=None):
     """Render headless, then check EXTRACTED TEXT — never raw markup.
@@ -256,9 +271,7 @@ def verify_dashboard(expect, numeric, chrome, target=None):
     #
     # \s в str-шаблоне уже включает U+00A0 и U+202F (проверено), так что
     # перечислять неразрывные пробелы в классе символов не нужно.
-    txt = html.unescape(raw)
-    txt = re.sub(r"<[^>]+>", " ", txt)
-    txt = re.sub(r"\s+", " ", txt)
+    txt = extract_text(raw)
 
     problems = []
 
