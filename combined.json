@@ -6,24 +6,24 @@
   "source": "~/.claude/projects",
   "period": [
    "2026-07-08T06:54:30.759Z",
-   "2026-07-29T11:06:57.244Z"
+   "2026-07-29T11:16:53.772Z"
   ],
   "sessions": 181,
-  "files": 3719,
-  "responses_deduped": 142293,
-  "responses_raw": 338478,
-  "dedupe_dropped": 196185,
+  "files": 3742,
+  "responses_deduped": 142595,
+  "responses_raw": 339237,
+  "dedupe_dropped": 196642,
   "totals": {
-   "uncached_input": 338192708,
+   "uncached_input": 367309585,
    "cache_write": 754917157,
    "cache_read": 24869783118,
-   "output": 145920485,
-   "total": 26108813468
+   "output": 146107989,
+   "total": 26138117849
   },
-  "raw_undeduped_total": 55956929689,
+  "raw_undeduped_total": 56023962155,
   "by_model": {
    "<synthetic>": {
-    "responses": 1154,
+    "responses": 1166,
     "total": 0,
     "uncached_input": 0,
     "cache_write": 0,
@@ -53,14 +53,14 @@
     "output": 9092828
    },
    "claude-opus-5": {
-    "responses": 129701,
-    "total": 24872828631,
-    "uncached_input": 51026382,
+    "responses": 129991,
+    "total": 24902133012,
+    "uncached_input": 80143259,
     "cache_write": 731046006,
     "cache_write_5m": 730507304,
     "cache_write_1h": 538702,
     "cache_read": 23954216124,
-    "output": 136540119
+    "output": 136727623
    },
    "claude-sonnet-5": {
     "responses": 38,
@@ -103,13 +103,13 @@
     "total_usd": 2269.8321305
    },
    "claude-opus-5": {
-    "uncached_input_usd": 255.13191,
+    "uncached_input_usd": 400.716295,
     "cache_write_usd": 4571.05767,
     "cache_read_usd": 11977.108062,
-    "output_usd": 3413.5029750000003,
+    "output_usd": 3418.1905749999996,
     "rate_in_per_mtok": 5.0,
     "rate_out_per_mtok": 25.0,
-    "total_usd": 20216.800617
+    "total_usd": 20367.072602
    },
    "claude-sonnet-5": {
     "uncached_input_usd": 0.0,
@@ -131,7 +131,7 @@
    }
   },
   "unpriced_models": [],
-  "cost_usd_total_list_price_equivalent": 22551.9622585,
+  "cost_usd_total_list_price_equivalent": 22702.2342435,
   "cost_caveat": "FLOOR, not a bill. Traffic went through 127.0.0.1:8318 (Desktop/proxy.js), which rewrote models to claude-opus-5 and retried 429/5xx every 2s; those retries burned upstream tokens that were never written to a transcript."
  },
  "codex": {
