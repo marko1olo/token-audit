@@ -251,10 +251,31 @@ def one_pass(a):
 
 
 # ------------------------------------------------------------ планировщик
+def _console_encoding():
+    """Кодировка вывода консоли Windows. -> str"""
+    try:
+        import ctypes
+        return "cp%d" % ctypes.windll.kernel32.GetOEMCP()
+    except Exception:
+        return "cp866"
+
+
 def schtasks(*args):
-    p = subprocess.run(("schtasks",) + args, capture_output=True, text=True,
-                       encoding="utf-8", errors="replace")
-    return p.returncode, ((p.stdout or "") + (p.stderr or "")).strip()
+    """Вызвать schtasks и разобрать вывод в правильной кодировке.
+
+    schtasks печатает не в utf-8, а в кодировке консоли -- на русской Windows
+    это cp866. С encoding="utf-8" ответ приходил нечитаемой кашей, и разбор
+    своего же вывода не работал: --status ничего не находил при существующей
+    задаче. Кодировка спрашивается у системы, а не угадывается.
+    """
+    raw = subprocess.run(("schtasks",) + args, capture_output=True)
+    data = (raw.stdout or b"") + (raw.stderr or b"")
+    for enc in (_console_encoding(), "cp866", "cp1251", "utf-8"):
+        try:
+            return raw.returncode, data.decode(enc).strip()
+        except (UnicodeDecodeError, LookupError):
+            continue
+    return raw.returncode, data.decode("utf-8", "replace").strip()
 
 
 def install(a):
@@ -290,12 +311,24 @@ def uninstall(_a):
 
 
 def status(_a):
+    """Показать задачу. Ключевые строки находятся независимо от языка системы."""
     if os.name != "nt":
-        print("crontab -l")
+        print("crontab -l | grep autoupdate")
         return 0
     rc, out = schtasks("/Query", "/TN", TASK, "/V", "/FO", "LIST")
-    print(out if out else "задача не найдена")
-    return 0 if rc == 0 else 1
+    if rc != 0:
+        print("задача %s не найдена" % TASK)
+        print(out[-400:])
+        return 1
+    # Имена полей зависят от локали, поэтому берём и русские, и английские
+    # варианты; не совпало ничего -- печатаем вывод как есть.
+    keys = ("TaskName", "Имя задачи", "Task To Run", "Задача для выполнения",
+            "Schedule Type", "Тип расписания", "Start Time", "Время запуска",
+            "Next Run Time", "Время следующего запуска", "Status", "Состояние")
+    hit = [ln.strip() for ln in out.splitlines()
+           if any(k.lower() in ln.lower() for k in keys)]
+    print("\n".join(hit) if hit else out)
+    return 0
 
 
 def main():
