@@ -1,5 +1,8 @@
 <div align="center">
 
+![TOKEN-AUDIT Banner](https://raw.githubusercontent.com/marko1olo/gigahrush/main/docs/cyber_banner.jpg)
+
+
 # token-audit — Technical System Architecture & Specification
 
 [![License](https://img.shields.io/badge/License-True%20People's%20v2.0-red?style=for-the-badge)](LICENSE.md)
