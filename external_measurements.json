@@ -73,5 +73,93 @@
   "machine": "danat",
   "evidence": "ПО ОТЧЁТУ",
   "note": "Используется в оценке доли уникального текста в общем объёме."
+ },
+ "bench_claude_per_dev_active_day": {
+  "value": 13,
+  "unit": "usd_per_active_day",
+  "source": "Anthropic, корпоративная статистика Claude Code: медиана расхода на разработчика в активный день",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_claude_p90_active_day": {
+  "value": 30,
+  "unit": "usd_per_active_day",
+  "source": "Anthropic: 90% пользователей Claude Code тратят меньше этого в активный день",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_claude_typical_month_low": {
+  "value": 150,
+  "unit": "usd_per_month",
+  "source": "Anthropic: типичный месячный расход разработчика на Claude Code, нижняя граница",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_claude_typical_month_high": {
+  "value": 250,
+  "unit": "usd_per_month",
+  "source": "Anthropic: типичный месячный расход, верхняя граница",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_claude_heavy_month_low": {
+  "value": 500,
+  "unit": "usd_per_month",
+  "source": "Anthropic: режим «тяжёлая автоматизация», нижняя граница",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_claude_heavy_month_high": {
+  "value": 2000,
+  "unit": "usd_per_month",
+  "source": "Anthropic: режим «тяжёлая автоматизация», верхняя граница",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_codex_heavy_month_low": {
+  "value": 100,
+  "unit": "usd_per_month",
+  "source": "OpenAI Codex: тяжёлый пользователь, нижняя граница",
+  "measured_at": "2026-06",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_codex_heavy_month_high": {
+  "value": 200,
+  "unit": "usd_per_month",
+  "source": "OpenAI Codex: тяжёлый пользователь, верхняя граница",
+  "measured_at": "2026-06",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_subscription_ide_low": {
+  "value": 20,
+  "unit": "usd_per_month",
+  "source": "Подписки на ассистенты в IDE (Cursor, Copilot), нижняя граница прайса",
+  "measured_at": "2026-07",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_subscription_ide_high": {
+  "value": 40,
+  "unit": "usd_per_month",
+  "source": "Подписки на ассистенты в IDE, верхняя граница прайса",
+  "measured_at": "2026-07",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_google_tokens_per_month": {
+  "value": 3200000000000000,
+  "unit": "tokens_per_month",
+  "source": "Google I/O 2026, кейноут Пичаи: 3.2 квадриллиона токенов в месяц на всех поверхностях",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
  }
 }

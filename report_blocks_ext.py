@@ -538,3 +538,95 @@ def key_findings(c):
         r.append("| токен дороже в дни со сломанным кэшем | **×%.1f** |"
                  % (price(bad) / max(1e-9, price(good))))
     return r
+
+def _external():
+    """Внешние ориентиры из external_measurements.json. Нет файла -- пусто.
+
+    Читается тут, а не в Ctx, чтобы блок оставался единственным потребителем и
+    не тянул зависимость в остальные.
+    -> dict[str, dict]
+    """
+    import json as _j
+    import os as _o
+    path = _o.path.join(_rg.HERE, "external_measurements.json")
+    if not _o.path.isfile(path):
+        return {}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = _j.load(fh)
+    except (OSError, ValueError):
+        return {}
+    out = {}
+    for k, v in (data or {}).items():
+        if k.startswith("_") or not isinstance(v, dict):
+            continue
+        if isinstance(v.get("value"), (int, float)) and v.get("source"):
+            out[k] = v
+    return out
+
+
+@block("benchmarks")
+def benchmarks(c):
+    """Расход против публичных ориентиров. Множители считаются, а не вписываются.
+
+    Раньше эта таблица была рукописной и говорила «$4 873.87 за 20 дней =
+    $243.69 в сутки» при фактических $21 269 и $967 -- то есть отставала в
+    четыре раза. Ориентиры лежат в external_measurements.json с указанием
+    источника, а множители пересчитываются от текущего расхода.
+    """
+    if not c.cl or not c.cost_total:
+        return ["*Нет данных: стоимость не посчитана.*"]
+    ext = _external()
+    if not ext:
+        return ["*Внешних ориентиров нет: external_measurements.json отсутствует "
+                "или в нём не осталось записей с происхождением.*"]
+    days = len(c.cl.get("by_day") or {}) or 1
+    per_day = c.cost_total / days
+    per_month = per_day * 30
+    r = ["| ориентир | значение | наш расход | множитель |",
+         "|---|---:|---:|---:|"]
+
+    def one(key, label, per):
+        v = ext.get(key)
+        if not v:
+            return
+        base = float(v["value"])
+        got = per_day if per == "day" else per_month
+        r.append("| %s | %s | %s | **%.0f×** |" % (
+            label, usd(base) + ("/сут" if per == "day" else "/мес"),
+            usd(got) + ("/сут" if per == "day" else "/мес"), got / base))
+
+    def rng(lo_key, hi_key, label, per):
+        lo, hi = ext.get(lo_key), ext.get(hi_key)
+        if not (lo and hi):
+            return
+        a, b = float(lo["value"]), float(hi["value"])
+        got = per_day if per == "day" else per_month
+        r.append("| %s | %s–%s | %s | **%.0f–%.0f×** |" % (
+            label, usd(a), usd(b) + ("/сут" if per == "day" else "/мес"),
+            usd(got) + ("/сут" if per == "day" else "/мес"), got / b, got / a))
+
+    one("bench_claude_per_dev_active_day",
+        "Claude Code, медиана на разработчика в активный день", "day")
+    one("bench_claude_p90_active_day",
+        "Claude Code, порог 90% пользователей", "day")
+    rng("bench_claude_typical_month_low", "bench_claude_typical_month_high",
+        "Claude Code, типичный месяц", "month")
+    rng("bench_claude_heavy_month_low", "bench_claude_heavy_month_high",
+        "Claude Code, «тяжёлая автоматизация»", "month")
+    rng("bench_codex_heavy_month_low", "bench_codex_heavy_month_high",
+        "Codex, тяжёлый пользователь", "month")
+    rng("bench_subscription_ide_low", "bench_subscription_ide_high",
+        "подписка на ассистента в IDE", "month")
+    r += ["",
+          "Наш расход: **%s** за %d активных суток, то есть **%s в сутки** и "
+          "около **%s в месяц** в пересчёте. Все ориентиры -- внешние, источник "
+          "у каждого указан в `external_measurements.json`."
+          % (usd(c.cost_total), days, usd(per_day), usd(per_month))]
+    g = ext.get("bench_google_tokens_per_month")
+    if g:
+        share = 100.0 * c.total / float(g["value"])
+        r.append("Для масштаба: у Google **%s** токенов в месяц на всех поверхностях "
+                 "(%s). Наш измеренный объём -- **%.7f%%** от этого." %
+                 (f(g["value"]), g["source"].split(":")[0], share))
+    return r
