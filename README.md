@@ -1,16 +1,14 @@
 <div align="center">
 
+<img src="https://raw.githubusercontent.com/marko1olo/gigahrush/main/docs/cyber_banner.jpg" width="100%" alt="Token Audit Banner"/>
+
 # 📊 Token Audit — AI Agent Token Consumption Analyzer
 
 [![Zero Deps](https://img.shields.io/badge/Dependencies-Zero-00ff88?style=for-the-badge)]()
 [![Offline](https://img.shields.io/badge/Mode-100%25%20Offline-blue?style=for-the-badge)]()
 [![Supports](https://img.shields.io/badge/Supports-Claude%20%7C%20Codex%20%7C%20Antigravity-purple?style=for-the-badge)]()
-[![License](https://img.shields.io/badge/License-Open%20Dual-brightgreen?style=for-the-badge)](LICENSE.md)
-[![Stars](https://img.shields.io/github/stars/marko1olo/token-audit?style=for-the-badge&color=gold)]()
 
 > **Token-consumption audit for Claude Code, OpenAI Codex, Google Antigravity — zero dependencies, 100% offline, HTML & terminal reports.**
-
-[▶️ Quick Start](#) &nbsp;·&nbsp; [🐛 Issues](../../issues) &nbsp;·&nbsp; [🤝 Contribute](#)
 
 </div>
 
