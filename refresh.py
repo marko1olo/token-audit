@@ -123,6 +123,12 @@ def load_external(name=EXTERNAL_NAME):
                          % (name, type(data).__name__))
     out = {}
     for key, rec in data.items():
+        # Ключи с подчёркивания -- пояснения для человека, а не измерения.
+        # Без этого пропуска собственный блок _README в файле вызывал
+        # предупреждение на каждом прогоне: шум, который учит игнорировать
+        # предупреждения вообще.
+        if key.startswith("_"):
+            continue
         if not isinstance(rec, dict) or not isinstance(rec.get("value"), (int, float)):
             sys.stderr.write("%s: запись %r без числового value — пропущена\n"
                              % (name, key))
@@ -492,21 +498,39 @@ def main():
     # машине. Пока внешней цифры нет, ключа НЕТ ВОВСЕ: ноль или литерал в этом
     # месте выглядят в отчёте как измерение, которого не было. Происхождение
     # едет вместе с числом, а не остаётся в истории коммитов.
+    # Составной итог Codex берётся из reconciliation.json, который его СОБИРАЕТ
+    # (build_reconciliation.py), а не из отдельного ключа во внешних измерениях.
+    # Раньше здесь искался ключ codex_second_machine_tokens, которого в файле
+    # нет, и сообщение врало: говорило «файл отсутствует», когда отсутствовал
+    # ключ. Одна цифра -- один источник, иначе копии разъезжаются, а это ровно
+    # тот дефект, против которого весь инструмент.
     ext = load_external()
-    second = ext.get("codex_second_machine_tokens")
-    if second:
-        cost_deep["all_time_measurable_tokens"] = (snap["claude"]["total"]
-                                                   + int(second["value"]))
+    rec_path = os.path.join(HERE, "reconciliation.json")
+    codex_total = None
+    if os.path.isfile(rec_path):
+        try:
+            with io.open(rec_path, encoding="utf-8") as fh:
+                _rec = json.load(fh)
+            codex_total = (_rec.get("consistent_total_max_basis") or {}).get("total_tokens")
+        except (OSError, ValueError):
+            codex_total = None
+    if codex_total:
+        cost_deep["all_time_measurable_tokens"] = snap["claude"]["total"] + int(codex_total)
         cost_deep["all_time_measurable_addends"] = [
             {"value": snap["claude"]["total"], "source": "claude_totals.json",
              "machine": "эта машина", "measured_at": snap["ts"][:10]},
-            dict(second, key="codex_second_machine_tokens")]
-        print("  ▸ внешняя цифра: %s токенов (%s, %s, %s)"
-              % (fmt(second["value"]), second["machine"],
-                 second["measured_at"], second["source"]))
-    else:
-        print("  ▸ внешних измерений нет (%s отсутствует) — "
+            {"value": int(codex_total), "source": "reconciliation.json, "
+             "consistent_total_max_basis (chain-split здесь + внешние измерения)",
+             "machine": "составной", "measured_at": snap["ts"][:10]}]
+        print("  ▸ составной итог Codex: %s токенов (внешних записей %d)"
+              % (fmt(codex_total), len(ext)))
+    elif not os.path.isfile(os.path.join(HERE, EXTERNAL_NAME)):
+        print("  ▸ %s отсутствует — составной итог Codex не собран, "
               "ключ all_time_measurable_tokens не пишется" % EXTERNAL_NAME)
+    else:
+        print("  ▸ составной итог Codex не собран (внешних записей %d, "
+              "нужен скан Codex) — ключ all_time_measurable_tokens не пишется"
+              % len(ext))
     with io.open(os.path.join(HERE, "claude_cost_deep.json"), "w", encoding="utf-8") as fh:
         json.dump(cost_deep, fh, indent=1, ensure_ascii=False)
 
