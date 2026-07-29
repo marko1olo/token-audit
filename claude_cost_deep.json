@@ -15,11 +15,11 @@
    "total": 2269.8321305
   },
   "claude-opus-5": {
-   "unc": 541.38445,
-   "cw": 4603.4933575,
-   "cr": 11992.079933,
-   "out": 3427.06235,
-   "total": 20564.020090500002
+   "unc": 544.3933400000001,
+   "cw": 4648.466126249999,
+   "cr": 12011.785535000003,
+   "out": 3429.8622250000003,
+   "total": 20634.507226250003
   },
   "claude-sonnet-5": {
    "unc": 0.0,
@@ -36,21 +36,21 @@
    "total": 22.589942
   }
  },
- "claude_total_usd": 22899.18,
- "claude_total_tokens": 26201739803,
- "all_time_measurable_tokens": 145260644645,
+ "claude_total_usd": 22969.67,
+ "claude_total_tokens": 26249060423,
+ "all_time_measurable_tokens": 145307965265,
  "all_time_measurable_addends": [
   {
-   "value": 26201739803,
+   "value": 26249060423,
    "source": "claude_totals.json",
    "machine": "эта машина",
-   "measured_at": "2026-07-29"
+   "measured_at": "2026-07-30"
   },
   {
    "value": 119058904842,
    "source": "reconciliation.json, consistent_total_max_basis (chain-split здесь + внешние измерения)",
    "machine": "составной",
-   "measured_at": "2026-07-29"
+   "measured_at": "2026-07-30"
   }
  ]
 }
