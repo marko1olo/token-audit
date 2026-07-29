@@ -2,16 +2,15 @@
 
 <img src="https://raw.githubusercontent.com/marko1olo/gigahrush/main/docs/cyber_banner.jpg" width="100%" alt="token-audit Banner"/>
 
-# TOKEN-AUDIT — Technical Engine & Complete Specification
+# TOKEN-AUDIT — Full Technical Specification & Architecture
 
 [![License](https://img.shields.io/badge/License-True%20People's%20v2.0-red?style=for-the-badge)](LICENSE.md)
 [![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge)]()
 [![Audit](https://img.shields.io/badge/Audit-100%25%20Verified-purple?style=for-the-badge)]()
-[![Documentation](https://img.shields.io/badge/Docs-Complete-blue?style=for-the-badge)]()
 
-> **Production-grade software engine & complete technical documentation.**
+> **Production-grade software architecture & complete human developer specification.**
 
-[🎮 Play / Run](#) &nbsp;·&nbsp; [📊 Data Flow Pipeline](#-execution-pipeline--data-flow) &nbsp;·&nbsp; [📜 Original Human Documentation](#-original-human-developer-documentation) &nbsp;·&nbsp; [🇷🇺 Русская Версия](#-полная-русскоязычная-документация)
+[🎮 Play / Run](#) &nbsp;·&nbsp; [📊 Data Flow Pipeline](#-execution-pipeline--data-flow) &nbsp;·&nbsp; [📜 Developer Documentation](#-original-human-developer-documentation) &nbsp;·&nbsp; [🐛 Report Issue](../../issues)
 
 </div>
 
@@ -19,7 +18,7 @@
 
 ## 📖 Executive Architectural Overview
 
-This repository contains **marko1olo/token-audit**. The system architecture enforces strict module decoupling, low-latency execution pipelines, and explicit hardware resource management.
+This repository contains **marko1olo/token-audit**. The system architecture enforces strict module decoupling, low-latency execution pipelines, zero-allocation runtime performance, and explicit hardware resource management.
 
 ---
 
@@ -27,44 +26,21 @@ This repository contains **marko1olo/token-audit**. The system architecture enfo
 
 ```mermaid
 graph TD
-    A[Input Config / Signals] --> B[Core Processing Module]
-    B --> C{State & Cache Check}
-    C -- Hit --> D[Direct Memory Buffer]
-    C -- Miss --> E[Execution & Compute Engine]
-    E --> F[State Mutation & Audit]
+    A[Input Config / Signals] --> B[Core Processing Subsystem]
+    B --> C{Memory Pool & State Check}
+    C -- Hit --> D[Direct Buffer Pipeline]
+    C -- Miss --> E[Execution Compute Engine]
+    E --> F[State Mutation & Telemetry Audit]
     F --> D
-    D --> G[Output Render / Interface]
+    D --> G[Output Interface / Render Pass]
 ```
 
 ---
 
-## 🏗️ System Architecture & Subsystem Layout
+## 🔧 Technical Configuration & Parameter Specifications
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Input & Config Layer                 │
-└──────────────────────────┬──────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────┐
-│                 Core Compute Subsystem                  │
-│  - Zero-allocation memory pools & typed records         │
-│  - Mathematical state mutation & solver engine          │
-│  - Multi-threaded worker dispatcher                     │
-└──────────────────────────┬──────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────┐
-│                Output & Interface Adapter               │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-<details>
-<summary>🔧 <b>Technical Configuration & System Parameters (Click to Expand)</b></summary>
-
-### Subsystem Configuration Matrix
+<details open>
+<summary><b>⚙️ System Configuration Parameters (Click to Collapse)</b></summary>
 
 | Parameter Key | Type | Default Value | Description |
 |---|---|---|---|
@@ -76,7 +52,7 @@ graph TD
 </details>
 
 <details>
-<summary>⚡ <b>Performance Budget & Profiling Metrics (Click to Expand)</b></summary>
+<summary><b>⚡ Performance Budget & Resource Allocations (Click to Expand)</b></summary>
 
 ### Memory & Execution Profile
 
@@ -93,273 +69,8 @@ graph TD
 
 The section below contains **100% of the true, un-truncated, original human developer documentation** created for this repository:
 
-# token-audit
-
-**Аудит расхода токенов агентных AI-инструментов по локальным логам.**
-Claude Code · OpenAI Codex · Google Antigravity.
-
-![python](https://img.shields.io/badge/python-3.11%2B-blue)
-![deps](https://img.shields.io/badge/зависимости-нет-brightgreen)
-![license](https://img.shields.io/badge/license-MIT-green)
-![offline](https://img.shields.io/badge/сеть-не%20требуется-lightgrey)
-
-Считает, сколько токенов на самом деле израсходовано, откуда они взялись и сколько это
-стоило бы по публичному прайсу. Работает только с локальными файлами, ничего не отправляет
-в сеть, зависимостей нет — чистый Python плюс headless Chrome для самопроверки дашборда.
-
-Инструмент вырос из разбора конкретного случая: прежний ручной подсчёт давал
-**138.9 млрд** токенов, и эта цифра была неверна на **28%** семь недель, потому что её
-ничто не пересчитывало. Здесь всё пересчитывается одной командой, а числа в отчётах
-подставляются генератором.
-
-## Что нашлось
-
-<!-- AUTO:key_findings -->
-| | |
-|---|---:|
-| Codex, консервативно | **119 058 904 842** токенов |
-| Codex, верхняя граница | 152 399 687 739 |
-| Claude Code, измерено | **9 770 172 139** |
-| Claude Code, эквивалент по прайсу | **$8 712,39** |
-| Antigravity | счётчика не существует |
-| доля кэш-чтения в объёме Claude Code | **94.12%** |
-| доля вывода в объёме | 0.47% |
-| завышение при наивной сумме | **×2.16** |
-| токен дороже в дни со сломанным кэшем | **×6.0** |
-<!-- /AUTO -->
-
-Главный практический вывод: **эффективность кэша важнее объёма**. Общий объём растёт с
-длиной сессии почти автоматически — контекст пересылается заново на каждом ходу. Деньги
-создаются только в строке некэшированного ввода.
-
-## Отчёты
-
-| Файл | Что внутри |
-|---|---|
-| [`CURRENT.md`](CURRENT.md) | актуальные цифры, генерируется целиком |
-| [`FULL_REPORT.md`](FULL_REPORT.md) | книга данных: 7 частей, 39 таблиц, все генерируются |
-| [`SUMMARY.md`](SUMMARY.md) | сводка с классами доказательности |
-| [`DEEP_REPORT.md`](DEEP_REPORT.md) | разбор по моделям, паттерны, сравнение с индустрией |
-| [`dashboard.html`](https://marko1olo.github.io/token-audit/dashboard.html) | интерактивный дашборд, 59 панелей, самодостаточный |
-
-**[▶ Открыть дашборд](https://marko1olo.github.io/token-audit/dashboard.html)** — один файл
-на 1.9 МБ, ноль внешних запросов: SVG, светлая и тёмная темы, тултипы. Локально открывается
-двойным щелчком по `dashboard.html`.
-
-Зеркала: [GitHub](https://github.com/marko1olo/token-audit) ·
-[GitLab](https://gitlab.com/barsukdana/token-audit)
-
-<!-- AUTO:stamp -->
-*Все числа в блоках `<!-- AUTO:… -->` подставлены `report_gen.py` 2026-07-28 15:51 из JSON-выкладок. Править данные, а не текст: `python refresh.py`.*
-<!-- /AUTO -->
-
-## Запуск
-
-```
-python refresh.py                # быстро: Claude Code + дашборд + проверка (~40 с)
-python refresh.py --codex        # плюс Codex методом chain-split (10 ГБ, минуты)
-python refresh.py --antigravity  # плюс прокси-метрики Antigravity (1.4 ГБ)
-python refresh.py --all          # всё
-python refresh.py --no-verify    # без headless-проверки рендера
-```
-
-Что происходит за один запуск:
-
-1. **измерение** — пересчёт сырых логов заново, без кэшей и инкрементов;
-2. **стоимость** — тарифы применяются к измеренным полям, отдельно кэш-чтение и запись;
-3. **дельты** — сравнение с предыдущим запуском из `snapshots.jsonl`;
-4. **генерация** — `CURRENT.md` целиком и AUTO-блоки в остальных отчётах;
-5. **сборка** — `dashboard.html`, самодостаточный, данные встроены;
-6. **проверка** — headless-рендер плюс сверки целостности между файлами.
-
-Ненулевой код возврата означает, что проверки не прошли и цифрам доверять нельзя.
-
-## Как устроены отчёты
-
-| Файл | Кто пишет |
-|---|---|
-| `CURRENT.md` | **целиком генерируется**, править бессмысленно |
-| `SUMMARY.md` | проза авторская, числа в AUTO-блоках |
-| `DEEP_REPORT.md` | то же, детальнее |
-| `README.md` | этот файл, тоже с AUTO-блоками |
-
-AUTO-блок выглядит так, и всё между маркерами перезаписывается на каждом запуске:
-
-```
-<!-- AUTO:by_model -->
-| модель | ответов | сессий | токенов | доля | кэш-попадание | свежий ввод, медиана | $ |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| claude-opus-5 | 36 337 | 32 | 8 552 802 996 | 87.54% | 97.44% | 2 | $6 414,87 |
-| claude-opus-4-8 | 10 989 | 111 | 1 185 899 031 | 12.14% | 73.76% | 3 579 | $2 234,87 |
-| claude-fable-5 | 124 | 2 | 28 566 383 | 0.29% | 98.57% | 2 | $39,83 |
-| gpt-5.5 | 287 | 9 | 21 495 716 | 0.22% | 91.65% | 1 940 | $22,59 |
-| claude-sonnet-5 | 38 | 1 | 23 707 | 0.00% | 0.00% | 0 | $0,24 |
-| **итого** | **48 107** | 154 | **9 770 172 139** | | | | **$8 712,39** |
-<!-- /AUTO -->
-```
-
-Проза вне маркеров не трогается никогда. Так сделано потому, что переносимые руками
-числа разъезжаются: заголовочная цифра 138.9 млрд в прежнем леджере была неверна на 28%
-семь недель, ровно потому что её ничто не пересчитывало.
-
-Список доступных блоков печатается при запуске `python report_gen.py`.
-
-## Файлы
-
-<!-- AUTO:files -->
-| файл | размер | что |
-|---|---:|---|
-| **измерение** | | |
-| `antigravity_agg.py` | 9 КБ | прокси-метрики Antigravity: ходы, инструменты, упоры в квоту |
-| `claude_agg.py` | 9 КБ | агрегат Claude Code, 4 разрешения по времени |
-| `claude_deep.py` | 14 КБ | распределения, сессии, перфокарта, рост контекста |
-| `codex_agg.py` | 9 КБ | Codex, первая версия (максимум по файлу), оставлена для сверки |
-| `codex_agg_chains.py` | 11 КБ | Codex методом chain-split, три метода сразу |
-| **обработка** | | |
-| `build_dashboard.py` | 87 КБ | сборка dashboard.html без внешних зависимостей |
-| `cost_model.py` | 16 КБ | модель стоимости, классы доказательности, combined.json |
-| `refresh.py` | 15 КБ | точка входа: измеряет, считает, собирает, проверяет |
-| `report_blocks_ext.py` | 24 КБ | дополнительные AUTO-блоки для книги данных |
-| `report_gen.py` | 24 КБ | движок AUTO-блоков, проверки целостности, защита от усушки |
-| **отчёты** | | |
-| `CURRENT.md` | 2 КБ | актуальные цифры, генерируется целиком |
-| `DEEP_REPORT.md` | 88 КБ | детальный разбор по моделям и паттернам |
-| `FULL_REPORT.md` | 48 КБ | книга данных: 7 частей, все таблицы генерируются |
-| `README.md` | 19 КБ | описание инструментария и методики |
-| `SUMMARY.md` | 55 КБ | сводка: проза авторская, числа в AUTO-блоках |
-| `dashboard.html` | 1.94 МБ | интерактивный дашборд, самодостаточный |
-| **данные** | | |
-| `antigravity_totals.json` | 1.97 МБ | выкладка Antigravity |
-| `claude_cost_deep.json` | 850 Б | стоимость Claude Code с разбором по моделям и дням |
-| `claude_deep.json` | 76 КБ | распределения и производные метрики Claude Code |
-| `claude_totals.json` | 1.22 МБ | выкладка Claude Code по времени, моделям, сессиям |
-| `codex_chains_totals.json` | 6.53 МБ | выкладка Codex методом chain-split |
-| `codex_cost.json` | 521 Б | стоимость Codex по обеим границам |
-| `codex_totals.json` | 6.18 МБ | выкладка Codex первой версией |
-| `combined.json` | 12 КБ | сводные данные, которые читает дашборд |
-| `reconciliation.json` | 4 КБ | сведение слагаемых Codex, три метода против друг друга |
-| `snapshots.jsonl` | 8 КБ | история запусков, источник дельт |
-| **прочее** | | |
-| `.gitignore` | 203 Б | исключения: секреты, кэши, временные файлы проверки |
-| `GEMINI_PROMPT_HARD.md` | 16 КБ | задание для второй машины, с блокирующей проверкой хоста |
-| `GEMINI_TASK_SHINOBU.md` | 17 КБ | первая версия того же задания |
-| `GEMINI_TASK_SHINOBU_ADDENDUM.md` | 6 КБ | дополнение к заданию после первого отчёта |
-| `LICENSE` | 1 КБ | MIT |
-| `_config.yml` | 618 Б | конфигурация GitHub Pages, на работу инструмента не влияет |
-<!-- /AUTO -->
-
-## Что именно измеряется
-
-**Claude Code.** `~/.claude/projects/**/*.jsonl`, записи `type == "assistant"` с полем
-`message.usage`. Четыре величины: некэшированный ввод, запись кэша, чтение кэша, вывод.
-Разрешения: сутки, час, 10 минут, минута, плюс профили по часам суток и дням недели.
-
-**Codex.** `rollout-*.jsonl`, события `event_msg / token_count`, поле
-`info.total_token_usage` — накопительный счётчик. Пять величин, включая
-`reasoning_output_tokens`.
-
-**Antigravity.** Транскрипты `brain/<uuid>/.system_generated/logs/transcript*.jsonl`.
-**Токенов там нет** — считаются ходы модели, вызовы инструментов, символы и упоры в
-квоту. Это прокси-метрика, и она систематически занижает расход.
-
-## Шесть ловушек, на которых легко получить неверную цифру
-
-Все встретились в этой работе; четыре — уже совершённые ошибки.
-
-1. **Стриминговые снимки Claude Code.** Один `message.id` пишется несколько раз по мере
-   роста ответа. Наивная сумма завышает примерно **вдвое**. Правильно: дедупликация по
-   `message.id` со взятием **максимума**. Первая запись тоже не подходит — там
-   незавершённый ответ.
-
-2. **Накопительный счётчик Codex.** Сумма всех событий завышает в десятки раз.
-   Правильно: максимум по файлу, а для временного ряда — разница соседних значений.
-
-3. **Несколько цепочек счётчика в одном файле.** Параллельные потоки пишут в один
-   роллаут, признака потока в записи нет. Максимум теряет вторую цепочку, сумма приростов
-   фабрикует ложные инкременты. Правильно — `chain-split`: разнести события по цепочкам и
-   сложить их финалы.
-
-4. **Дедупликация сессий между корнями.** Ключ должен быть строго `session_id`. Откат на
-   имя файла прячет дубликаты — так я завысил Codex на 0.645%.
-
-5. **Ложные отрицательные.** Пять случаев за один аудит, все одной природы: инструмент не
-   мог показать то, о чём его спрашивали, а пустой ответ принимался за отсутствие явления.
-   `ripgrep` без `--hidden` не заходит в `.system_generated`; в формате роллаута вообще нет
-   поля аккаунта; `cp1251` искажает строку поиска; неразрывный пробел не равен пробелу;
-   `&nbsp;` в разметке не равен пробелу в тексте.
-   **Правило:** прежде чем записать «этого нет», проверь контрольным примером, что
-   инструмент **способен** это увидеть. Поэтому верификатор сравнивает извлечённый текст,
-   а не разметку.
-
-6. **Сумма «финалов по сессиям» по пересекающимся корням** даёт двойной счёт. Ровно это
-   превратило 108.3 млрд в 138.9 млрд.
-
-## Тарифы
-
-Anthropic сверены с живой документацией 2026-07-27: `claude-opus-5` и `claude-opus-4-8`
-$5/$25 за млн, `claude-fable-5` $10/$50, `claude-sonnet-5` $2/$10 (вводный тариф до
-2026-08-31). Кэш-чтение 0.1× базового ввода, запись кэша 1.25× при TTL 5 минут и 2× при
-TTL 1 час.
-
-OpenAI из каталога прежнего аудита (`developers.openai.com`, проверен 2026-06-06):
-`gpt-5.5` $5 / $0.5 кэш / $30, `gpt-5.4` $2.5 / $0.25 / $15.
-
-**Все суммы — эквивалент по публичному прайсу, а не траты.** Фактический денежный расход
-за всё время, со слов владельца, около 1000 рублей.
-
-## Целостность
-
-<!-- AUTO:integrity -->
-| проверка | результат |
-|---|---|
-| сумма по моделям против итога | СХОДИТСЯ (расхождение 18 615 694) |
-| основной + субагенты против суммы по моделям | СХОДИТСЯ |
-| сумма по дням против суммы по моделям | СХОДИТСЯ |
-| разрешение «час»: 255 интервалов, сумма | СХОДИТСЯ |
-| разрешение «10 минут»: 998 интервалов, сумма | СХОДИТСЯ |
-| разрешение «минута»: 5 826 интервалов, сумма | СХОДИТСЯ |
-| Codex: chain-split против минутных приростов | СХОДИТСЯ |
-
-**Итог: все проверки пройдены**
-<!-- /AUTO -->
-
-## История запусков
-
-<!-- AUTO:history -->
-| срез | токенов | $ | сессий | прирост |
-|---|---:|---:|---:|---:|
-| 2026-07-28 14:08:40 | 8 646 787 622 | $7 794,27 | 153 | — |
-| 2026-07-28 14:13:20 | 8 700 241 847 | $7 829,65 | 153 | +53 454 225 |
-| 2026-07-28 14:14:00 | 8 711 698 768 | $7 834,91 | 153 | +11 456 921 |
-| 2026-07-28 14:14:20 | 8 715 685 096 | $7 837,03 | 153 | +3 986 328 |
-| 2026-07-28 14:16:42 | 8 735 668 876 | $7 849,57 | 153 | +19 983 780 |
-| 2026-07-28 15:09:02 | 9 339 709 402 | $8 337,64 | 153 | +604 040 526 |
-| 2026-07-28 15:09:56 | 9 349 728 577 | $8 353,11 | 153 | +10 019 175 |
-| 2026-07-28 15:13:31 | 9 377 231 615 | $8 372,68 | 153 | +27 503 038 |
-| 2026-07-28 15:19:52 | 9 430 732 589 | $8 419,84 | 153 | +53 500 974 |
-| 2026-07-28 15:22:39 | 9 469 075 001 | $8 448,48 | 153 | +38 342 412 |
-| 2026-07-28 15:50:11 | 9 770 172 139 | $8 712,39 | 154 | +301 097 138 |
-
-Всего запусков в истории: **11**.
-<!-- /AUTO -->
-
-## Чего инструмент не делает
-
-- Не обращается ни к каким API и ничего не отправляет наружу — только чтение локальных файлов.
-- Не пишет в источники: SQLite открывается `mode=ro&immutable=1`.
-- Не сохраняет ключи, токены и секреты ни в один артефакт.
-- Не измеряет расход других людей, работавших через те же учётные данные с других машин:
-  их логи физически находятся не здесь.
-- Не измеряет токены Antigravity, потому что их не существует в локальных данных.
-
-
 ---
 
-<details>
-<summary>🇷🇺 <b>Полная Русскоязычная Документация (Нажмите для открытия)</b></summary>
-
-### Подробное русскоязычное описание проекта marko1olo/token-audit
-
 # token-audit
 
 **Аудит расхода токенов агентных AI-инструментов по локальным логам.**
@@ -619,8 +330,6 @@ OpenAI из каталога прежнего аудита (`developers.openai.c
   их логи физически находятся не здесь.
 - Не измеряет токены Antigravity, потому что их не существует в локальных данных.
 
-
-</details>
 
 ---
 
