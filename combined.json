@@ -6,24 +6,24 @@
   "source": "~/.claude/projects",
   "period": [
    "2026-07-08T06:54:30.759Z",
-   "2026-07-29T07:17:02.286Z"
+   "2026-07-29T08:17:25.451Z"
   ],
-  "sessions": 172,
-  "files": 3309,
-  "responses_deduped": 124422,
-  "responses_raw": 297733,
-  "dedupe_dropped": 173311,
+  "sessions": 173,
+  "files": 3414,
+  "responses_deduped": 129551,
+  "responses_raw": 309762,
+  "dedupe_dropped": 180211,
   "totals": {
-   "uncached_input": 309675357,
-   "cache_write": 659840389,
-   "cache_read": 21183627825,
-   "output": 125497026,
-   "total": 22278640597
+   "uncached_input": 310515559,
+   "cache_write": 684767159,
+   "cache_read": 22134382991,
+   "output": 131341020,
+   "total": 23261006729
   },
-  "raw_undeduped_total": 47670248208,
+  "raw_undeduped_total": 49819659740,
   "by_model": {
    "<synthetic>": {
-    "responses": 1139,
+    "responses": 1141,
     "total": 0,
     "uncached_input": 0,
     "cache_write": 0,
@@ -53,14 +53,14 @@
     "output": 9092828
    },
    "claude-opus-5": {
-    "responses": 111845,
-    "total": 21042655760,
-    "uncached_input": 22509031,
-    "cache_write": 635969238,
-    "cache_write_5m": 635430536,
+    "responses": 116972,
+    "total": 22025021892,
+    "uncached_input": 23349233,
+    "cache_write": 660896008,
+    "cache_write_5m": 660357306,
     "cache_write_1h": 538702,
-    "cache_read": 20268060831,
-    "output": 116116660
+    "cache_read": 21218815997,
+    "output": 121960654
    },
    "claude-sonnet-5": {
     "responses": 38,
@@ -103,13 +103,13 @@
     "total_usd": 2269.8321305
    },
    "claude-opus-5": {
-    "uncached_input_usd": 112.545155,
-    "cache_write_usd": 3976.8278699999996,
-    "cache_read_usd": 10134.0304155,
-    "output_usd": 2902.9165,
+    "uncached_input_usd": 116.746165,
+    "cache_write_usd": 4132.6201825,
+    "cache_read_usd": 10609.4079985,
+    "output_usd": 3049.0163500000003,
     "rate_in_per_mtok": 5.0,
     "rate_out_per_mtok": 25.0,
-    "total_usd": 17126.319940499998
+    "total_usd": 17907.790696
    },
    "claude-sonnet-5": {
     "uncached_input_usd": 0.0,
@@ -131,7 +131,7 @@
    }
   },
   "unpriced_models": [],
-  "cost_usd_total_list_price_equivalent": 19461.481581999997,
+  "cost_usd_total_list_price_equivalent": 20242.9523375,
   "cost_caveat": "FLOOR, not a bill. Traffic went through 127.0.0.1:8318 (Desktop/proxy.js), which rewrote models to claude-opus-5 and retried 429/5xx every 2s; those retries burned upstream tokens that were never written to a transcript."
  },
  "codex": {
