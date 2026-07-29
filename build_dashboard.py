@@ -185,6 +185,19 @@ payload = {
         "cost_total": cb["claude_code"]["cost_usd_total_list_price_equivalent"],
     },
     "daycmp": day_compare(cl, dp),
+    # Разбивка по рабочему каталогу. Раньше эта панель была вписана руками и
+    # показывала абсолютные значения в 4.3 раза ниже реальных при примерно
+    # верных долях. Источник -- поле cwd, которое есть в каждой записи
+    # транскрипта; by_project для этого не годится, там верхний каталог.
+    "by_cwd": [{"name": k, "total": sum(v.get(x, 0) for x in ("inp", "cc", "cr", "out")),
+                "responses": v.get("n", 0)}
+               for k, v in list((cl.get("by_cwd_rolled") or {}).items())[:8]],
+    "top_sessions": [{"id": k, "total": v["total"], "responses": v["responses"],
+                      "start": v.get("start"), "model": v.get("dominant_model"),
+                      "hours": round((v.get("duration_s") or 0) / 3600.0, 1),
+                      "sub": v.get("sidechain_responses", 0)}
+                     for k, v in sorted((dp.get("top_sessions") or {}).items(),
+                                        key=lambda x: -x[1]["total"])[:15]],
     "codex": None if not (cx and cb.get("codex")) else {
         "period": [cx["first_ts"], cx["last_ts"]],
         "sessions": cx["session_files_with_data"],
@@ -1518,31 +1531,23 @@ function render(){
     k:'топ-'+k.match(/\d+/)[0]+' сессий',v:v,c:cv('--s5'),d:v.toFixed(2)+'%'})),
     {ml:130,rh:32});
 
-  /* what it went to */
-  $('#twent').innerHTML='<tr><th>доля</th><th>токенов</th><th>сессия</th></tr>'+
-    [[13.8,692421649,'DENTE dental CRM 지속적 개선 루프'],
-     [8.6,429004070,'Анализ функций конкурентов в dental-crm'],
-     [7.7,384955020,'Обзор состояния разработки HECTON8'],
-     [6.7,333925466,'Улучшение триажа и валидации в stomchat'],
-     [6.6,331476332,'Оптимизация производительности и стабильности dvachbot'],
-     [5.9,296664770,'HECTON-8 автономная разработка игры'],
-     [5.5,274123560,'Универсальный движок миграции данных для CRM'],
-     [3.5,174529085,'Доработка UI DENTE: блок «Фокус» и экраны'],
-     [3.0,149185553,'Оптимизация воксельного движка и стриминга чанков'],
-     [2.2,111964096,'Implement HECTON-8 architectural purge'],
-     [2.2,111221632,'Улучшение dental-crm и аудит кода'],
-     [2.1,103634628,'Автономный рефакторинг экосистемы и боидов'],
-     [1.6,81092697,'Убрать устаревшие ограничения из CLAUDE.md'],
-     [1.5,76171341,'Гидродинамика подлодки, сонар и звук'],
-     [1.5,75918224,'Продолжить operation immune system']]
-    .map(r=>'<tr><td>'+r[0].toFixed(1)+'%</td><td>'+nf(r[1])+
-      '</td><td style="text-align:left">'+r[2]+'</td></tr>').join('');
-  hbar($('#wproj'),[
-    {k:'DENTE (стомат. CRM)',v:1714482102,c:cv('--s1'),d:'34.2%',n:nf(1714482102)+' токенов'},
-    {k:'c:\hades — корень',v:1665890891,c:cv('--s2'),d:'33.2%',n:nf(1665890891)+' токенов'},
-    {k:'HECTON-8 (Unity)',v:1406145516,c:cv('--s3'),d:'28.0%',n:nf(1406145516)+' токенов'},
-    {k:'этот аудит',v:227662395,c:cv('--s5'),d:'4.5%',n:nf(227662395)+' токенов'},
-  ],{ml:180,rh:34});
+  /* На что ушло. Раньше здесь были пятнадцать строк с рукописными названиями
+     сессий и долями: названия брались из сводок, которых в артефактах нет, а
+     доли разошлись -- первая была 8.6% против фактических 11.5%. Теперь таблица
+     считается из top_sessions. Названий там нет, поэтому вместо выдуманных
+     показываются настоящие признаки: дата, модель, длительность и доля
+     субагентов. Придуманное имя хуже отсутствующего. */
+  {const TS=D.top_sessions||[], tsum=TS.reduce((a,b)=>a+b.total,0)||1;
+   $('#twent').innerHTML='<tr><th>доля</th><th>токенов</th><th>сессия</th>'+
+     '<th>начало</th><th>ч</th><th>субагенты</th></tr>'+
+     TS.map(r=>'<tr><td>'+(100*r.total/tsum).toFixed(1)+'%</td><td>'+nf(r.total)+
+       '</td><td style="text-align:left"><code>'+String(r.id).slice(0,8)+
+       '</code> '+(r.model||'')+'</td><td>'+(r.start||'').slice(5,16).replace('T',' ')+
+       '</td><td>'+r.hours.toFixed(1)+'</td><td>'+nf(r.sub)+'</td></tr>').join('');
+   const BC=D.by_cwd||[], bsum=BC.reduce((a,b)=>a+b.total,0)||1;
+   hbar($('#wproj'),BC.map((r,i)=>({k:r.name,v:r.total,c:cv('--s'+((i%5)+1)),
+     d:(100*r.total/bsum).toFixed(1)+'%',
+     n:nf(r.total)+' токенов · '+nf(r.responses)+' ответов'})),{ml:210,rh:34});}
 
   /* google public stats */
   $('#tgo').innerHTML='<tr><th>метрика</th><th>значение</th><th>источник</th></tr>'+

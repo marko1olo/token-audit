@@ -147,6 +147,12 @@ def collect(window, labels=None):
                         "session": r.get("sessionId"),
                         "sidechain": bool(r.get("isSidechain")),
                         "project": project,
+                        # Рабочий каталог сессии. Есть в КАЖДОЙ записи
+                        # (проверено: 403 из 403), и это единственный
+                        # источник разбивки по реальным проектам: ключ
+                        # by_project -- верхний каталог под ~/.claude/projects,
+                        # и для всей работы в одном дереве он один и тот же.
+                        "cwd": r.get("cwd") or "",
                         "file": rel,
                         "version": r.get("version"),
                         "entrypoint": r.get("entrypoint"),
@@ -308,6 +314,47 @@ def build(rows, uniq, dupe_rows, noid, meta, window, roots):
     for r in uniq:
         g[r["project"]].append(r)
     out["by_project"] = {k: tot(v) for k, v in sorted(g.items())}
+
+    # Разбивка по рабочему каталогу -- то, чем by_project быть не может.
+    #
+    # Регистр приводится к одному: в записях встречаются и `c:\hades`, и
+    # `C:\hades`, это один каталог, а не два. Домашний путь обезличивается через
+    # redact(), потому что артефакт публичный.
+    g = defaultdict(list)
+    for r in uniq:
+        w = (r.get("cwd") or "").strip()
+        if not w:
+            g["не указан"].append(r)
+            continue
+        key = cfg.redact(os.path.normpath(w))
+        if len(key) > 1 and key[1:2] == ":":
+            key = key[0].upper() + key[1:]      # диск в верхнем регистре
+        g[key].append(r)
+    out["by_cwd"] = {k: tot(v) for k, v in
+                     sorted(g.items(), key=lambda x: -sum(
+                         y["inp"] + y["cc"] + y["cr"] + y["out"] for y in x[1]))}
+
+    # Свёрнутая разбивка: подкаталоги сливаются в свой проект. Без свёртки в
+    # by_cwd девяносто с лишним ключей, и почти все -- рабочие копии воркдри
+    # вида gigahrush2/.claude/worktrees/..., в которых по десятку ответов.
+    # Правило: диск плюс не более двух уровней. Каталог самого инструмента
+    # сворачивается в один ключ, иначе он растекается по своим подпапкам.
+    def _roll(path):
+        if path.startswith("~"):
+            return "~ (каталог инструмента)"
+        parts = path.replace("/", os.sep).split(os.sep)
+        return os.sep.join(parts[:3]) if len(parts) > 3 else path
+
+    g2 = defaultdict(list)
+    for r in uniq:
+        w = (r.get("cwd") or "").strip()
+        key = cfg.redact(os.path.normpath(w)) if w else "не указан"
+        if len(key) > 1 and key[1:2] == ":":
+            key = key[0].upper() + key[1:]
+        g2[_roll(key)].append(r)
+    out["by_cwd_rolled"] = {k: tot(v) for k, v in
+                            sorted(g2.items(), key=lambda x: -sum(
+                                y["inp"] + y["cc"] + y["cr"] + y["out"] for y in x[1]))}
 
     g = defaultdict(list)
     for r in uniq:
