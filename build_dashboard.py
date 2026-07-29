@@ -15,6 +15,11 @@ import json
 import os
 import io
 import tokenaudit_config as cfg
+import tokenaudit_rates as rates
+import re
+import shutil
+import subprocess
+import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 def L(n, default=None):
@@ -102,6 +107,60 @@ def series(d, keys=("inp", "cc", "cr", "out"), cap=MAX_POINTS):
     return out
 
 
+def day_compare(cl, dp):
+    """Накопительные итоги на конец двух последних суток и прирост между ними.
+
+    Заменяет таблицу, вписанную руками. На момент замены она утверждала
+    «ВСЕГО 4 329 731 446 -> 7 769 375 039», тогда как из by_day накопительно
+    выходило 6 271 135 564 -> 17 710 985 238: ошибка в 2.28 раза, и всё это было
+    опубликовано. Числа, которые никто не пересчитывает, расходятся с данными
+    не постепенно, а в разы.
+    -> dict | None
+    """
+    bd = (cl or {}).get("by_day") or {}
+    days = sorted(bd)
+    if len(days) < 2:
+        return None
+    cum, snaps = {k: 0 for k in ("inp", "cc", "cr", "out")}, {}
+    for d in days:
+        for k in cum:
+            cum[k] += bd[d].get(k, 0)
+        snaps[d] = dict(cum)
+    prev, last = days[-2], days[-1]
+    a, b = snaps[prev], snaps[last]
+    rows = []
+    for key, name in (("inp", "свежий ввод"), ("cc", "запись кэша"),
+                      ("cr", "чтение кэша"), ("out", "вывод")):
+        rows.append({"name": name, "before": a[key], "after": b[key]})
+    rows.append({"name": "ВСЕГО", "before": sum(a.values()), "after": sum(b.values())})
+    # Стоимость на каждую дату -- по тем же ставкам, что и везде.
+    cost_a = rates.day_cost(a)
+    cost_b = rates.day_cost(b)
+    out = {"prev": prev, "last": last, "rows": rows,
+           "cost_before": cost_a, "cost_after": cost_b}
+    # Последние часы: объём и доля попаданий в кэш. Раньше тринадцать значений
+    # были вписаны руками и относились к одной конкретной ночи.
+    bh = (cl or {}).get("by_hour") or {}
+    hours = sorted(bh)[-13:]
+    hr = []
+    for h in hours:
+        v = bh[h]
+        ctx = (v.get("inp", 0) + v.get("cc", 0) + v.get("cr", 0)) or 1
+        hr.append({"label": h[5:].replace("T", " "),
+                   "total": sum(v.get(k, 0) for k in ("inp", "cc", "cr", "out")),
+                   "cache_pct": round(100.0 * v.get("cr", 0) / ctx, 1)})
+    out["hours"] = hr
+    if hr:
+        out["cache_min"] = min(x["cache_pct"] for x in hr)
+    # Крупнейшие сутки и их доля -- тоже была вписана руками.
+    tot = sum(sum(bd[d].get(k, 0) for k in ("inp", "cc", "cr", "out")) for d in days)
+    top = max(days, key=lambda d: sum(bd[d].get(k, 0) for k in ("inp", "cc", "cr", "out")))
+    tv = sum(bd[top].get(k, 0) for k in ("inp", "cc", "cr", "out"))
+    out["top_day"] = {"date": top, "total": tv, "share_pct": round(100.0 * tv / (tot or 1), 1),
+                      "days": len(days)}
+    return out
+
+
 CXF = ["input_tokens", "cached_input_tokens", "output_tokens", "reasoning_output_tokens"]
 
 payload = {
@@ -125,6 +184,7 @@ payload = {
         "cost": cb["claude_code"]["cost_usd_by_model"],
         "cost_total": cb["claude_code"]["cost_usd_total_list_price_equivalent"],
     },
+    "daycmp": day_compare(cl, dp),
     "codex": None if not (cx and cb.get("codex")) else {
         "period": [cx["first_ts"], cx["last_ts"]],
         "sessions": cx["session_files_with_data"],
@@ -365,23 +425,19 @@ th{color:var(--ink2);font-weight:600}
 </div>
 
 <div class="card">
-  <h2>Ночь 27→28 июля <span class="badge b-meas">ИЗМЕРЕНО</span></h2>
-  <p class="cap">Работа шла всю ночь. Состав прироста и почасовой профиль.</p>
+  <!-- Заголовок, подпись и выводы этого раздела ЗАПОЛНЯЕТ JS из данных. Раньше
+       здесь стояли числа, вписанные руками: прирост 3 439 643 593 не
+       воспроизводился ни из одной пары снимков, а таблица ниже расходилась с
+       данными в 2.28 раза. Утверждения, которые нельзя посчитать из
+       артефактов -- про «размывание короткими вызовами» и сравнение с днями
+       сломанного кэша -- удалены, а не переписаны: неверифицируемая цифра хуже
+       отсутствующей. -->
+  <h2 id="dchead">Последние сутки против предыдущих <span class="badge b-meas">ИЗМЕРЕНО</span></h2>
+  <p class="cap" id="dccap">Накопительные итоги на конец каждой из двух дат и прирост между ними.</p>
   <table id="tnight"></table>
   <div id="nighthr" style="margin-top:14px"></div>
-  <div class="note crit">Из прироста <b>3 439 643 593</b> токенов: чтение кэша
-    <b>96.8%</b>, запись кэша 2.6%, вывод 0.5%, свежий ввод <b>0.1%</b>. За всю ночь
-    модель увидела впервые лишь <b>2 412 500</b> новых токенов. Кэш не опускался ниже
-    <b>96.6%</b> ни в одном часу.</div>
-  <div class="note">Главный структурный сдвиг — субагенты: ответов <b>6 856 &rarr; 16 812</b>,
-    токенов 651 738 200 &rarr; 1 870 699 971, доля объёма <b>13.31% &rarr; 24.06%</b>.
-    Ночь прошла в режиме массового параллельного веера. Побочный эффект: медиана контекста
-    на вызов у opus-5 <b>упала</b> с 225 507 до 172 343 — не экономия, а размывание
-    короткими субагентскими вызовами; p99 при этом вырос до 942 059.</div>
-  <div class="note">И это подтверждает главный вывод ещё раз: <b>9.4&times; объёма за
-    1.8&times; денег</b>, то есть <b>$647 против $3 375 за миллиард токенов</b> по
-    сравнению с двенадцатью днями сломанного кэша. Интенсивность выросла с 53.1 до
-    <b>74.6 млн токенов в активный час</b>.</div>
+  <div class="note crit" id="dcnote"></div>
+  <div class="note" id="dctop"></div>
 </div>
 
 <div class="grid2">
@@ -1154,24 +1210,51 @@ function render(){
   {const el=$('#resnote'); if(el) el.textContent=spanNote(c[RES]);}
   $('#crshare').textContent=(c.totals.cr/cT*100).toFixed(1)+'%';
 
-  /* night 27->28 */
-  $('#tnight').innerHTML='<tr><th>метрика</th><th>было 27.07</th><th>стало 28.07</th><th>прирост</th></tr>'+
-    [['свежий ввод',288676827,291089327],['запись кэша',87811077,178384241],
-     ['чтение кэша',3934263275,7265052743],['вывод',18980267,34848728],
-     ['ВСЕГО',4329731446,7769375039],['сессий',147,153],['ответов',21898,37720]]
-    .map(r=>'<tr><td style="text-align:left">'+(r[0]==='ВСЕГО'?'<b>ВСЕГО</b>':r[0])+
-      '</td><td>'+nf(r[1])+'</td><td>'+nf(r[2])+'</td><td><b>+'+nf(r[2]-r[1])+
-      '</b></td></tr>').join('')+
-    '<tr><td style="text-align:left"><b>$ по прайсу</b></td><td>'+usd(4873.87)+
-    '</td><td>'+usd(7098.25)+'</td><td><b>+'+usd(2224.38)+'</b></td></tr>';
-  {const H=[['27.07 18:00',578583652,97.6],['19:00',418206794,97.6],['20:00',454890870,97.2],
-            ['21:00',135460142,98.0],['22:00',60581797,97.0],['23:00',70883656,98.0],
-            ['28.07 00:00',72922104,97.5],['01:00',431468335,97.5],['02:00',75172514,96.7],
-            ['03:00',65931410,97.9],['04:00',241617645,96.6],['05:00',273309086,96.8],
-            ['06:00',337818381,96.9]];
-   hbar($('#nighthr'),H.map(r=>({k:r[0],v:r[1],c:cv('--s2'),d:big(r[1]),
-     n:'кэш '+r[2].toFixed(1)+'%',rows:[['токенов',nf(r[1]),cv('--s2')],
-     ['кэш-попадание',r[2].toFixed(1)+'%']]})),{ml:110,rh:28});}
+  /* Сравнение двух последних суток. Раньше здесь стояла таблица, вписанная
+     руками: она утверждала «ВСЕГО 4 329 731 446 -> 7 769 375 039», тогда как из
+     by_day накопительно выходило 6 271 135 564 -> 17 710 985 238 -- ошибка в
+     2.28 раза, и всё это было опубликовано. Числа, которые никто не
+     пересчитывает, расходятся с данными не постепенно, а в разы.
+
+     Теперь таблица и часовая полоса считаются из by_day и by_hour, обновляются
+     сами и сравнивают две ПОСЛЕДНИЕ даты, а не одну зафиксированную ночь. */
+  const DAYC=D.daycmp;
+  if(DAYC){
+    const dd=s=>s.slice(8)+'.'+s.slice(5,7);
+    $('#tnight').innerHTML='<tr><th>метрика</th><th>на конец '+dd(DAYC.prev)+
+      '</th><th>на конец '+dd(DAYC.last)+'</th><th>прирост</th></tr>'+
+      DAYC.rows.map(r=>'<tr><td style="text-align:left">'+
+        (r.name==='ВСЕГО'?'<b>ВСЕГО</b>':r.name)+'</td><td>'+nf(r.before)+
+        '</td><td>'+nf(r.after)+'</td><td><b>+'+nf(r.after-r.before)+
+        '</b></td></tr>').join('')+
+      '<tr><td style="text-align:left"><b>$ по прайсу</b></td><td>'+usd(DAYC.cost_before)+
+      '</td><td>'+usd(DAYC.cost_after)+'</td><td><b>+'+
+      usd(DAYC.cost_after-DAYC.cost_before)+'</b></td></tr>';
+    hbar($('#nighthr'),DAYC.hours.map(r=>({k:r.label,v:r.total,c:cv('--s2'),d:big(r.total),
+      n:'кэш '+r.cache_pct.toFixed(1)+'%',rows:[['токенов',nf(r.total),cv('--s2')],
+      ['кэш-попадание',r.cache_pct.toFixed(1)+'%']]})),{ml:110,rh:28});
+    /* Состав прироста считается здесь же из тех же строк таблицы: две цифры на
+       одной странице не должны спорить. */
+    const tr=DAYC.rows[DAYC.rows.length-1], dTot=tr.after-tr.before;
+    const part=n=>{const r=DAYC.rows.find(x=>x.name===n); return r?r.after-r.before:0;};
+    const pc=v=>dTot?(100*v/dTot).toFixed(1)+'%':'—';
+    $('#dchead').innerHTML=dd(DAYC.prev)+' → '+dd(DAYC.last)+
+      ' <span class="badge b-meas">ИЗМЕРЕНО</span>';
+    $('#dccap').textContent='Накопительные итоги на конец каждой даты и прирост между ними. '+
+      'Часовая полоса — последние '+DAYC.hours.length+' часов.';
+    $('#dcnote').innerHTML='Из прироста <b>'+nf(dTot)+'</b> токенов: чтение кэша <b>'+
+      pc(part('чтение кэша'))+'</b>, запись кэша '+pc(part('запись кэша'))+
+      ', вывод '+pc(part('вывод'))+', свежий ввод <b>'+pc(part('свежий ввод'))+
+      '</b>. Впервые модель увидела <b>'+nf(part('свежий ввод'))+
+      '</b> новых токенов'+(DAYC.cache_min!=null?'. Доля попаданий в кэш не опускалась ниже <b>'+
+      DAYC.cache_min.toFixed(1)+'%</b> ни в одном из показанных часов':'')+'.';
+    if(DAYC.top_day) $('#dctop').innerHTML='Крупнейшие сутки за весь период — <b>'+
+      dd(DAYC.top_day.date)+'</b>: '+nf(DAYC.top_day.total)+' токенов, это <b>'+
+      DAYC.top_day.share_pct.toFixed(1)+'%</b> всего расхода за '+DAYC.top_day.days+
+      ' суток. Механика та же, что и на Codex: в длинной сессии весь контекст '+
+      'пересылается заново на каждом ходу, поэтому объём растёт от самой длины, '+
+      'а не от количества новой работы.';
+  }
 
   /* hour of day + weekday */
   heat($('#hod'),c.by_hour_of_day,'cr');
@@ -1556,8 +1639,58 @@ render();
 </script>
 """
 
+def check_js_syntax(js):
+    """Синтаксическая проверка встроенного JavaScript чужим парсером.
+
+    ЗАЧЕМ. Этот класс поломки уже проходил незамеченным трижды. Столкновение
+    имени на верхнем уровне даёт SyntaxError, из-за чего НЕ рисуется НИ ОДНА
+    панель, а снаружи это выглядит как пустой, но исправный дашборд: Chrome при
+    --dump-dom в stderr не пишет ничего. Первый раз это был `const R`, второй --
+    обращение к `DP` до объявления, третий -- `const DC` при уже объявленном в
+    списке через запятую `const DP=D.deep, DC=...`, из-за чего поиск по строке
+    `const DC=` его не находил.
+
+    Своя проверка регулярками не годится: одно имя в РАЗНЫХ функциях на той же
+    глубине скобок -- законно, а области видимости регуляркой не разобрать.
+    Проверено: самодельный вариант дал пять ложных срабатываний на исправном
+    файле. Поэтому здесь настоящий парсер, node --check.
+
+    Нет node -- проверка честно говорит, что не выполнена, и НЕ выдаёт
+    отсутствие ошибок за их отсутствие. Останется проверка рендера в refresh.py,
+    которая ловит то же самое через перехватчик window.onerror.
+    -> (ok, сообщение)
+    """
+    exe = shutil.which("node")
+    if not exe:
+        return True, "node не найден -- синтаксис JavaScript не проверен"
+    tmp = os.path.join(tempfile.gettempdir(), "_ta_dash_check.js")
+    try:
+        with io.open(tmp, "w", encoding="utf-8") as fh:
+            fh.write(js)
+        r = subprocess.run([exe, "--check", tmp], capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
+        if r.returncode == 0:
+            return True, "синтаксис JavaScript: ок (node --check)"
+        return False, ((r.stderr or "") + (r.stdout or "")).strip()[:1200]
+    finally:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+
 dst = os.path.join(HERE, "dashboard.html")
+html = HTML.replace("__DATA__", json.dumps(payload, ensure_ascii=False,
+                                           separators=(",", ":")))
+# Проверяем ДО записи: сломанный файл не должен попадать ни на диск, ни в
+# публикацию. Проверяется КАЖДЫЙ встроенный скрипт по отдельности.
+for _n, _js in enumerate(re.findall(r"<script[^>]*>(.*?)</script>", html, re.S), 1):
+    _ok, _msg = check_js_syntax(_js)
+    if not _ok:
+        raise SystemExit("скрипт %d не проходит разбор -- файл не записан:" % _n
+                         + chr(10) + _msg)
+    if _n == 1:
+        print(" ", _msg)
+
 with open(dst, "w", encoding="utf-8") as fh:
-    fh.write(HTML.replace("__DATA__", json.dumps(payload, ensure_ascii=False,
-                                                 separators=(",", ":"))))
+    fh.write(html)
 print("wrote", dst, "%.2f MB" % (os.path.getsize(dst) / 1e6))
