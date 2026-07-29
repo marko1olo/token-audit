@@ -519,6 +519,16 @@ def main():
         d["since"] = prev["ts"]
     snap["delta"] = d
 
+    # reconciliation.json собирается ДО модели стоимости и отчётов, потому что
+    # оба его читают. Раньше файл был рукописным и его не писал никто, из-за чего
+    # заголовочная цифра Codex попадала в README у каждого, кто клонировал
+    # репозиторий, оформленная так же, как измеренная рядом цифра Claude Code.
+    # Условие на наличие артефакта Codex: без него собирать нечего.
+    if os.path.isfile(os.path.join(HERE, "codex_chains_totals.json")):
+        run("build_reconciliation.py", "сборка составного итога", env)
+    else:
+        print("  ▸ составной итог Codex не собирается: нет codex_chains_totals.json")
+
     run("cost_model.py", "модель стоимости", env)
 
     print("\n[3/5] генерация отчётов")

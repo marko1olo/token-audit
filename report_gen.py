@@ -54,6 +54,23 @@ def pct(a, b):
     return "%.2f%%" % (100.0 * a / b) if b else "—"
 
 
+def codex_total(c):
+    """Составной итог Codex или None, если внешних измерений нет.
+
+    reconciliation.json теперь ГЕНЕРИРУЕТСЯ (build_reconciliation.py), и без
+    external_measurements.json итог честно не собирается: там стоит None, а не
+    чужая константа. Потребители обязаны это выдерживать -- иначе отчёт либо
+    падает, либо печатает «None» вместо признания, что цифры нет.
+    -> (итог | None, верхняя граница | None)
+    """
+    rc = c.rc or {}
+    cons = (rc.get("consistent_total_max_basis") or {}).get("total_tokens")
+    return cons, rc.get("upper_bound_if_delta_valid")
+
+
+NO_EXTERNAL = "внешнее измерение отсутствует"
+
+
 class Ctx:
     def __init__(self):
         self.cl = L("claude_totals.json")
@@ -122,10 +139,14 @@ def _stamp(c):
 def _headline(c):
     r = ["| Инструмент | Период | Токенов | Класс |", "|---|---|---:|---|"]
     if c.rc:
-        cons = c.rc["consistent_total_max_basis"]["total_tokens"]
-        up = c.rc["upper_bound_if_delta_valid"]
-        r.append("| **OpenAI Codex** | 2026-04-03 → 06-13 | **%s** | составной |" % f(cons))
-        r.append("| | | верхняя граница **%s** | |" % f(up))
+        cons, up = codex_total(c)
+        if cons is None:
+            r.append("| **OpenAI Codex** | 2026-04-03 → 06-13 | *%s* | не собран |"
+                     % NO_EXTERNAL)
+        else:
+            r.append("| **OpenAI Codex** | 2026-04-03 → 06-13 | **%s** | составной |" % f(cons))
+            if up:
+                r.append("| | | верхняя граница **%s** | |" % f(up))
     if c.cl:
         r.append("| **Claude Code** | %s → %s | **%s** | ИЗМЕРЕНО |" % (
             c.cl["first_ts"][:10], c.cl["last_ts"][:10], f(c.total)))
@@ -295,8 +316,9 @@ def _cco(c):
         r.append("| %s | %s | %s | %s |" % (
             x["name"], f(x["total_tokens"]), x["class"], x["source"][:70]))
     r.append("| **итого консервативно** | **%s** | | |"
-             % f(c.rc["consistent_total_max_basis"]["total_tokens"]))
-    r.append("| верхняя граница | %s | | |" % f(c.rc["upper_bound_if_delta_valid"]))
+             % (f(codex_total(c)[0]) if codex_total(c)[0] is not None else NO_EXTERNAL))
+    if codex_total(c)[1]:
+        r.append("| верхняя граница | %s | | |" % f(codex_total(c)[1]))
     return r
 
 

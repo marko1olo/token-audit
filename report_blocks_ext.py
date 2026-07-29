@@ -16,6 +16,7 @@ if _rg is None or not hasattr(_rg, "BLOCKS"):
     _rg = _m if (_m is not None and hasattr(_m, "BLOCKS")) else __import__("report_gen")
 
 block, f, usd, pct = _rg.block, _rg.f, _rg.usd, _rg.pct
+codex_total, NO_EXTERNAL = _rg.codex_total, _rg.NO_EXTERNAL
 rates = _rg.rates
 M, FIELDS, NAMES = _rg.M, _rg.FIELDS, _rg.NAMES
 
@@ -439,7 +440,10 @@ def ag_days(c):
 
 @block("scale_compare")
 def scale_compare(c):
-    codex = (c.rc or {}).get("consistent_total_max_basis", {}).get("total_tokens", 0)
+    # codex_total() возвращает None, когда внешних измерений нет. Здесь нужен
+    # ноль для арифметики, но отличать «ноль» от «нет цифры» всё равно
+    # обязательно, иначе блок напечатает 0 как измеренное значение.
+    codex = codex_total(c)[0] or 0
     allt = codex + c.total
     G_MONTH = 3.2e15
     g_sec = G_MONTH / (30 * 86400)
@@ -489,7 +493,7 @@ def scope(c):
         "",
         "| составляющая | токенов | класс |", "|---|---:|---|",
         "| измерено здесь | %s | ИЗМЕРЕНО / ПО ОТЧЁТУ |" % f(
-            c.total + (c.rc or {}).get("consistent_total_max_basis", {}).get("total_tokens", 0)),
+            c.total + (codex_total(c)[0] or 0)),
         "| остальные десять человек | ~124–150 млрд | СЛОВА ВЛАДЕЛЬЦА |",
         "| **суммарно через эти учётки** | **~250–275 млрд** | ОЦЕНКА |",
         "",
@@ -502,8 +506,7 @@ def scope(c):
 
 @block("key_findings")
 def key_findings(c):
-    codex = (c.rc or {}).get("consistent_total_max_basis", {}).get("total_tokens", 0)
-    up = (c.rc or {}).get("upper_bound_if_delta_valid", 0)
+    codex, up = codex_total(c)
     ctx = c.t["inp"] + c.t["cc"] + c.t["cr"]
     df = c.dp.get("by_day_full", {})
     good = [v for v in df.values() if v["cache_pct"] >= 85]
@@ -513,8 +516,9 @@ def key_findings(c):
         cost = sum(rates.day_cost(v) for v in days)
         return cost / (t / 1e9)
     r = ["| | |", "|---|---:|",
-         "| Codex, консервативно | **%s** токенов |" % f(codex),
-         "| Codex, верхняя граница | %s |" % f(up),
+         "| Codex, консервативно | %s |" % (
+             ("**%s** токенов" % f(codex)) if codex else "*%s*" % NO_EXTERNAL),
+         "| Codex, верхняя граница | %s |" % (f(up) if up else "—"),
          "| Claude Code, измерено | **%s** |" % f(c.total),
          "| Claude Code, эквивалент по прайсу | **%s** |" % usd(c.cost_total),
          "| Antigravity | счётчика не существует |",

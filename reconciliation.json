@@ -1,4 +1,45 @@
 {
+ "generated_by": "build_reconciliation.py",
+ "method_note": "Составной итог: локально измеренное chain-split плюс внешние измерения с указанным происхождением. Классы доказательности не смешиваются в одну цифру намеренно -- смешивание главный способ получить убедительно выглядящий неверный итог.",
+ "components": [
+  {
+   "name": "backup_apr03_may21_mine_chainsplit",
+   "total_tokens": 58210962504,
+   "class": "ИЗМЕРЕНО",
+   "source": "codex_chains_totals.json, totals_chain_split",
+   "note": "Пересчитывается локально методом chain-split при каждом скане."
+  },
+  {
+   "name": "danat_apr03_jun06_old_audit",
+   "total_tokens": 50387894530,
+   "class": "ПО ОТЧЁТУ",
+   "source": "прежний аудит от 2026-06-06 по корню C:/Users/danat/.codex/sessions, 1891 файл на тот момент (danat, 2026-06-06)"
+  },
+  {
+   "name": "danat_archived",
+   "total_tokens": 157103,
+   "class": "ПО ОТЧЁТУ",
+   "source": "прежний аудит, корень C:/Users/danat/.codex/archived_sessions (danat, 2026-06-06)"
+  },
+  {
+   "name": "danat_after_jun06_rescaled",
+   "total_tokens": 10459890705,
+   "class": "ОЦЕНКА",
+   "source": "records_after_2026_06_06 из прогона danat, переведённые в базис максимумов делением на измеренное отношение delta/max = 4.1875 (danat, 2026-06-09)"
+  }
+ ],
+ "external_measurements_present": true,
+ "external_missing": [],
+ "consistent_total_max_basis": {
+  "total_tokens": 119058904842,
+  "note": "Согласованный базис: все слагаемые по методу максимума или chain-split."
+ },
+ "upper_bound_if_delta_valid": 152399687739,
+ "upper_bound_note": "То же, но июньский хвост danat по методу приростов, как в прежнем аудите. Метод приростов на тех данных завышает: при сопоставимом числе сбросов счётчика расхождение на сброс отличается в 2145 раз. Поэтому это граница, а не оценка.",
+ "prior_figures": {
+  "ledger_headline_inflated": 138912242896,
+  "prior_deduped_no_june_tail": 108244387543
+ },
  "danat_internal_consistency": {
   "files": 786,
   "files_in_old_audit_same_root": 1891,
@@ -17,41 +58,6 @@
   "per_event_discrepancy_factor": 2145,
   "tokens_dropped_by_dedupe_reported": 165124336663,
   "verdict": "Метод приростов в прогоне danat завышает итог. При сопоставимом числе сбросов (163 против 164) расхождение delta-max составляет 290,887,601 на сброс против 135,642 у меня, то есть в 2145 раз больше. При среднем размере сессии 19.4 млн токенов сброс не может добавлять 291 млн. Дополнительно: tokens_dropped_by_dedupe=165,124,336,663 при 3 дублирующихся сессиях внутренне невозможно - эта величина больше любого из итогов. Принимается консервативная цифра по максимумам; для точного ответа нужен пересчёт методом chain-split."
- },
- "consistent_total_max_basis": {
-  "total_tokens": 119058904842,
-  "note": "Согласованный базис: все слагаемые по методу максимума/chain-split."
- },
- "components": [
-  {
-   "name": "backup_apr03_may21_mine_chainsplit",
-   "total_tokens": 58210962504,
-   "class": "ИЗМЕРЕНО",
-   "source": "C:/Users/Admin/Documents/CodexBackups/codex_cleanup_20260521_194850"
-  },
-  {
-   "name": "danat_apr03_jun06_old_audit",
-   "total_tokens": 50387894530,
-   "class": "ПО ОТЧЁТУ",
-   "source": "C:/Users/danat/.codex/sessions (1891 файл, сейчас 786)"
-  },
-  {
-   "name": "danat_archived",
-   "total_tokens": 157103,
-   "class": "ПО ОТЧЁТУ",
-   "source": "C:/Users/danat/.codex/archived_sessions"
-  },
-  {
-   "name": "danat_after_jun06_rescaled",
-   "total_tokens": 10459890705,
-   "class": "ОЦЕНКА",
-   "source": "пересчёт records_after_2026_06_06 в базис максимумов делением на 4.187"
-  }
- ],
- "upper_bound_if_delta_valid": 152399687739,
- "prior_figures": {
-  "ledger_headline_inflated": 138912242896,
-  "prior_deduped_no_june_tail": 108244387543
  },
  "danat_by_day_both_bases": {
   "2026-06-04": {

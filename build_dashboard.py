@@ -1085,10 +1085,20 @@ function render(){
 
   /* tiles */
   const RC=D.recon;
+  const CXTOT=(RC.consistent_total_max_basis||{}).total_tokens||0;
+  const CXMINE=(RC.components&&RC.components.length)?RC.components[0].total_tokens:0;
   $('#tiles').innerHTML=[
-    ['Codex',big(RC.consistent_total_max_basis.total_tokens),
-     '<span class="badge b-meas">ИЗМЕРЕНО</span>+<span class="badge b-rep">ОТЧЁТ</span>+<span class="badge b-est">ОЦЕНКА</span> 2026-04-03 → 06-13',
-     'консервативно; верхняя граница '+big(RC.upper_bound_if_delta_valid)],
+    /* Составной итог Codex может отсутствовать: он собирается из локально
+       измеренного chain-split и внешних измерений, а внешних у клонировавшего
+       нет. Тогда плитка честно говорит, что итог не собран, и показывает только
+       ту часть, которая измерена здесь. Подставлять чужую цифру нельзя. */
+    ...(CXTOT ? [['Codex', big(CXTOT),
+        '<span class="badge b-meas">ИЗМЕРЕНО</span>+<span class="badge b-rep">ОТЧЁТ</span>'
+        + '+<span class="badge b-est">ОЦЕНКА</span> 2026-04-03 → 06-13',
+        'консервативно; верхняя граница ' + big(RC.upper_bound_if_delta_valid || 0)]]
+      : [['Codex', 'итог не собран',
+        '<span class="badge b-est">НЕТ ВНЕШНИХ ИЗМЕРЕНИЙ</span>',
+        'локально измерено ' + big(CXMINE)]]),
     ['Claude Code',big(cT),'<span class="badge b-meas">ИЗМЕРЕНО</span> 2026-07-08 → 07-27, 20 дней',
      c.sessions+' сессий · '+nf(c.resp_uniq)+' ответов'],
     ...(hasAG?[['Antigravity','нет счётчика','<span class="badge b-proxy">ПРОКСИ</span> 2026-06-05 → 07-27, 52 дня',
