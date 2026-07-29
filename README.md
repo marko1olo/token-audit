@@ -14,6 +14,31 @@
 
 ---
 
+## 🌐 Live Interactive GitHub Pages Website
+
+The official interactive web showcase for **marko1olo/token-audit** is live and hosted on GitHub Pages:
+👉 **[Click here to visit the live site](https://marko1olo.github.io/token-audit/)**
+
+---
+
+## 🎨 Хроники Токен-Аудита (Эпический Комикс в 10 Кадрах)
+
+> **Иллюстрированная история Самарского рейда на Claude Code и аномалии OpenAI Codex на 152 миллиарда токенов.**
+
+| Глава | Иллюстрация | Описание и Итоги аудита |
+|:---:|:---:|:---|
+| **1** | ![Глава 1](docs/comic/comic_panel_1.jpg) | **Старт Рейда:** Запуск Claude Code в ночном подвале Самары. *"Уплыли монеты в самарскую даль..."* |
+| **2** | ![Глава 2](docs/comic/comic_panel_2.jpg) | **Секретный Ключ:** Ключ уходит в два чата на 12 активных разработчиков. |
+| **3** | ![Глава 3](docs/comic/comic_panel_3.jpg) | **Автопополнение $500:** Списание каждые 12 минут. Паника админа в белой рубашке и смузи. |
+| **4** | ![Глава 4](docs/comic/comic_panel_4.jpg) | **Телефонная Ферма:** 26.2 млрд токенов у Николая ($22,800 личного эквивалента). |
+| **5** | ![Глава 5](docs/comic/comic_panel_5.jpg) | **Аномалия Codex:** Всплеск до 152.4 миллиарда токенов в роллаутах OpenAI Codex. |
+| **6** | ![Глава 6](docs/comic/comic_panel_6.jpg) | **Сбой Счётчика:** Накопительный дубляж в `rollout-*.jsonl` с завышением на 28%. |
+| **7** | ![Глава 7](docs/comic/comic_panel_7.jpg) | **Истина про 1000 Рублей:** 152 млрд токенов Codex обошлись владельцу всего в ~1000 рублей! |
+| **8** | ![Глава 8](docs/comic/comic_panel_8.jpg) | **Chain-Split Алгоритм:** Очистка параллельных цепочек логов до чистых 119 млрд токенов. |
+| **9** | ![Глава 9](docs/comic/comic_panel_9.jpg) | **Офлайн Движок:** Запуск `python refresh.py` с нулем сетевых запросов и зависимостей. |
+| **10** | ![Глава 10](docs/comic/comic_panel_10.jpg) | **Финальный Триумф:** Сведение верифицированных балансов и публикация отчётов! |
+
+---
 ## 📖 Executive Architectural Overview
 
 This repository contains **marko1olo/token-audit**. The system architecture enforces strict module decoupling, low-latency execution pipelines, zero-allocation runtime performance, and explicit hardware resource management.
