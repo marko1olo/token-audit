@@ -13,6 +13,28 @@
 </div>
 
 ---
+---
+
+## 📸 Authentic Repository Media & Screenshots Gallery
+
+<p align="center"><i>Showing 10 verified screenshot(s) and visual assets directly from the repository source tree:</i></p>
+
+<div align="center">
+
+<a href="docs/comic/comic_panel_1.jpg"><img src="docs/comic/comic_panel_1.jpg" width="48%" alt="comic panel 1"/></a> &nbsp; <a href="docs/comic/comic_panel_10.jpg"><img src="docs/comic/comic_panel_10.jpg" width="48%" alt="comic panel 10"/></a>
+<br/>
+<a href="docs/comic/comic_panel_2.jpg"><img src="docs/comic/comic_panel_2.jpg" width="48%" alt="comic panel 2"/></a> &nbsp; <a href="docs/comic/comic_panel_3.jpg"><img src="docs/comic/comic_panel_3.jpg" width="48%" alt="comic panel 3"/></a>
+<br/>
+<a href="docs/comic/comic_panel_4.jpg"><img src="docs/comic/comic_panel_4.jpg" width="48%" alt="comic panel 4"/></a> &nbsp; <a href="docs/comic/comic_panel_5.jpg"><img src="docs/comic/comic_panel_5.jpg" width="48%" alt="comic panel 5"/></a>
+<br/>
+<a href="docs/comic/comic_panel_6.jpg"><img src="docs/comic/comic_panel_6.jpg" width="48%" alt="comic panel 6"/></a> &nbsp; <a href="docs/comic/comic_panel_7.jpg"><img src="docs/comic/comic_panel_7.jpg" width="48%" alt="comic panel 7"/></a>
+<br/>
+<a href="docs/comic/comic_panel_8.jpg"><img src="docs/comic/comic_panel_8.jpg" width="48%" alt="comic panel 8"/></a> &nbsp; <a href="docs/comic/comic_panel_9.jpg"><img src="docs/comic/comic_panel_9.jpg" width="48%" alt="comic panel 9"/></a>
+<br/>
+
+</div>
+
+------
 
 ## 🌐 Live Interactive GitHub Pages Website
 
