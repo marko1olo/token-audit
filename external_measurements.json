@@ -161,5 +161,38 @@
   "measured_at": "2026-05",
   "machine": "внешний источник",
   "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_openrouter_tokens_per_month": {
+  "value": 100000000000000,
+  "unit": "tokens_per_month",
+  "source": "OpenRouter, май 2026; подтверждено Menlo Ventures и a16z State of AI: 25 трлн токенов в неделю, около 100 трлн в месяц, рост 5x за полгода",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_openrouter_tokens_per_year": {
+  "value": 1500000000000000,
+  "unit": "tokens_per_year",
+  "source": "OpenRouter, май 2026; подтверждено Menlo Ventures и a16z State of AI: годовой темп около 1.5 квадриллиона токенов",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
+ },
+ "bench_openrouter_developers": {
+  "value": 8000000,
+  "unit": "developers",
+  "source": "OpenRouter, май 2026; подтверждено Menlo Ventures и a16z State of AI: более 8 миллионов разработчиков на платформе",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ",
+  "note": "Среднее на разработчика из этих двух чисел -- 12.5 млн токенов в месяц. Это СРЕДНЕЕ по всем аккаунтам, включая спящие; распределение расхода по API сильно скошено, а перцентилей публично нет. Ориентир слабый и помечен как слабый намеренно."
+ },
+ "bench_openrouter_share_of_google": {
+  "value": 0.15,
+  "unit": "fraction_low",
+  "source": "Menlo Ventures: объём OpenRouter составляет 15-30% годового объёма Google и 20-40% OpenAI",
+  "measured_at": "2026-05",
+  "machine": "внешний источник",
+  "evidence": "ВНЕШНЕЕ"
  }
 }

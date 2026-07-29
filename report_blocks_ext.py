@@ -730,3 +730,61 @@ def _spike(c):
     hot = [d for d in days if vol[d] > med * 10]
     quiet = [d for d in days if d not in hot]
     return days, quiet, hot, cost
+
+@block("api_scale")
+def api_scale(c):
+    """Расход против платформы API, а не против подписок.
+
+    Подписочные ориентиры отвечают на вопрос «сколько платит разработчик»,
+    а этот -- «сколько прокачивает платформа и какая доля приходится на нас».
+    Оба нужны: первый про деньги, второй про масштаб.
+
+    Средний пользователь считается делением объёма платформы на число
+    разработчиков и помечен как слабый ориентир. Это среднее по всем аккаунтам,
+    включая спящие; распределение расхода по API сильно скошено, а перцентилей
+    публично нет. Подставлять среднее вместо медианы и молчать об этом значит
+    выдавать слабую оценку за сильную.
+    """
+    ext = _external()
+    need = ("bench_openrouter_tokens_per_month", "bench_openrouter_developers")
+    if not all(k in ext for k in need):
+        return ["*Внешних данных по платформе API нет: нужны записи %s в "
+                "`external_measurements.json`.*" % ", ".join("`%s`" % k for k in need)]
+    if not c.cl:
+        return ["*Нет данных: claude_totals.json.*"]
+    plat_month = float(ext["bench_openrouter_tokens_per_month"]["value"])
+    devs = float(ext["bench_openrouter_developers"]["value"]) or 1
+    per_dev = plat_month / devs
+    all_d, quiet, hot, _cost = _spike(c)
+    bd = (c.cl or {}).get("by_day") or {}
+    vol = {d: sum(bd[d].get(k, 0) for k in _KEYS) for d in bd}
+    tot = sum(vol.values()) or 1
+    avg_month = tot / (len(all_d) or 1) * 30
+    hot_month = (sum(vol[d] for d in hot) / len(hot) * 30) if hot else avg_month
+    r = ["| база | токенов в месяц | против среднего пользователя | доля платформы |",
+         "|---|---:|---:|---:|",
+         "| наш средний темп | %s | **%.0f×** | %.4f%% |"
+         % (f(avg_month), avg_month / per_dev, 100.0 * avg_month / plat_month)]
+    if hot:
+        r.append("| наш темп в рабочие сутки | %s | **%.0f×** | %.4f%% |"
+                 % (f(hot_month), hot_month / per_dev, 100.0 * hot_month / plat_month))
+    r += ["| средний пользователь платформы | %s | 1× | — |" % f(per_dev),
+          "| вся платформа | %s | %s пользователей | 100%% |" % (f(plat_month), f(devs)),
+          "",
+          "Источник: %s" % ext["bench_openrouter_tokens_per_month"]["source"], ""]
+    r.append("Средний пользователь -- это объём платформы, делённый на число "
+             "аккаунтов, то есть среднее вместе со спящими. Распределение расхода "
+             "по API сильно скошено, а перцентилей публично нет, поэтому ориентир "
+             "слабый и назван слабым. Сильный ориентир дал бы публичный рейтинг "
+             "приложений OpenRouter по токенам, но для него нужен ключ доступа.")
+    share = ext.get("bench_openrouter_share_of_google")
+    yr = ext.get("bench_openrouter_tokens_per_year")
+    if share and yr:
+        g_hi = float(yr["value"]) / float(share["value"])
+        our_year = hot_month / 30.0 * 365
+        r.append("Сверху по масштабу: платформа это %.0f%% годового объёма Google, "
+                 "то есть у Google порядка %s токенов в год. Наш годовой темп в "
+                 "рабочем режиме -- %s, или **%.4f%%** от него."
+                 % (100 * float(share["value"]), f(g_hi), f(our_year),
+                    100.0 * our_year / g_hi))
+    return r
