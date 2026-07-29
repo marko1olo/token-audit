@@ -24,16 +24,28 @@ AUTO-блоков в отчётах, сборка дашборда и прове
     Терять работу нельзя, поэтому порядок именно такой: сначала коммит, потом
     отправка.
 
-БЕЗОПАСНОСТЬ. Токены доступа не печатаются, не логируются и не остаются на
-диске. Они читаются из файла с кредами (путь задаётся --credentials или
-переменной TOKENAUDIT_GIT_CREDENTIALS) в момент отправки, кладутся во временный
-credential-store вне репозитория, а после отправки файл перезаписывается и
-удаляется. Вывод git фильтруется от значений токенов на случай, если git решит
-напечатать URL с встроенными кредами. Сам этот файл не содержит ни одного
-секрета и потому лежит в публичном репозитории спокойно.
+ОТПРАВКА В ДВА ШАГА, И ЭТО ИЗ-ЗА РЕАЛЬНОГО СЛУЧАЯ. Сначала обычный `git push`:
+у git может быть свой credential.helper, и тогда файл с кредами не нужен вовсе.
+Что не ушло -- добирается через файл. Порядок именно такой, потому что файл
+однажды переместили, демон знал ровно одно место и два прогона подряд оставлял
+коммиты локальными, хотя git отправил бы их сам. В том же случае выяснилось, что
+одного способа мало и в другую сторону: хранилище git имело рабочий токен для
+GitHub и нерабочий для GitLab (403), поэтому пробуются оба.
 
-Формат файла с кредами -- строки вида `GitHub Token: ...`, ожидаются четыре:
-GitHub Username, GitHub Token, GitLab Username, GitLab Token.
+БЕЗОПАСНОСТЬ. Этот скрипт токены не печатает, не логирует и после отправки не
+оставляет: они читаются из файла с кредами в момент отправки, кладутся во
+временный store вне репозитория, затем файл перезаписывается и удаляется. Вывод
+git фильтруется от значений токенов. Сам скрипт секретов не содержит.
+
+Чего он НЕ обещает: если у git настроен credential.helper=store, токены уже
+лежат в ~/.git-credentials открытым текстом, и это состояние машины, а не
+следствие работы демона. Утверждать «токены не остаются на диске» было бы
+неправдой -- шаг обычного пуша как раз этим хранилищем и пользуется.
+
+Файл с кредами ищется по списку кандидатов (CRED_CANDIDATES), либо задаётся
+через --credentials или TOKENAUDIT_GIT_CREDENTIALS. Формат -- строки вида
+`GitHub Token: ...`, ожидаются четыре: GitHub Username, GitHub Token,
+GitLab Username, GitLab Token.
 
 Лог пишется рядом со скриптом в autoupdate.log и в репозиторий не попадает:
 это состояние машины, а не артефакт аудита.
@@ -52,7 +64,26 @@ PY = sys.executable
 LOG = os.path.join(HERE, "autoupdate.log")
 TASK = "TokenAuditHourly"
 CRED_ENV = "TOKENAUDIT_GIT_CREDENTIALS"
-DEFAULT_CRED = os.path.join(os.path.expanduser("~"), "Documents", "gitenv.txt")
+# Где искать файл с кредами, если путь не задан явно. Список, а не одна строка:
+# файл однажды переместили, и демон два прогона подряд коммитил локально, потому
+# что знал ровно одно место. Порядок -- от самого явного к самому старому.
+CRED_CANDIDATES = (
+    os.path.join("~", "Documents", "_Organized_Documents", "02_Keys_And_Tokens", "gitenv.txt"),
+    os.path.join("~", "Documents", "gitenv.txt"),
+    os.path.join("~", "gitenv.txt"),
+)
+
+
+def default_credentials():
+    """Первый существующий кандидат или самый вероятный путь. -> str"""
+    for c in CRED_CANDIDATES:
+        p = os.path.expanduser(c)
+        if os.path.isfile(p):
+            return p
+    return os.path.expanduser(CRED_CANDIDATES[0])
+
+
+DEFAULT_CRED = default_credentials()
 
 # Зеркала: имя удалённого репозитория -> хост, под который нужен credential.
 MIRRORS = (("origin", "github.com", "github"), ("gitlab", "gitlab.com", "gitlab"))
@@ -290,8 +321,12 @@ def commit_message(fig, render_failed=False, heavy=True):
     return head + "\n" + "\n".join(body) + "\n"
 
 
-def push(cred):
-    """Отправить в оба зеркала через одноразовый credential-store. -> [(имя, код)]"""
+def push(cred, only=None):
+    """Отправить через одноразовый credential-store. -> [(имя, код)]
+
+    only -- список имён удалённых репозиториев; None означает все. Нужен, чтобы
+    не пушить повторно туда, куда уже ушло обычным способом.
+    """
     store = os.path.join(os.environ.get("TEMP") or "/tmp", "_ta_cred.tmp")
     lines = ["https://%s:%s@%s" % (cred["%s_username" % key], cred["%s_token" % key], host)
              for _remote, host, key in MIRRORS]
@@ -302,6 +337,8 @@ def push(cred):
             fh.write("\n".join(lines) + "\n")
         helper = "store --file=%s" % store.replace("\\", "/")
         for remote, _host, _key in MIRRORS:
+            if only is not None and remote not in only:
+                continue
             rc, out = git("-c", "credential.helper=", "-c", "credential.helper=" + helper,
                           "push", remote, "main", scrub=secrets)
             results.append((remote, rc))
@@ -443,13 +480,35 @@ def one_pass(a):
     if rc == 0 and not out.strip():
         log("отправлять нечего -- зеркала уже актуальны")
         return 0
+    # Сначала обычный пуш, без файла с кредами.
+    #
+    # У git может быть свой credential.helper (здесь настроен store), и тогда
+    # файл не нужен вовсе. Порядок именно такой, потому что файл однажды
+    # переместили: демон знал одно место, не нашёл его и два прогона подряд
+    # оставлял коммиты локальными -- при том что git отправил бы их сам.
+    # Проверено на этом инциденте: origin ушёл обычным пушем, gitlab вернул 403,
+    # то есть один способ рабочий, другой нет, и пробовать надо оба.
+    bad = []
+    for remote, _host, _key in MIRRORS:
+        rc, out = git("push", remote, "main")
+        if rc == 0:
+            log("push %s: ок (через хранилище git)" % remote)
+        else:
+            bad.append(remote)
+            log("push %s обычным способом не прошёл: %s" % (remote, out[-200:]))
+    if not bad:
+        return 0
+
+    # Что не ушло -- пробуем через файл с кредами.
     cred = read_credentials(a.credentials)
     if not cred:
-        log("креды не найдены (%s) -- коммит остался локальным, следующий проход "
-            "отправит оба" % (a.credentials or "путь не задан"))
+        log("не отправлено: %s. Креды не найдены (%s) -- коммит остался локальным, "
+            "следующий проход попробует снова" % (", ".join(bad), a.credentials))
         return 0
-    bad = [r for r, code in push(cred) if code != 0]
-    return 1 if bad else 0
+    left = [r for r, code in push(cred, only=bad) if code != 0]
+    if left:
+        log("не отправлено даже с кредами: %s" % ", ".join(left))
+    return 1 if left else 0
 
 
 # ------------------------------------------------------------ планировщик
