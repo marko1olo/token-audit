@@ -28,3 +28,4 @@ autoupdate.log
 # замок демона: состояние прогона
 .autoupdate.lock
 autoupdate.log.1
+.autoupdate.state

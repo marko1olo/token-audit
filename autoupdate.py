@@ -61,6 +61,25 @@ MIRRORS = (("origin", "github.com", "github"), ("gitlab", "gitlab.com", "gitlab"
 LOCK = os.path.join(HERE, ".autoupdate.lock")
 LOCK_STALE_H = 3          # столько часов -- и замок считается брошенным
 LOG_MAX = 1_000_000       # байт; дальше лог поворачивается в .1
+STATE = os.path.join(HERE, ".autoupdate.state")
+
+# ЧАСТОТА КОММИТА РАЗДЕЛЕНА, И ЭТО СЧИТАЛОСЬ, А НЕ ПРИКИДЫВАЛОСЬ.
+#
+# Каждый прогон переписывает все производные артефакты целиком, поэтому git
+# сохраняет их заново. Измерено: 386 КБ сжатого за прогон, то есть 3.47 ГБ в
+# год. Репозиторий столько не живёт. До сокращения серий было 879 КБ и 7.88 ГБ.
+#
+# Разделение по тому, что человек реально читает каждый час, и что нет:
+#   лёгкое  -- snapshots.jsonl (единственная накопительная запись, 4 КБ),
+#              CURRENT.md (текущие цифры, 1 КБ), combined.json (машинное
+#              состояние, 5 КБ). Итого около 10 КБ в час = 88 МБ в год.
+#   тяжёлое -- дашборд, полные отчёты, большие выкладки. 376 КБ, но раз в сутки
+#              это 137 МБ в год.
+# Вместе примерно 225 МБ в год против 3.47 ГБ. Цена: дашборд и большие отчёты
+# обновляются раз в сутки, а не раз в час. То, за чем следят, обновляется
+# каждый час.
+LIGHT = ("snapshots.jsonl", "CURRENT.md", "combined.json", "claude_cost_deep.json")
+HEAVY_EVERY_H = 24
 
 
 def log(msg):
@@ -127,6 +146,44 @@ def release_lock():
             os.remove(LOCK)
     except OSError:
         pass
+
+
+def state_get(key, default=None):
+    try:
+        with io.open(STATE, encoding="utf-8") as fh:
+            return (json.load(fh) or {}).get(key, default)
+    except (OSError, ValueError):
+        return default
+
+
+def state_set(key, value):
+    d = {}
+    try:
+        with io.open(STATE, encoding="utf-8") as fh:
+            d = json.load(fh) or {}
+    except (OSError, ValueError):
+        d = {}
+    d[key] = value
+    try:
+        with io.open(STATE, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(d, fh, ensure_ascii=False, indent=1)
+    except OSError as e:
+        log("состояние не записано (%s) -- тяжёлый коммит может повториться" % e)
+
+
+def heavy_due(every_h):
+    """Пора ли фиксировать тяжёлые артефакты. -> (да/нет, сколько часов прошло)
+
+    Первый прогон после установки всегда тяжёлый: иначе дашборд в репозитории
+    останется от предыдущей эпохи, а понять это со стороны будет нельзя.
+    """
+    if every_h <= 0:
+        return True, 0.0
+    last = state_get("last_heavy_ts")
+    if not last:
+        return True, 0.0
+    age = (time.time() - float(last)) / 3600.0
+    return age >= every_h, age
 
 
 def git(*args, **kw):
@@ -204,7 +261,7 @@ def fmt(n):
     return "—" if n is None else "{:,}".format(int(n)).replace(",", " ")
 
 
-def commit_message(fig, render_failed=False):
+def commit_message(fig, render_failed=False, heavy=True):
     head = "Автообновление: %s токенов" % fmt(fig["total"])
     body = ["", "Автоматический почасовой прогон. Числа подставлены генератором",
             "из измеренных JSON, целостность проверена до записи.", ""]
@@ -220,6 +277,8 @@ def commit_message(fig, render_failed=False):
     if w:
         body.append("  окно      %s файлов, %s байт"
                     % (fmt(w.get("files")), fmt(w.get("bytes"))))
+    body.append("  набор     %s" % ("полный: отчёты, дашборд, выкладки" if heavy
+                                    else "лёгкий: текущие цифры и история снимков"))
     if render_failed:
         body += ["",
                  "ВНИМАНИЕ: проверка рендера дашборда не прошла, поэтому",
@@ -298,14 +357,27 @@ def one_pass(a):
         log("git status не сработал: %s" % out[-300:])
         return 1
     changed = [x for x in out.split("\n") if x.strip()]
+    heavy, age_h = heavy_due(a.heavy_every)
     if changed:
-        rc, out = git("add", "-A")
+        if heavy:
+            log("тяжёлый коммит: прошло %.1f ч из %d" % (age_h, a.heavy_every))
+            rc, out = git("add", "-A")
+        else:
+            # Только лёгкий набор. Тяжёлые артефакты остаются изменёнными в
+            # рабочем дереве и уедут следующим тяжёлым проходом -- терять их
+            # незачем, они всё равно перегенерируются.
+            log("лёгкий коммит: до тяжёлого ещё %.1f ч" % (a.heavy_every - age_h))
+            rc, out = git("add", "--", *LIGHT)
         if rc != 0:
             log("git add не сработал: %s" % out[-300:])
             return 1
+        rc, staged = git("diff", "--cached", "--name-only")
+        if rc == 0 and not staged.strip():
+            log("в лёгком наборе изменений нет -- коммит не нужен")
+            return 0
         msg = os.path.join(os.environ.get("TEMP") or "/tmp", "_ta_msg.txt")
         with io.open(msg, "w", encoding="utf-8", newline="\n") as fh:
-            fh.write(commit_message(fig, render_failed))
+            fh.write(commit_message(fig, render_failed, heavy))
         rc, out = git("commit", "-q", "-F", msg)
         try:
             os.remove(msg)
@@ -315,7 +387,12 @@ def one_pass(a):
             log("коммит не прошёл (возможно, хук): %s" % out[-400:])
             return 1
         _rc, head = git("log", "--oneline", "-1")
-        log("коммит: %s (файлов изменено %d)" % (head, len(changed)))
+        _rc2, stat = git("show", "--stat", "--format=", "HEAD")
+        in_commit = len([x for x in stat.splitlines() if " | " in x])
+        log("коммит: %s (в коммите файлов %d, изменено в дереве %d)"
+            % (head, in_commit, len(changed)))
+        if heavy:
+            state_set("last_heavy_ts", time.time())
     else:
         log("изменений нет -- пустой коммит не создаём")
 
@@ -337,6 +414,11 @@ def one_pass(a):
         if behind:
             log("удалённый впереди на %d коммит(ов), локальный на %d -- "
                 "пробуем перебазироваться" % (behind, ahead))
+            # Перебазирование не идёт с незакоммиченными изменениями, а после
+            # лёгкого коммита тяжёлые артефакты как раз изменены. Они
+            # производные и перегенерируются на следующем проходе, поэтому их
+            # можно выбросить без потерь.
+            git("checkout", "--", ".")
             rcr, outr = git("pull", "--rebase", "--no-edit", "origin", "main")
             if rcr != 0:
                 git("rebase", "--abort")
@@ -450,6 +532,9 @@ def main():
     ap.add_argument("--credentials", default=os.environ.get(CRED_ENV) or DEFAULT_CRED,
                     help="файл с кредами git (по умолчанию $%s или ~/Documents/gitenv.txt)"
                          % CRED_ENV)
+    ap.add_argument("--heavy-every", type=int, default=HEAVY_EVERY_H, dest="heavy_every",
+                    help="через сколько часов фиксировать тяжёлые артефакты "
+                         "(дашборд, полные отчёты); 0 -- каждый раз")
     ap.add_argument("--minute", type=int, default=17,
                     help="минута часа для запуска (по умолчанию 17, не 0)")
     ap.add_argument("--install", action="store_true", help="поставить почасовую задачу")
