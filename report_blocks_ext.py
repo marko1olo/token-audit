@@ -580,8 +580,15 @@ def benchmarks(c):
     if not ext:
         return ["*Внешних ориентиров нет: external_measurements.json отсутствует "
                 "или в нём не осталось записей с происхождением.*"]
-    days = len(c.cl.get("by_day") or {}) or 1
-    per_day = c.cost_total / days
+    # Базис -- сутки ВСПЛЕСКА, а не весь период. Средний по периоду занижает
+    # множители в 6.5 раза, потому что 19 тихих суток размывают трое рабочих.
+    all_d, quiet, hot, cost = _spike(c)
+    if hot:
+        per_day = sum(cost[d] for d in hot) / len(hot)
+        basis = "%d суток всплеска (%s .. %s)" % (len(hot), hot[0], hot[-1])
+    else:
+        per_day = c.cost_total / (len(all_d) or 1)
+        basis = "%d суток, режим ровный -- всплеска не найдено" % len(all_d)
     per_month = per_day * 30
     r = ["| ориентир | значение | наш расход | множитель |",
          "|---|---:|---:|---:|"]
@@ -619,10 +626,19 @@ def benchmarks(c):
     rng("bench_subscription_ide_low", "bench_subscription_ide_high",
         "подписка на ассистента в IDE", "month")
     r += ["",
-          "Наш расход: **%s** за %d активных суток, то есть **%s в сутки** и "
-          "около **%s в месяц** в пересчёте. Все ориентиры -- внешние, источник "
-          "у каждого указан в `external_measurements.json`."
-          % (usd(c.cost_total), days, usd(per_day), usd(per_month))]
+          "Базис -- %s: **%s в сутки**, около **%s в месяц** в пересчёте. "
+          "Все ориентиры внешние, источник у каждого указан в "
+          "`external_measurements.json`." % (basis, usd(per_day), usd(per_month))]
+    if hot and quiet:
+        q_day = sum(cost[d] for d in quiet) / len(quiet)
+        a_day = c.cost_total / (len(all_d) or 1)
+        r.append("Почему именно этот базис. За весь период выходит %s в сутки, но "
+                 "это среднее по %d суткам, из которых %d тихие (%s в сутки) и "
+                 "только %d рабочие. Всплеск дороже тихих суток в **%.0f раза** и "
+                 "дороже среднего по периоду в **%.1f раза**, поэтому множители, "
+                 "посчитанные от среднего, занижены во столько же."
+                 % (usd(a_day), len(all_d), len(quiet), usd(q_day), len(hot),
+                    per_day / q_day if q_day else 0, per_day / a_day if a_day else 0))
     g = ext.get("bench_google_tokens_per_month")
     if g:
         share = 100.0 * c.total / float(g["value"])
@@ -688,3 +704,29 @@ def burn_forecast(c):
     r.append("При непрерывной работе на свежем темпе месяц дал бы **%s**, год — **%s**."
              % (usd(fast * 24 * 30 * usd_per_tok), usd(fast * 24 * 365 * usd_per_tok)))
     return r
+
+def _spike(c):
+    """Разделить сутки на тихие и всплеск. Перелом ищется, а не задаётся датой.
+
+    ЗАЧЕМ. Средний расход по всему периоду вводит в заблуждение, когда работа
+    была не ровной. Измерено: 22 суток дают $994 в сутки, но 19 из них тихие
+    ($124), а трое суток всплеска -- $6 504, то есть в 52.6 раза дороже тихих и
+    в 6.5 раза дороже среднего. Множители против индустрии, посчитанные от
+    среднего, занижены в 6.5 раза.
+
+    Правило: сутки, где объём больше десяти медиан по суткам. На текущих данных
+    оно выделяет ровно 27-29 июля -- 94.94% всего объёма. Порог намеренно грубый:
+    он должен ловить смену режима, а не колебания внутри режима.
+    -> (все сутки, тихие, всплеск, {день: $})
+    """
+    import statistics as _st
+    bd = (c.cl or {}).get("by_day") or {}
+    days = sorted(bd)
+    if len(days) < 4:
+        return days, days, [], {d: rates.day_cost(bd[d]) for d in days}
+    vol = {d: sum(bd[d].get(k, 0) for k in _KEYS) for d in days}
+    cost = {d: rates.day_cost(bd[d]) for d in days}
+    med = _st.median(vol.values()) or 1
+    hot = [d for d in days if vol[d] > med * 10]
+    quiet = [d for d in days if d not in hot]
+    return days, quiet, hot, cost
