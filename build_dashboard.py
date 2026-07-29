@@ -60,13 +60,46 @@ TOKEN_FIELDS = [("inp", "uncached input"), ("cc", "cache write"),
                 ("cr", "cache read"), ("out", "output")]
 
 
-def series(d, keys=("inp", "cc", "cr", "out")):
-    """{bucket: {...}} -> {labels: [...], <key>: [...]}"""
+# Предел числа точек в серии, уходящей в дашборд.
+#
+# Складчатый график шириной около тысячи пикселей физически показывает
+# 350--500 столбиков, дальше браузер рисует их друг на друге. Измерено, что
+# уходило до сокращения: codex.by_minute -- 28 561 точка, то есть 28.6 точки на
+# пиксель, и весила серия 1357 КБ, 72.9% всей полезной нагрузки. Плюс
+# claude.by_minute 6 632 точки и danat.by_minute 4 506. Вместе они составляли
+# практически весь файл: полезная нагрузка 1863 КБ из 1941 КБ, то есть 96%.
+#
+# Полное поминутное разрешение НЕ теряется -- оно остаётся в JSON-выкладках,
+# откуда его и надо брать для анализа. Сокращается только то, что встраивается
+# в HTML: за пределом видимости данные превращаются из информации в вес.
+MAX_POINTS = 720
+
+
+def series(d, keys=("inp", "cc", "cr", "out"), cap=MAX_POINTS):
+    """{bucket: {...}} -> {labels: [...], <key>: [...]}, не больше cap точек.
+
+    При сокращении соседние интервалы складываются, подпись берётся от первого
+    в группе. Сумма по каждому ключу сохраняется ТОЧНО -- иначе панель начнёт
+    расходиться с итогами, а две разные цифры на одной странице в этом
+    репозитории уже случались и стоили дорого. Проверяется тут же, на месте.
+    """
     ks = sorted(d.keys())
     o = {"labels": ks}
     for k in keys:
         o[k] = [d[b].get(k, 0) for b in ks]
-    return o
+    if not cap or len(ks) <= cap:
+        return o
+    step = (len(ks) + cap - 1) // cap          # округление вверх
+    out = {"labels": [ks[i] for i in range(0, len(ks), step)]}
+    for k in keys:
+        src = o[k]
+        out[k] = [sum(src[i:i + step]) for i in range(0, len(src), step)]
+        if sum(out[k]) != sum(src):
+            raise SystemExit("сокращение серии потеряло сумму по ключу %r: "
+                             "%d против %d" % (k, sum(out[k]), sum(src)))
+    out["downsampled_from"] = len(ks)
+    out["bucket_span"] = step
+    return out
 
 
 CXF = ["input_tokens", "cached_input_tokens", "output_tokens", "reasoning_output_tokens"]
@@ -306,7 +339,7 @@ th{color:var(--ink2);font-weight:600}
 <div class="card">
   <h2>Claude Code во времени <span class="badge b-meas">ИЗМЕРЕНО</span></h2>
   <p class="cap">Стек по типу токена. Переключатель меняет разрешение — от суток до минуты.</p>
-  <div class="ctrl" id="res"></div>
+  <div class="ctrl" id="res"></div><span class="note" id="resnote"></span>
   <div class="legend" id="lg1"></div>
   <div id="ts"></div>
   <div class="note">Кэш-чтение — <b id="crshare"></b> всего объёма. Именно поэтому
@@ -428,7 +461,7 @@ th{color:var(--ink2);font-weight:600}
   <p class="cap">1050 файлов роллаутов, 10.1 ГБ, 1030 сессий. Накопительный счётчик
     <code>total_token_usage</code> монотонен, поэтому разница соседних значений даёт
     честный минутный ряд.</p>
-  <div class="ctrl" id="res2"></div>
+  <div class="ctrl" id="res2"></div><span class="note" id="res2note"></span>
   <div class="legend" id="lg3"></div>
   <div id="ts2"></div>
   <div class="note crit">Это <b>только выживший бэкап-корень</b> и только апрель–май.
@@ -1081,11 +1114,22 @@ function render(){
     const b=document.createElement('button'); b.textContent=l;
     b.setAttribute('aria-pressed',cur()===k);
     b.onclick=()=>{set(k);render()}; host.appendChild(b); }); };
+  /* Честная подпись разрешения. Серия, встроенная в HTML, могла быть сокращена
+     (см. MAX_POINTS в build_dashboard.py): подписывать корзину по 40 минут
+     словом «минута» значит врать о том, что показано. Если сокращение было,
+     говорим фактический шаг. */
+  const spanNote=ser=>{
+    if(!ser||!ser.bucket_span||ser.bucket_span<2) return '';
+    const n=ser.bucket_span, from=ser.downsampled_from;
+    return ' · корзины по '+n+' мин (сведено из '+nf(from)+' точек: столько'+
+           ' на экран не помещается, суммы сохранены)';
+  };
   rb($('#res'),()=>RES,v=>RES=v,[['by_day','сутки'],['by_hour','час'],
     ['by_10min','10 мин'],['by_minute','минута']]);
   legend($('#lg1'),NAMES,C4());
   stack($('#ts'),c[RES],KEYS,NAMES,C4(),{h:300,
     fmtX:s=>RES==='by_day'?s.slice(5):RES==='by_hour'?s.slice(5).replace('T',' ')+'ч':s.slice(5).replace('T',' ')});
+  {const el=$('#resnote'); if(el) el.textContent=spanNote(c[RES]);}
   $('#crshare').textContent=(c.totals.cr/cT*100).toFixed(1)+'%';
 
   /* night 27->28 */
@@ -1206,6 +1250,7 @@ function render(){
   legend($('#lg3'),CXN,cols(['--s1','--s5']));
   stack($('#ts2'),x[RES2],CXK,CXN,cols(['--s1','--s5']),{h:300,
     fmtX:s=>RES2==='by_day'?s.slice(5):s.slice(5).replace('T',' ')});
+  {const el=$('#res2note'); if(el) el.textContent=spanNote(x[RES2]);}
 
   /* codex roots -- только если есть данные Codex */
   if(hasCX){

@@ -58,14 +58,75 @@ DEFAULT_CRED = os.path.join(os.path.expanduser("~"), "Documents", "gitenv.txt")
 MIRRORS = (("origin", "github.com", "github"), ("gitlab", "gitlab.com", "gitlab"))
 
 
+LOCK = os.path.join(HERE, ".autoupdate.lock")
+LOCK_STALE_H = 3          # столько часов -- и замок считается брошенным
+LOG_MAX = 1_000_000       # байт; дальше лог поворачивается в .1
+
+
 def log(msg):
     line = "%s  %s" % (time.strftime("%Y-%m-%d %H:%M:%S"), msg)
     print(line, flush=True)
     try:
+        # Поворот лога: демон живёт годами, а файл без предела растёт, пока не
+        # станет проблемой сам по себе.
+        if os.path.exists(LOG) and os.path.getsize(LOG) > LOG_MAX:
+            old = LOG + ".1"
+            if os.path.exists(old):
+                os.remove(old)
+            os.replace(LOG, old)
         with io.open(LOG, "a", encoding="utf-8", newline="\n") as fh:
             fh.write(line + "\n")
     except OSError:
         pass          # лог -- удобство, а не условие работы
+
+
+def cfg_exit_verify():
+    """Код выхода «не прошла проверка рендера». Из общего словаря, не литералом.
+
+    Словарь кодов живёт в tokenaudit_config; вписать единицу здесь значит
+    завести ещё одно место, где число может разойтись с остальными.
+    """
+    try:
+        if HERE not in sys.path:
+            sys.path.insert(0, HERE)
+        import tokenaudit_config as cfg
+        return cfg.EXIT_VERIFY
+    except Exception:
+        return 1
+
+
+def acquire_lock():
+    """Один прогон за раз. -> True, если замок взят.
+
+    Прогон со сканом Codex занимает минуты, а задача стоит на каждый час: без
+    замка два экземпляра начнут писать одни артефакты и один индекс git. Замок
+    с меткой времени, а не просто наличие файла: упавший прогон не должен
+    блокировать демона навсегда, поэтому через LOCK_STALE_H он перехватывается.
+    """
+    try:
+        if os.path.exists(LOCK):
+            age_h = (time.time() - os.path.getmtime(LOCK)) / 3600.0
+            if age_h < LOCK_STALE_H:
+                with io.open(LOCK, encoding="utf-8") as fh:
+                    who = fh.read().strip()[:120]
+                log("уже выполняется (%s, возраст замка %.1f ч) -- выходим" % (who, age_h))
+                return False
+            log("замок брошен %.1f ч назад -- перехватываем" % age_h)
+        with io.open(LOCK, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write("pid %d, начат %s\n" % (os.getpid(),
+                                             time.strftime("%Y-%m-%d %H:%M:%S")))
+        return True
+    except OSError as e:
+        log("замок не взять (%s) -- продолжаем без него" % e)
+        return True
+
+
+def release_lock():
+    try:
+        if os.path.exists(LOCK):
+            os.remove(LOCK)
+    except OSError:
+        pass
 
 
 def git(*args, **kw):
@@ -143,10 +204,10 @@ def fmt(n):
     return "—" if n is None else "{:,}".format(int(n)).replace(",", " ")
 
 
-def commit_message(fig):
+def commit_message(fig, render_failed=False):
     head = "Автообновление: %s токенов" % fmt(fig["total"])
     body = ["", "Автоматический почасовой прогон. Числа подставлены генератором",
-            "из измеренных JSON, целостность и рендер проверены до коммита.", ""]
+            "из измеренных JSON, целостность проверена до записи.", ""]
     body.append("  токенов   %s" % fmt(fig["total"]))
     if fig["cost"] is not None:
         body.append("  по прайсу $%s"
@@ -159,6 +220,11 @@ def commit_message(fig):
     if w:
         body.append("  окно      %s файлов, %s байт"
                     % (fmt(w.get("files")), fmt(w.get("bytes"))))
+    if render_failed:
+        body += ["",
+                 "ВНИМАНИЕ: проверка рендера дашборда не прошла, поэтому",
+                 "dashboard.html оставлен прежним. Данные и отчёты корректны:",
+                 "целостность сошлась до записи, под сомнением только браузер."]
     return head + "\n" + "\n".join(body) + "\n"
 
 
@@ -197,10 +263,29 @@ def one_pass(a):
         extra.append("--antigravity")
     rc, out = measure(extra)
     tail = "\n".join(x for x in out.strip().split("\n")[-4:] if x.strip())
-    if rc != 0:
-        log("refresh.py вернул %d -- НИЧЕГО не коммитим" % rc)
+    # Разные отказы стоят разного, и обходиться с ними одинаково -- расточительно.
+    #
+    # Код 2 (не сошлась целостность) и 3 (нет корня либо измерен ноль) означают,
+    # что сами цифры под сомнением: не коммитим ничего.
+    #
+    # Код 1 -- это провал ПРОВЕРКИ РЕНДЕРА, и он про браузер, а не про данные. К
+    # этому моменту этапы 1--4 прошли, целостность на этапе 3 сошлась, JSON и
+    # отчёты корректны. Выбрасывать верное измерение из-за обновившегося Chrome
+    # значит останавливать демона молча и надолго. Поэтому данные фиксируем, а
+    # dashboard.html оставляем прежний -- публиковать нерендерящийся дашборд
+    # нельзя, но и терять измерение незачем.
+    render_failed = (rc == cfg_exit_verify())
+    if rc != 0 and not render_failed:
+        log("refresh.py вернул %d -- НИЧЕГО не коммитим (цифры под сомнением)" % rc)
         log(tail[-600:])
         return rc
+    if render_failed:
+        log("проверка рендера не прошла (код 1): данные фиксируем, "
+            "dashboard.html откатываем к прежнему")
+        log(tail[-400:])
+        rcd, outd = git("checkout", "--", "dashboard.html")
+        if rcd != 0:
+            log("откат dashboard.html не удался: %s" % outd[-200:])
     fig = figures()
     log("измерено: %s токенов, сессий %s, ответов %s"
         % (fmt(fig["total"]), fig["sessions"], fmt(fig["responses"])))
@@ -220,7 +305,7 @@ def one_pass(a):
             return 1
         msg = os.path.join(os.environ.get("TEMP") or "/tmp", "_ta_msg.txt")
         with io.open(msg, "w", encoding="utf-8", newline="\n") as fh:
-            fh.write(commit_message(fig))
+            fh.write(commit_message(fig, render_failed))
         rc, out = git("commit", "-q", "-F", msg)
         try:
             os.remove(msg)
@@ -237,6 +322,29 @@ def one_pass(a):
     if a.no_push:
         log("--no-push: отправка пропущена")
         return 0
+
+    # Расхождение с удалённым. Если там появились коммиты, которых нет здесь,
+    # push отвергается, и без вмешательства демон встанет навсегда, каждый час
+    # повторяя одну и ту же ошибку. Поэтому: узнать состояние, попробовать
+    # перебазироваться, а при конфликте -- откатиться и сказать вслух. Молча
+    # разруливать конфликт в файлах, часть которых код, нельзя.
+    git("fetch", "--quiet", "origin")
+    rc, out = git("rev-list", "--left-right", "--count", "origin/main...HEAD")
+    if rc == 0 and out.strip():
+        parts = out.split()
+        behind = int(parts[0]) if parts and parts[0].isdigit() else 0
+        ahead = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else 0
+        if behind:
+            log("удалённый впереди на %d коммит(ов), локальный на %d -- "
+                "пробуем перебазироваться" % (behind, ahead))
+            rcr, outr = git("pull", "--rebase", "--no-edit", "origin", "main")
+            if rcr != 0:
+                git("rebase", "--abort")
+                log("перебазирование не удалось, откатили. Нужны руки: %s"
+                    % outr[-400:])
+                return 1
+            log("перебазировались, продолжаем отправку")
+
     rc, out = git("log", "origin/main..HEAD", "--oneline")
     if rc == 0 and not out.strip():
         log("отправлять нечего -- зеркала уже актуальны")
@@ -360,7 +468,14 @@ def main():
         return uninstall(a)
     if a.status:
         return status(a)
-    return one_pass(a)
+    if a.dry_run:
+        return one_pass(a)      # чтение никому не мешает, замок не нужен
+    if not acquire_lock():
+        return 0
+    try:
+        return one_pass(a)
+    finally:
+        release_lock()
 
 
 if __name__ == "__main__":

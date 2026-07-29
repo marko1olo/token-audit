@@ -24,3 +24,7 @@ scan_manifest.json
 
 # лог автообновления: состояние машины, не артефакт аудита
 autoupdate.log
+
+# замок демона: состояние прогона
+.autoupdate.lock
+autoupdate.log.1
