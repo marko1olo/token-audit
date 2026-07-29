@@ -6,21 +6,21 @@
   "source": "~/.claude/projects",
   "period": [
    "2026-07-08T06:54:30.759Z",
-   "2026-07-29T07:10:38.384Z"
+   "2026-07-29T07:11:47.313Z"
   ],
   "sessions": 172,
   "files": 3303,
-  "responses_deduped": 123791,
-  "responses_raw": 296382,
-  "dedupe_dropped": 172591,
+  "responses_deduped": 123917,
+  "responses_raw": 296648,
+  "dedupe_dropped": 172731,
   "totals": {
-   "uncached_input": 309630574,
-   "cache_write": 657791981,
-   "cache_read": 21057384425,
-   "output": 124867076,
-   "total": 22149674056
+   "uncached_input": 309637357,
+   "cache_write": 658048074,
+   "cache_read": 21085067760,
+   "output": 125000111,
+   "total": 22177753302
   },
-  "raw_undeduped_total": 47408872312,
+  "raw_undeduped_total": 47464763329,
   "by_model": {
    "<synthetic>": {
     "responses": 1138,
@@ -53,14 +53,14 @@
     "output": 9092828
    },
    "claude-opus-5": {
-    "responses": 111215,
-    "total": 20913689219,
-    "uncached_input": 22464248,
-    "cache_write": 633920830,
-    "cache_write_5m": 633382128,
+    "responses": 111341,
+    "total": 20941768465,
+    "uncached_input": 22471031,
+    "cache_write": 634176923,
+    "cache_write_5m": 633638221,
     "cache_write_1h": 538702,
-    "cache_read": 20141817431,
-    "output": 115486710
+    "cache_read": 20169500766,
+    "output": 115619745
    },
    "claude-sonnet-5": {
     "responses": 38,
@@ -103,13 +103,13 @@
     "total_usd": 2269.8321305
    },
    "claude-opus-5": {
-    "uncached_input_usd": 112.32124,
-    "cache_write_usd": 3964.02532,
-    "cache_read_usd": 10070.908715500002,
-    "output_usd": 2887.16775,
+    "uncached_input_usd": 112.355155,
+    "cache_write_usd": 3965.6259012500004,
+    "cache_read_usd": 10084.750383,
+    "output_usd": 2890.493625,
     "rate_in_per_mtok": 5.0,
     "rate_out_per_mtok": 25.0,
-    "total_usd": 17034.4230255
+    "total_usd": 17053.22506425
    },
    "claude-sonnet-5": {
     "uncached_input_usd": 0.0,
@@ -131,7 +131,7 @@
    }
   },
   "unpriced_models": [],
-  "cost_usd_total_list_price_equivalent": 19369.584667,
+  "cost_usd_total_list_price_equivalent": 19388.38670575,
   "cost_caveat": "FLOOR, not a bill. Traffic went through 127.0.0.1:8318 (Desktop/proxy.js), which rewrote models to claude-opus-5 and retried 429/5xx every 2s; those retries burned upstream tokens that were never written to a transcript."
  },
  "codex": {
