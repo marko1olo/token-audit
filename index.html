@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Token Audit — Interactive AI Consumption Terminal & Cost Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Audit — AI Consumption Terminal & Latest 2026 Model Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --green: #2ea043; --yellow: #d29922; --cyan: #58a6ff; }
@@ -10,23 +11,23 @@
         body { background: var(--bg); color: #c9d1d9; font-family: 'Fira Code', monospace; min-height: 100vh; padding: 2rem; display: flex; flex-direction: column; align-items: center; }
         .hero { max-width: 900px; width: 100%; text-align: center; margin-bottom: 2rem; }
         h1 { font-size: 3rem; color: #fff; margin-bottom: 0.5rem; }
-        .calc-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; width: 100%; max-width: 850px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
+        .calc-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; width: 100%; max-width: 900px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
         .input-group { margin-bottom: 1.5rem; text-align: left; }
         label { display: block; margin-bottom: 0.5rem; color: var(--cyan); }
         input[type="range"] { width: 100%; accent-color: var(--green); }
-        .res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; text-align: center; }
+        .res-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1.5rem; text-align: center; }
         .res-card { background: rgba(0,0,0,0.4); padding: 1rem; border-radius: 8px; border: 1px solid var(--border); }
-        .res-val { font-size: 1.6rem; color: #fff; font-weight: 700; }
+        .res-val { font-size: 1.5rem; color: #fff; font-weight: 700; margin-top: 0.3rem; }
         .btn { display: inline-block; margin-top: 2rem; padding: 0.8rem 2rem; background: var(--green); color: #fff; text-decoration: none; border-radius: 6px; font-weight: 700; }
     </style>
 </head>
 <body>
     <div class="hero">
         <h1>📊 Token Audit Terminal</h1>
-        <p style="color:#8b949e;">Offline AI Agent Token Consumption Analyzer & Calculator</p>
+        <p style="color:#8b949e;">Offline AI Agent Token Consumption Analyzer & Latest 2026 Model Calculator</p>
     </div>
     <div class="calc-box">
-        <h3 style="color:#fff;margin-bottom:1.5rem;">⚡ REAL-TIME AI COST CALCULATOR</h3>
+        <h3 style="color:#fff;margin-bottom:1.5rem;">⚡ REAL-TIME AI COST CALCULATOR (JULY 2026 API PRICING)</h3>
         <div class="input-group">
             <label>Input Tokens: <span id="lbl-input" style="color:#fff;">1,000,000</span></label>
             <input type="range" id="inp-input" min="100000" max="10000000" step="100000" value="1000000" oninput="recalc()">
@@ -36,21 +37,25 @@
             <input type="range" id="inp-output" min="10000" max="2000000" step="10000" value="250000" oninput="recalc()">
         </div>
         <div class="res-grid">
-            <div class="res-card"><div class="res-val" id="cost-gpt">$3.75</div><div style="font-size:0.8rem;color:#8b949e;">GPT-4o Est.</div></div>
-            <div class="res-card"><div class="res-val" id="cost-claude">$6.75</div><div style="font-size:0.8rem;color:#8b949e;">Claude 3.5 Sonnet Est.</div></div>
-            <div class="res-card"><div class="res-val" id="cost-gemini">$4.38</div><div style="font-size:0.8rem;color:#8b949e;">Gemini 1.5 Pro Est.</div></div>
+            <div class="res-card"><div style="font-size:0.85rem;color:var(--yellow);">Gemini 3.6 Flash</div><div class="res-val" id="cost-gemini-flash">$1.25</div></div>
+            <div class="res-card"><div style="font-size:0.85rem;color:var(--cyan);">Gemini 3.1 Pro</div><div class="res-val" id="cost-gemini-pro">$5.00</div></div>
+            <div class="res-card"><div style="font-size:0.85rem;color:#fff;">GPT-4o</div><div class="res-val" id="cost-gpt">$5.00</div></div>
+            <div class="res-card"><div style="font-size:0.85rem;color:var(--green);">Claude 3.5 Sonnet</div><div class="res-val" id="cost-claude">$6.75</div></div>
         </div>
     </div>
-    <a href="https://github.com/marko1olo/token-audit" class="btn" target="_blank">View Token Audit Repository</a>
+    <a href="https://github.com/marko1olo/token-audit" class="btn" target="_blank">View Token Audit Repository 🚀</a>
     <script>
         function recalc() {
             const inp = parseInt(document.getElementById('inp-input').value);
             const out = parseInt(document.getElementById('inp-output').value);
             document.getElementById('lbl-input').innerText = inp.toLocaleString();
             document.getElementById('lbl-output').innerText = out.toLocaleString();
-            document.getElementById('cost-gpt').innerText = '$' + ((inp * 2.5 + out * 10) / 1000000).toFixed(2);
-            document.getElementById('cost-claude').innerText = '$' + ((inp * 3.0 + out * 15) / 1000000).toFixed(2);
-            document.getElementById('cost-gemini').innerText = '$' + ((inp * 3.5 + out * 10.5) / 1000000).toFixed(2);
+
+            // July 2026 API Rates per 1M tokens
+            document.getElementById('cost-gemini-flash').innerText = '$' + ((inp * 0.5 + out * 3.0) / 1000000).toFixed(2);
+            document.getElementById('cost-gemini-pro').innerText = '$' + ((inp * 2.0 + out * 12.0) / 1000000).toFixed(2);
+            document.getElementById('cost-gpt').innerText = '$' + ((inp * 2.5 + out * 10.0) / 1000000).toFixed(2);
+            document.getElementById('cost-claude').innerText = '$' + ((inp * 3.0 + out * 15.0) / 1000000).toFixed(2);
         }
     </script>
 </body>
