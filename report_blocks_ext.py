@@ -630,3 +630,61 @@ def benchmarks(c):
                  "(%s). Наш измеренный объём -- **%.7f%%** от этого." %
                  (f(g["value"]), g["source"].split(":")[0], share))
     return r
+
+@block("burn_forecast")
+def burn_forecast(c):
+    """Темп расхода и когда он доводит до порогов. Считается из снимков.
+
+    Блок отвечает на вопрос «когда догоним Codex и сколько сожжём». Темп берётся
+    из snapshots.jsonl на двух окнах, потому что одно окно вводит в заблуждение:
+    свежий темп -- это темп работы с веером субагентов, средний по сессии втрое
+    ниже. Прогноз с одним числом выглядел бы точнее, чем он есть.
+    """
+    if len(c.snaps) < 3 or not c.cost_total or not c.total:
+        return ["*Истории меньше трёх прогонов — темп считать не на чем.*"]
+    import datetime as _dt
+
+    def _t(x):
+        return _dt.datetime.strptime(x[:19], "%Y-%m-%dT%H:%M:%S")
+
+    def _rate(n):
+        a, b = c.snaps[-n], c.snaps[-1]
+        h = (_t(b["ts"]) - _t(a["ts"])).total_seconds() / 3600.0
+        return ((b["claude"]["total"] - a["claude"]["total"]) / h) if h > 0 else 0.0
+
+    usd_per_tok = c.cost_total / c.total
+    fast = _rate(min(5, len(c.snaps)))
+    avg = _rate(len(c.snaps))
+    if fast <= 0 or avg <= 0:
+        return ["*Темп не посчитать: между снимками нет прироста.*"]
+    r = ["| темп | токенов в час | $ в час |", "|---|---:|---:|",
+         "| последние прогоны | %s | %s |" % (f(fast), usd(fast * usd_per_tok)),
+         "| в среднем за всю историю | %s | %s |" % (f(avg), usd(avg * usd_per_tok)),
+         "",
+         "Цена факта: **%s за миллион токенов** — считается от измеренного объёма "
+         "и измеренной стоимости, а не по прайсу одной модели."
+         % usd(usd_per_tok * 1e6), ""]
+    cons, up = codex_total(c)
+    rows = []
+    if cons:
+        rows.append(("догнать Codex, консервативный итог", cons - c.total))
+    if up:
+        rows.append(("догнать Codex, верхняя граница", up - c.total))
+    for th in (50000, 100000, 250000, 1000000):
+        rows.append(("порог %s" % usd(th), th / usd_per_tok - c.total))
+    r += ["| цель | осталось токенов | суток на свежем темпе | на среднем |",
+          "|---|---:|---:|---:|"]
+    for label, need in rows:
+        if need <= 0:
+            r.append("| %s | пройдено | — | — |" % label)
+            continue
+        r.append("| %s | %s | **%.1f** | %.1f |"
+                 % (label, f(need), need / fast / 24.0, need / avg / 24.0))
+    r += ["",
+          "Оговорка, без которой прогноз бессмысленный: свежий темп -- это темп "
+          "работы с веером субагентов, и держится он минутами, а не сутками. "
+          "Средний по всей истории в **%.1f раза** ниже, и он ближе к правде на "
+          "длинном горизонте." % (fast / avg if avg else 0)]
+    r.append("При непрерывной работе на свежем темпе месяц дал бы **%s**, год — **%s**."
+             % (usd(fast * 24 * 30 * usd_per_tok), usd(fast * 24 * 365 * usd_per_tok)))
+    return r
