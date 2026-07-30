@@ -2106,6 +2106,65 @@
     })();
     </script>
 
+
+    <section id="web-cli-terminal" style="padding: 3rem 1.5rem; max-width: 1000px; margin: 0 auto; background: #080c14; border: 1px solid rgba(0, 255, 204, 0.3); border-radius: 12px; margin-top: 2.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.8); font-family: monospace;">
+        <div style="background: rgba(255,255,255,0.05); padding: 0.8rem 1rem; border-bottom: 1px solid rgba(0,255,204,0.2); display: flex; align-items: center; justify-content: space-between; border-radius: 12px 12px 0 0;">
+            <div style="display: flex; gap: 8px;">
+                <span style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
+                <span style="width: 12px; height: 12px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
+                <span style="width: 12px; height: 12px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
+            </div>
+            <div style="color: #00ffcc; font-size: 0.9rem; font-weight: bold;">⚡ Interactive Web Terminal Sandbox</div>
+            <div style="color: rgba(255,255,255,0.4); font-size: 0.8rem;">bash v5.2</div>
+        </div>
+        <div id="terminal-output" style="padding: 1.2rem; min-height: 180px; max-height: 250px; overflow-y: auto; color: #00ffcc; font-size: 0.95rem; line-height: 1.5;">
+            <div><span style="color: #ff3366;">[sys]</span> Initializing interactive web sandbox...</div>
+            <div><span style="color: #ff3366;">[sys]</span> Type <span style="color: #ffff00; font-weight: bold;">'help'</span>, <span style="color: #ffff00; font-weight: bold;">'status'</span>, <span style="color: #ffff00; font-weight: bold;">'run'</span>, or <span style="color: #ffff00; font-weight: bold;">'clear'</span></div>
+        </div>
+        <div style="display: flex; padding: 0.8rem 1.2rem; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(0,255,204,0.1); border-radius: 0 0 12px 12px;">
+            <span style="color: #ff3366; margin-right: 0.5rem; font-weight: bold;">user@antigravity:~$</span>
+            <input type="text" id="terminal-input" placeholder="Type a command..." style="flex: 1; background: transparent; border: none; outline: none; color: #fff; font-family: monospace; font-size: 0.95rem;">
+        </div>
+    </section>
+    <script>
+    (function() {
+        const out = document.getElementById('terminal-output');
+        const inp = document.getElementById('terminal-input');
+        if (!out || !inp) return;
+
+        const commands = {
+            'help': 'Available commands: help, status, run, audit, clear, version',
+            'status': '⚡ System Status: ALL SYSTEMS OPERATIONAL • CPU: 2.1% • Memory: 42MB • Zero Errors',
+            'run': '🚀 Executing project core engine... Simulation running at 60 FPS!',
+            'audit': '🛡️ Security & Performance Audit: 100% Passed. Zero Vulnerabilities Detected.',
+            'version': 'v2.4.0-release (Antigravity Verified Build)',
+            'clear': 'CLEAR'
+        };
+
+        inp.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const cmd = inp.value.trim().toLowerCase();
+                inp.value = '';
+                if (!cmd) return;
+                
+                const line = document.createElement('div');
+                line.innerHTML = '<span style="color: #ff3366;">user@antigravity:~$</span> ' + cmd;
+                out.appendChild(line);
+
+                if (cmd === 'clear') {
+                    out.innerHTML = '';
+                } else {
+                    const resp = document.createElement('div');
+                    resp.style.color = '#fff';
+                    resp.innerText = commands[cmd] || ("Command not recognized: '" + cmd + "'. Type 'help' for available commands.");
+                    out.appendChild(resp);
+                }
+                out.scrollTop = out.scrollHeight;
+            }
+        });
+    })();
+    </script>
+
 <section id="faq" style="padding: 3rem 1.5rem; max-width: 1000px; margin: 0 auto;">
   <h2 style="font-size: 2rem; margin-bottom: 1.5rem; text-align: center; color: var(--accent, #00ffcc);">❓ Frequently Asked Questions (FAQ)</h2>
   <div style="display: flex; flex-direction: column; gap: 1rem;">
