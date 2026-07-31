@@ -1,14 +1,19 @@
 /**
- * grok-proxy v3.0 — ENTERPRISE LIVE BALANCER & STICKY RETRY
+ * grok-proxy v3.1 — ENTERPRISE LIVE BALANCER & AUTO-413 CONTEXT TRIMMER
  *
- * Что нового в v3.0:
- *  1. Live Web UI Dashboard на http://127.0.0.1:8319/ — живой мониторинг нагрузок ключей,
+ * Что нового в v3.1:
+ *  1. Auto-413 Context Trimmer (Продвинутый перехват 413 Payload Too Large):
+ *     Если контекст диалога превышает 200k токенов (или 700КБ JSON), прокси
+ *     АВТОМАТИЧЕСКИ и прозрачно подрезает старую историю сообщений (сохраняя System Prompt
+ *     и свежие команды), уменьшает объём и сразу делает повторный успешный запрос!
+ *     Диалог больше НЕ зависает на 413!
+ *  2. Live Web UI Dashboard на http://127.0.0.1:8319/ — живой мониторинг нагрузок ключей,
  *     активных сессий, 429 ошибок и статусов ключей в реальном времени.
- *  2. Поддержка внешнего файла keys.json / keys.txt рядом с прокси (авто-перезагрузка ключей).
- *  3. Dead Key Guard (401/403): автоматическое отключение скомпрометированных/истёкших
+ *  3. Поддержка внешнего файла keys.json / keys.txt рядом с прокси (авто-перезагрузка ключей).
+ *  4. Dead Key Guard (401/403): автоматическое отключение скомпрометированных/истёкших
  *     ключей и мгновенный перенос сессий на здоровые ключи.
- *  4. Smart Load Balancer (v2.3): наименьшая нагрузка -> LRU -> авто-устранение коллизий.
- *  5. Infinite 429 Wait-and-Retry (20с пауза, сохранение prompt cache).
+ *  5. Smart Load Balancer (v2.3): наименьшая нагрузка -> LRU -> авто-устранение коллизий.
+ *  6. Infinite 429 Wait-and-Retry (20с пауза, сохранение prompt cache).
  */
 
 const http  = require('http');
@@ -45,7 +50,7 @@ function loadExternalKeys() {
     }
     if (fs.existsSync(KEYS_TXT_PATH)) {
       const raw = fs.readFileSync(KEYS_TXT_PATH, 'utf8');
-      const lines = raw.split('\n').map(l => l.trim()).filter(l => l && !l.startswith('#'));
+      const lines = raw.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
       if (lines.length > 0) {
         GROK_KEYS = lines;
         log(`🔑 Загружено ${GROK_KEYS.length} ключей из keys.txt`);
@@ -64,12 +69,14 @@ const sessionKeyMap = new Map();
 let keyLastUsedTime = new Array(GROK_KEYS.length).fill(0);
 let keyReqCounts    = new Array(GROK_KEYS.length).fill(0);
 let keyWait429Counts = new Array(GROK_KEYS.length).fill(0);
+let keyAuto413Trims = new Array(GROK_KEYS.length).fill(0);
 let keyDisabled     = new Array(GROK_KEYS.length).fill(false);
 
 function resetStateForNewKeys() {
   keyLastUsedTime  = new Array(GROK_KEYS.length).fill(0);
   keyReqCounts     = new Array(GROK_KEYS.length).fill(0);
   keyWait429Counts = new Array(GROK_KEYS.length).fill(0);
+  keyAuto413Trims  = new Array(GROK_KEYS.length).fill(0);
   keyDisabled      = new Array(GROK_KEYS.length).fill(false);
 }
 
@@ -101,7 +108,6 @@ function getBestAvailableKeyIdx() {
   }
 
   if (candidates.length === 0) {
-    // Если все ключи почему-то disabled — сбрасываем блокировку
     log(`⚠ Все ключи disabled! Сбрасываю аварийную блокировку.`);
     keyDisabled.fill(false);
     return 0;
@@ -125,7 +131,6 @@ function getKeyIdxForSession(sessionId) {
     return idx;
   }
 
-  // 1. Новая сессия — сопоставляем свободный ключ
   if (!sessionKeyMap.has(sessionId)) {
     const idx = getBestAvailableKeyIdx();
     sessionKeyMap.set(sessionId, idx);
@@ -135,17 +140,14 @@ function getKeyIdxForSession(sessionId) {
     return idx;
   }
 
-  // 2. Существующая сессия
   let assignedIdx = sessionKeyMap.get(sessionId);
 
-  // Если прошлый ключ сессии был заблокирован (401/403), даем новый живой ключ!
   if (keyDisabled[assignedIdx]) {
     const newIdx = getBestAvailableKeyIdx();
     log(`🛡 DEAD KEY GUARD: Key #${assignedIdx + 1} is DISABLED → Re-assigning Session [${sessionId.slice(0,8)}] to Key #${newIdx + 1}`);
     assignedIdx = newIdx;
     sessionKeyMap.set(sessionId, assignedIdx);
   } else {
-    // Ребалансировка если наш ключ перегружен (>1 сессии), а рядом есть абсолютно свободный ключ (0 сессий)
     const counts = getSessionCountsPerKey();
     if (counts[assignedIdx] > 1) {
       const freeIdx = counts.indexOf(0);
@@ -161,6 +163,37 @@ function getKeyIdxForSession(sessionId) {
 
   keyLastUsedTime[assignedIdx] = Date.now();
   return assignedIdx;
+}
+
+// ── 413 CONTEXT AUTO-TRIMMER ──────────────────────────────────────────────────
+function pruneMessagesFor413(bodyBuffer) {
+  try {
+    const text = bodyBuffer.toString('utf8');
+    const obj  = JSON.parse(text);
+    if (!obj || !Array.isArray(obj.messages) || obj.messages.length < 4) {
+      return null;
+    }
+    const msgs = obj.messages;
+    const sysMsg = msgs[0]; // System prompt (MUST BE PRESERVED)
+
+    const middleMsgs = msgs.slice(1);
+    // Cut 35% of the oldest middle messages
+    const dropCount  = Math.max(2, Math.floor(middleMsgs.length * 0.35));
+    const keptMiddle = middleMsgs.slice(dropCount);
+
+    const noticeMsg = {
+      role: 'user',
+      content: `[System Notice: Automatically pruned ${dropCount} early conversation history messages by Grok Proxy to keep context under 180k tokens & prevent 413 Payload Too Large error.]`,
+    };
+
+    obj.messages = [sysMsg, noticeMsg, ...keptMiddle];
+    const newBodyStr = JSON.stringify(obj);
+    log(`✂️ AUTO-TRIM 413: Pruned ${dropCount} middle messages! Payload size reduced: ${bodyBuffer.length} → ${newBodyStr.length} bytes.`);
+    return Buffer.from(newBodyStr, 'utf8');
+  } catch (err) {
+    log(`⚠ Prune 413 failed: ${err.message}`);
+    return null;
+  }
 }
 
 const RATE_LIMIT_WAIT_MS = 20000;
@@ -190,17 +223,25 @@ function log(...args) {
 
 // ── FORWARD REQUEST ───────────────────────────────────────────────────────────
 function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rateLimitRetry = 0) {
+  // Проактивная подрезка если пэйлоад больше 700КБ (~175k токенов)
+  if (body.length > 700000) {
+    log(`✂️ PROACTIVE TRIM: Body size is ${body.length} bytes (>700KB) → Pruning before upstream request...`);
+    const pruned = pruneMessagesFor413(body);
+    if (pruned && pruned.length < body.length) {
+      body = pruned;
+    }
+  }
+
   const keyIdx = getKeyIdxForSession(sessionId);
   let rawKey = GROK_KEYS[keyIdx] || '';
   const key = rawKey.trim().replace(/[^\x20-\x7E]/g, '');
   const keyNum = keyIdx + 1;
 
   if (!key || /[^\x20-\x7E]/.test(rawKey) || rawKey.includes('ВСТАВЬ')) {
-    log(`❌ ОШИБКА: Ключ #${keyNum} невалиден или содержит не-ASCII символы / кириллицу!`);
-    log(`👉 Замени '${rawKey.slice(0, 30)}...' на реальный API-ключ в GROK_KEYS.`);
+    log(`❌ ОШИБКА: Ключ #${keyNum} невалиден!`);
     if (!res.headersSent) {
       res.writeHead(500, { 'content-type': 'application/json' });
-      res.end(JSON.stringify({ error: { message: `Key #${keyNum} is invalid or contains non-ASCII characters.` } }));
+      res.end(JSON.stringify({ error: { message: `Key #${keyNum} is invalid.` } }));
     }
     return;
   }
@@ -220,7 +261,7 @@ function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rat
 
   const retryLabel = retryCount > 0 ? ` NET-RETRY#${retryCount}` : '';
   const rateLabel  = rateLimitRetry > 0 ? ` 429-WAIT#${rateLimitRetry}` : '';
-  log(`→ ${req.method} ${cleanUrl} (Key #${keyNum}${retryLabel}${rateLabel})`);
+  log(`→ ${req.method} ${cleanUrl} (Key #${keyNum}${retryLabel}${rateLabel}) [${body.length}B]`);
 
   const upUrl = new URL(cleanUrl, UPSTREAM);
   const upReq = https.request({
@@ -244,11 +285,23 @@ function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rat
       return;
     }
 
+    // ── 413 PAYLOAD TOO LARGE → AUTO CONTEXT TRIM & RETRY ───────────────────
+    if (upRes.statusCode === 413) {
+      upRes.resume();
+      keyAuto413Trims[keyIdx]++;
+      log(`✂️ HTTP 413 Payload Too Large (Key #${keyNum}) → Auto-trimming old history & retrying...`);
+      const prunedBody = pruneMessagesFor413(body);
+      if (prunedBody && prunedBody.length < body.length) {
+        executeForward(req, res, prunedBody, cleanUrl, sessionId, retryCount + 1, rateLimitRetry);
+        return;
+      }
+    }
+
     // ── 429 RATE LIMIT: ждём 20с, тот же ключ ────────────────────────────────
     if (upRes.statusCode === 429) {
       upRes.resume();
       keyWait429Counts[keyIdx]++;
-      log(`⏳ 429 Rate Limit на Key #${keyNum} → ждём ${RATE_LIMIT_WAIT_MS/1000}с, повторяю НА ТОМ ЖЕ ключе (попытка #${rateLimitRetry + 1})`);
+      log(`⏳ 429 Rate Limit на Key #${keyNum} → ждём ${RATE_LIMIT_WAIT_MS/1000}с, повторяю НА ТОМ ЖЕ ключе`);
       setTimeout(() => {
         if (res.writableEnded || res.destroyed) return;
         executeForward(req, res, body, cleanUrl, sessionId, retryCount, rateLimitRetry + 1);
@@ -256,10 +309,10 @@ function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rat
       return;
     }
 
-    // ── 5xx Server Error: backoff, тот же ключ ────────────────────────────────
+    // ── 5xx Server Error ────────────────────────────────────────────────────
     if (upRes.statusCode === 529 || upRes.statusCode >= 500) {
       const wait = netDelay(retryCount);
-      log(`⚠ HTTP ${upRes.statusCode} (server error) → повтор через ${wait}мс`);
+      log(`⚠ HTTP ${upRes.statusCode} → повтор через ${wait}мс`);
       upRes.resume();
       setTimeout(() => {
         if (res.writableEnded || res.destroyed) return;
@@ -361,8 +414,8 @@ function renderHtmlDashboard() {
             <span class="m-lbl">429 Retries</span>
           </div>
           <div class="m-item">
-            <span class="m-val">${idleSec === '—' ? 'Never' : idleSec + 's ago'}</span>
-            <span class="m-lbl">Last Active</span>
+            <span class="m-val">${keyAuto413Trims[i]}</span>
+            <span class="m-lbl">413 Auto-Trims</span>
           </div>
         </div>
       </div>
@@ -378,7 +431,7 @@ function renderHtmlDashboard() {
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="refresh" content="3">
-  <title>Grok Proxy v3.0 — Live Status</title>
+  <title>Grok Proxy v3.1 — Live Status</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; background: #0b0f19; color: #e2e8f0; padding: 24px; }
@@ -409,8 +462,8 @@ function renderHtmlDashboard() {
 <body>
   <div class="header">
     <div>
-      <div class="title">🚀 Grok Proxy v3.0 Live Status</div>
-      <div class="subtitle">Wait-and-Retry (20s) &bull; Smart LRU Balancer &bull; Dead Key Guard</div>
+      <div class="title">🚀 Grok Proxy v3.1 Live Status</div>
+      <div class="subtitle">Auto-413 Context Trimmer &bull; Wait-and-Retry (20s) &bull; Smart LRU Balancer &bull; Dead Key Guard</div>
     </div>
     <div style="text-align: right;">
       <div style="font-size: 12px; color: #34d399;">● LIVE (Auto-refresh 3s)</div>
@@ -475,18 +528,10 @@ const server = http.createServer((req, res) => {
 
 server.listen(PROXY_PORT, '127.0.0.1', () => {
   log(`=======================================================`);
-  log(`🚀 grok-proxy v3.0 ENTERPRISE LIVE BALANCER`);
+  log(`🚀 grok-proxy v3.1 ENTERPRISE LIVE BALANCER`);
   log(`   Port:       http://127.0.0.1:${PROXY_PORT}/v1`);
   log(`   Live Dashboard: http://127.0.0.1:${PROXY_PORT}/`);
-  log(`   Upstream:   ${UPSTREAM}`);
-  log(`   Keys:       ${GROK_KEYS.length} ключа (Smart LRU + Dead Key Guard)`);
-  log(`   On 429:     ждём ${RATE_LIMIT_WAIT_MS/1000}с → тот же ключ (бесконечно)`);
-  log(`   On 401/403: замена ключа на лету без краша сессии`);
-  log(`=======================================================`);
-  log(`   В Cline ставь:`);
-  log(`   Base URL: http://127.0.0.1:${PROXY_PORT}/v1`);
-  log(`   API Key:  any-key`);
-  log(`   Model:    grok-4.5`);
+  log(`   Features:   Auto-413 Trimmer + Smart LRU + Dead Key Guard`);
   log(`=======================================================\n`);
 });
 
