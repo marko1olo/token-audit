@@ -714,13 +714,23 @@ rl.on('line', (line) => {
 
   } else if (cmd === 'inj' || cmd === 'inject') {
     if (!arg) {
-      console.log(`${C.yellow}Usage: inj <text>${C.reset}`);
+      console.log(`${C.yellow}Usage: inj [target] <text>  (e.g., 'inj dental ...' or 'inj hecton ...' or 'inj ...')${C.reset}`);
     } else {
       try {
         const injections = readInjectionsSafe();
-        injections['all'] = arg;
+        const argParts = arg.split(' ');
+        const firstWord = argParts[0].toLowerCase();
+        let targetKey = 'all';
+        let textToInject = arg;
+
+        if (['all', 'dental', 'hecton', 'giga', 'gigahrush', 'clinic'].includes(firstWord) || firstWord.length >= 10) {
+          targetKey = firstWord;
+          textToInject = argParts.slice(1).join(' ');
+        }
+
+        injections[targetKey] = textToInject;
         writeInjectionsSafe(injections);
-        console.log(`${C.brightGreen}✅ INJECTED:${C.reset} "${arg.slice(0, 80)}${arg.length > 80 ? '...' : ''}"`);
+        console.log(`${C.brightGreen}✅ INJECTED [${targetKey.toUpperCase()}]:${C.reset} "${textToInject.slice(0, 80)}${textToInject.length > 80 ? '...' : ''}"`);
       } catch (err) {
         console.log(`${C.red}❌ Injection failed: ${err.message}${C.reset}`);
       }
