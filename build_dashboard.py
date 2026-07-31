@@ -496,6 +496,16 @@ th{color:var(--ink2);font-weight:600}
 </div>
 
 <div class="card">
+  <h2>Cline / Roo-Code <span class="badge b-meas">ИЗМЕРЕНО</span></h2>
+  <p class="cap">97 задач, 4 430 API запросов. Локальный прокси grok-proxy v3.0 перенаправляет трафик с умной балансировкой ключей (Grok 4.5, Kimi, GLM).</p>
+  <table id="tcline"></table>
+  <h3 style="margin-top:16px;font-size:13px;color:var(--ink)">Разбивка по моделям в Cline</h3>
+  <table id="tclinemodels" style="margin-top:8px"></table>
+  <h3 style="margin-top:16px;font-size:13px;color:var(--ink)">Крупнейшие задачи Cline по объёму токенов</h3>
+  <table id="tclinetasks" style="margin-top:8px"></table>
+</div>
+
+<div class="card">
   <h2>Перфокарта: день × час <span class="badge b-meas">ИЗМЕРЕНО</span></h2>
   <p class="cap">Площадь точки пропорциональна объёму за этот час. Видно суточный ритм
     и то, какие ночи были рабочими.</p>
@@ -1479,6 +1489,43 @@ function render(){
     .map(r=>'<tr><td>'+r[0]+'</td><td>'+(typeof r[1]==='number'?nf(r[1]):r[1])+
       '</td><td>'+r[2]+'</td></tr>').join('')+
     '<tr><td colspan=3 style="text-align:left;color:var(--ink2)">Два отношения совпали до третьего знака — это и есть доказательство двойного счёта, а не совпадение.</td></tr>';
+
+  /* cline rendering */
+  if (D.cline) {
+    const C = D.cline;
+    const tc = $('#tcline');
+    if (tc) {
+      tc.innerHTML = '<tr><th>показатель</th><th>значение</th></tr>' +
+        '<tr><td>всего токенов</td><td><b>' + nf(C.totals.total) + '</b></td></tr>' +
+        '<tr><td>стоимость по прайсу</td><td><b>' + usd(C.cost_total) + '</b></td></tr>' +
+        '<tr><td>диалогов / задач</td><td>' + nf(C.tasks) + '</td></tr>' +
+        '<tr><td>API запросов</td><td>' + nf(C.reqs) + '</td></tr>' +
+        '<tr><td>свежий ввод (uncached)</td><td>' + nf(C.totals.inp) + '</td></tr>' +
+        '<tr><td>чтение кэша (cache read)</td><td>' + nf(C.totals.cr) + '</td></tr>' +
+        '<tr><td>запись кэша (cache write)</td><td>' + nf(C.totals.cw) + '</td></tr>' +
+        '<tr><td>вывод модели (output)</td><td>' + nf(C.totals.out) + '</td></tr>';
+    }
+    const tcm = $('#tclinemodels');
+    if (tcm && C.by_model) {
+      tcm.innerHTML = '<tr><th>модель</th><th>запросов</th><th>ввод</th><th>кэш чтение</th><th>вывод</th><th>всего токенов</th><th>$ итого</th></tr>' +
+        Object.entries(C.by_model).sort((p, q) => (q[1].total || 0) - (p[1].total || 0)).map(([m, v]) => {
+          const cost = (C.cost && C.cost[m]) ? C.cost[m].total_usd : 0;
+          return '<tr><td><b>' + m + '</b></td><td>' + nf(v.reqs) + '</td><td>' + nf(v.inp) +
+                 '</td><td>' + nf(v.cr) + '</td><td>' + nf(v.out) + '</td><td><b>' +
+                 nf(v.total) + '</b></td><td><b>' + usd(cost) + '</b></td></tr>';
+        }).join('');
+    }
+    const tct = $('#tclinetasks');
+    if (tct && C.top_tasks) {
+      tct.innerHTML = '<tr><th>ID задачи</th><th>описание</th><th>модель</th><th>запросов</th><th>токенов</th></tr>' +
+        C.top_tasks.slice(0, 10).map(t =>
+          '<tr><td><code>' + String(t.task_id).slice(0, 8) + '</code></td><td style="text-align:left">' +
+          String(t.task_text || 'Без описания').slice(0, 65) + '...</td><td>' +
+          (t.model_id || 'grok-4.5') + '</td><td>' + nf(t.reqs) + '</td><td><b>' +
+          nf(t.total_tokens) + '</b></td></tr>'
+        ).join('');
+    }
+  }
 
   /* antigravity */
   $('#agv').textContent='Собственного учёта токенов у Antigravity на диске нет. '+
