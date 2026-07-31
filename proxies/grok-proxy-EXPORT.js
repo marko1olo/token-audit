@@ -25,9 +25,9 @@ const UPSTREAM   = 'https://tunnel.rue.onl';
 
 // ── 3 DEFAULT GROK КЛЮЧА ─────────────────────────────────────────────────────
 let GROK_KEYS = [
-  'pk_6RDQLAfKG5T7uDTy4DZV_c1ec',
-  'pk_2hJoaRGL6P2FphGoURgM_41b3',
-  'pk_e7FrS6qPgADHLX1MZxQx_b495',
+  'pk_YOUR_GROK_KEY_1_HERE',
+  'pk_YOUR_GROK_KEY_2_HERE',
+  'pk_YOUR_GROK_KEY_3_HERE',
 ];
 
 const KEYS_JSON_PATH       = path.join(__dirname, 'keys.json');
