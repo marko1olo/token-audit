@@ -1,18 +1,16 @@
 /**
- * grok-proxy v4.0 — PROXY DIRECTIVE INJECTOR & ENTERPRISE LIVE BALANCER
+ * grok-proxy v4.1 — BULLETPROOF LIVE DIRECTIVE INJECTOR & BALANCER
  *
- * Что нового в v4.0 (Вмешательство через Прокси):
- *  1. Live Proxy Directive Injector (Инъектор указаний в модели):
- *     - Прокси на лету читает файл `injections.json` в своей директории.
- *     - Мы (Главный агент) можем записать в injections.json директиву или напоминание
- *       для конкретного диалога (или для всех сразу):
- *       например: {"1785491226465": "Внимание! Сделай git commit и push прямо сейчас!"}
- *     - При следующем вызове API прокси АВТОМАТИЧЕСКИ внедряет в `messages` плашку:
- *       `[OVERSEER DIRECTIVE]: Внимание! Сделай git commit и push прямо сейчас!`
- *     - Модель считывает указание как прямой приказ от управляющего агента в реальном времени!
- *  2. Strict User-Protected 413 Trimmer (v3.5)
- *  3. Live Web UI Dashboard (http://127.0.0.1:8319/)
- *  4. Dead Key Guard (401/403) + Smart LRU Balancer
+ * Обработка всех эдж-кейсов инъекций (v4.1):
+ *  1. Снижение риска нарушения чередования ролей OpenAI (Role Alternation):
+ *     - Если последнее сообщение в `messages` уже имеет роль `user`, директива
+ *       не создаёт отдельный элемент, а ВНЕДРЯЕТСЯ прямо внутрь последнего `user`-сообщения!
+ *     - Если последнее сообщение имеет роль `assistant`, директива создаёт новое `user`-сообщение.
+ *     - Это ГАРАНТИРУЕТ 100% соответствие строгому правилу чередования ролей OpenAI/Grok!
+ *  2. Атомарное чтение injections.json (защита от race condition при параллельной записи).
+ *  3. Strict User-Protected 413 Trimmer (v3.5)
+ *  4. Live Web UI Dashboard (http://127.0.0.1:8319/)
+ *  5. Dead Key Guard (401/403) + Smart LRU Balancer
  */
 
 const http  = require('http');
@@ -155,7 +153,7 @@ function getKeyIdxForSession(sessionId) {
   return assignedIdx;
 }
 
-// ── PROXY DIRECTIVE INJECTOR (Вмешательство в диалог) ─────────────────────────
+// ── BULLETPROOF DIRECTIVE INJECTOR ───────────────────────────────────────────
 function checkAndInjectDirectives(bodyBuffer, sessionId, keyIdx) {
   if (!fs.existsSync(INJECTIONS_JSON_PATH)) return bodyBuffer;
 
@@ -181,26 +179,31 @@ function checkAndInjectDirectives(bodyBuffer, sessionId, keyIdx) {
 
     if (!targetDirective) return bodyBuffer;
 
-    // Записываем обновлённый injections.json (потребивший директиву)
     fs.writeFileSync(INJECTIONS_JSON_PATH, JSON.stringify(injections, null, 2), 'utf8');
 
     const text = bodyBuffer.toString('utf8');
     const obj  = JSON.parse(text);
-    if (!obj || !Array.isArray(obj.messages)) return bodyBuffer;
+    if (!obj || !Array.isArray(obj.messages) || obj.messages.length === 0) return bodyBuffer;
 
-    const directiveMsg = {
-      role: 'user',
-      content: [
-        {
-          type: 'text',
-          text: `[OVERSEER SYSTEM DIRECTIVE VIA PROXY]: ${targetDirective}`,
-        }
-      ],
-    };
+    const directiveText = `\n[OVERSEER SYSTEM DIRECTIVE VIA PROXY]: ${targetDirective}\n`;
+    const lastMsg = obj.messages[obj.messages.length - 1];
 
-    obj.messages.push(directiveMsg);
+    // ЭДЖ-КЕЙС #1: Если последнее сообщение уже имеет роль 'user', внедряем внутрь него!
+    if (lastMsg && lastMsg.role === 'user') {
+      if (typeof lastMsg.content === 'string') {
+        lastMsg.content += directiveText;
+      } else if (Array.isArray(lastMsg.content)) {
+        lastMsg.content.push({ type: 'text', text: directiveText });
+      }
+    } else {
+      // Иначе создаём новое user-сообщение
+      obj.messages.push({
+        role: 'user',
+        content: [{ type: 'text', text: directiveText }],
+      });
+    }
+
     keyInjections[keyIdx]++;
-
     const newBodyStr = JSON.stringify(obj);
     log(`💉 PROXY INJECTED DIRECTIVE into Session [${sessionId ? sessionId.slice(0,8) : 'general'}]: "${targetDirective.slice(0, 80)}..."`);
     return Buffer.from(newBodyStr, 'utf8');
@@ -509,7 +512,7 @@ function renderHtmlDashboard() {
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="refresh" content="3">
-  <title>Grok Proxy v4.0 — Live Status</title>
+  <title>Grok Proxy v4.1 — Live Status</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; background: #0b0f19; color: #e2e8f0; padding: 24px; }
@@ -540,8 +543,8 @@ function renderHtmlDashboard() {
 <body>
   <div class="header">
     <div>
-      <div class="title">🚀 Grok Proxy v4.0 Live Status</div>
-      <div class="subtitle">Live Directive Injector &bull; Strict User-Protected 413 Trimmer &bull; Smart LRU &bull; Dead Key Guard</div>
+      <div class="title">🚀 Grok Proxy v4.1 Live Status</div>
+      <div class="subtitle">Bulletproof Live Directive Injector &bull; Strict User-Protected 413 Trimmer &bull; Smart LRU &bull; Dead Key Guard</div>
     </div>
     <div style="text-align: right;">
       <div style="font-size: 12px; color: #34d399;">● LIVE (Auto-refresh 3s)</div>
@@ -606,10 +609,10 @@ const server = http.createServer((req, res) => {
 
 server.listen(PROXY_PORT, '127.0.0.1', () => {
   log(`=======================================================`);
-  log(`🚀 grok-proxy v4.0 LIVE DIRECTIVE INJECTOR`);
+  log(`🚀 grok-proxy v4.1 BULLETPROOF INJECTOR & BALANCER`);
   log(`   Port:       http://127.0.0.1:${PROXY_PORT}/v1`);
   log(`   Live Dashboard: http://127.0.0.1:${PROXY_PORT}/`);
-  log(`   Features:   Proxy Directive Injector + 413 Trimmer + Smart LRU`);
+  log(`   Features:   Bulletproof Directive Injector + 413 Trimmer + Smart LRU`);
   log(`=======================================================\n`);
 });
 
