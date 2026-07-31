@@ -290,18 +290,22 @@ function checkAndInjectDirectives(bodyBuffer, sessionId, keyIdx) {
   let targetDirective = null;
   let consumed = false; // whether to write back (for one-shot session targets)
 
-  if (injections.all && typeof injections.all === 'string') {
-    targetDirective = injections.all;
-  } else if (sessionId) {
+  // Check specific session/target key injections first (e.g. 'dental', 'hecton', 'giga')
+  if (sessionId) {
     for (const [key, dir] of Object.entries(injections)) {
       if (key === 'all') continue;
-      if (dir && typeof dir === 'string' && (sessionId.includes(key) || key.includes(sessionId))) {
+      if (dir && typeof dir === 'string' && (sessionId.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(sessionId.toLowerCase()))) {
         targetDirective = dir;
         delete injections[key];
         consumed = true;
         break;
       }
     }
+  }
+
+  // Fallback to 'all' persistent directive if no specific session target matched
+  if (!targetDirective && injections.all && typeof injections.all === 'string') {
+    targetDirective = injections.all;
   }
 
   if (!targetDirective) return bodyBuffer;
