@@ -4,7 +4,7 @@
 
 ---
 
-## 📌 1. `grok-proxy.js` (v5.0 — Terminal Overseer & Smart Balancer)
+## 📌 1. `grok-proxy.js` (v5.1 — Terminal Overseer & Smart Balancer)
 
 Локальный прокси для Grok API (`grok-4.5` / `tunnel.rue.onl`) с оформлением в стиле Cyberpunk Terminal CLI, поддержкой интерактивных команд в консоли и динамическими инъекциями.
 
