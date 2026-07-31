@@ -270,6 +270,19 @@ function writeInjectionsSafe(obj) {
 }
 
 // ── BULLETPROOF DIRECTIVE INJECTOR ───────────────────────────────────────────
+// Track which session has already received which directive version to prevent injection spam on every request
+const sessionDeliveredDirectives = new Map(); // sessionId -> directiveHash
+
+function getDirectiveHash(text) {
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) {
+    hash = ((hash << 5) - hash) + text.charCodeAt(i);
+    hash |= 0;
+  }
+  return 'd_' + hash;
+}
+
+// ── BULLETPROOF DIRECTIVE INJECTOR ───────────────────────────────────────────
 function checkAndInjectDirectives(bodyBuffer, sessionId, keyIdx) {
   const injections = readInjectionsSafe();
   if (!injections || Object.keys(injections).length === 0) return bodyBuffer;
@@ -277,11 +290,8 @@ function checkAndInjectDirectives(bodyBuffer, sessionId, keyIdx) {
   let targetDirective = null;
   let consumed = false; // whether to write back (for one-shot session targets)
 
-  // "all" is PERSISTENT — broadcast to every request, NOT consumed on read.
-  // Session-targeted keys are ONE-SHOT — consumed after first delivery.
   if (injections.all && typeof injections.all === 'string') {
     targetDirective = injections.all;
-    // NOT consumed — stays until explicit `clear`
   } else if (sessionId) {
     for (const [key, dir] of Object.entries(injections)) {
       if (key === 'all') continue;
@@ -295,6 +305,16 @@ function checkAndInjectDirectives(bodyBuffer, sessionId, keyIdx) {
   }
 
   if (!targetDirective) return bodyBuffer;
+
+  // Deduplication check: Has this session already received THIS exact directive?
+  const dirHash = getDirectiveHash(targetDirective);
+  const effectiveSid = sessionId || 'anonymous';
+  const lastDeliveredHash = sessionDeliveredDirectives.get(effectiveSid);
+
+  if (lastDeliveredHash === dirHash) {
+    // Already delivered to this session once! Do not spam every HTTP call.
+    return bodyBuffer;
+  }
 
   // Only write back if a session-targeted injection was consumed
   if (consumed) {
@@ -342,6 +362,7 @@ function checkAndInjectDirectives(bodyBuffer, sessionId, keyIdx) {
     });
   }
 
+  sessionDeliveredDirectives.set(effectiveSid, dirHash);
   keyInjections[keyIdx]++;
   const newBodyStr = JSON.stringify(obj);
   const tag = isSubagent ? `${C.bgYellow}${C.bold} SUB ${C.reset}` : `${C.bgGreen}${C.bold} MAIN ${C.reset}`;
