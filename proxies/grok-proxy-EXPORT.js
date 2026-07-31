@@ -334,15 +334,18 @@ function checkAndInjectDirectives(bodyBuffer, sessionId, keyIdx) {
   }
   if (!obj || !Array.isArray(obj.messages) || obj.messages.length === 0) return bodyBuffer;
 
-  // Subagent Classifier: strict role check to prevent misclassifying main agents
-  const firstMsgStr = (obj.messages[0] ? JSON.stringify(obj.messages[0]) : '').toLowerCase();
+  // Subagent Classifier: inspect top-level system field AND first message for Anthropic/OpenAI payload compatibility
+  const systemText = (obj.system ? (typeof obj.system === 'string' ? obj.system : JSON.stringify(obj.system)) : '');
+  const firstMsgText = (obj.messages[0] ? JSON.stringify(obj.messages[0]) : '');
+  const combinedSystemStr = (systemText + ' ' + firstMsgText).toLowerCase();
+
   const isSubagent = (
-    firstMsgStr.includes('you are a subagent') || 
-    firstMsgStr.includes('you are subagent') ||
-    firstMsgStr.includes('role: subagent') ||
-    firstMsgStr.includes('subagent type:') ||
-    firstMsgStr.includes('subagent role:')
-  ) && !firstMsgStr.includes('you are an interactive cli') && !firstMsgStr.includes('you are an autonomous agent');
+    combinedSystemStr.includes('you are a subagent') || 
+    combinedSystemStr.includes('you are subagent') ||
+    combinedSystemStr.includes('role: subagent') ||
+    combinedSystemStr.includes('subagent type:') ||
+    combinedSystemStr.includes('subagent role:')
+  ) && !combinedSystemStr.includes('you are an interactive cli') && !combinedSystemStr.includes('you are an autonomous agent');
 
   let directiveText = '';
   if (isSubagent) {
