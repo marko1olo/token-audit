@@ -1,22 +1,20 @@
 /**
- * grok-proxy v3.4 — BULLETPROOF ENTERPRISE 413 TRIMMER & LIVE BALANCER
+ * grok-proxy v3.5 — STRICT USER-PROTECTED REACTIVE 413 TRIMMER & LIVE BALANCER
  *
- * Обработка всех эдж-кейсов и сохранение смысла (v3.4):
- *  1. Сохранение смысла (Context Integrity):
- *     - System Prompt (messages[0]) — ВСЕГДА остаётся 100% нетронутым (все правила проекта).
- *     - Последние 6 сообщений (хвост) — ВСЕГДА сохраняются 1-в-1 (текущая задача и активный ход).
- *     - В середине усекаются ТОЛЬКО тяжелые прошлые дампы логов и старый вывод read_file 50 ходов назад,
- *       причём первые и последние 150 символов вывода сохраняются, чтобы модель помнила результаты.
- *  2. Эдж-кейс #1: Картинки и Base64 Скриншоты в истории (Multimodal edge case):
- *     Старые base64 скриншоты 20 ходов назад весят по 500КБ-1МБ каждый. В v3.4 скриншоты
- *     из середины истории автоматически заменяются лёгкой текстовой плашкой
- *     "[Proxy: Past screenshot base64 truncated on 413]". Размер моментально падает на 99.9%!
- *  3. Эдж-кейс #2: Один гигантский файл/промпт (>500КБ в одном сообщении):
- *     Если в запрос засунули 2МБ файл в один ход, подрезка середины не поможет. v3.4 усекает
- *     одиночные гигантские строки в запросе до 250КБ, сохраняя начало и конец файла.
- *  4. Эдж-кейс #3: Двухэтапная эскалация (Pass 1 -> Pass 2):
- *     Если после мягкой подрезки сервер всё ещё отдаёт 413, включается 2-й уровень усечения.
- *  5. 100% Валидность схемы OpenAI (tool_calls и tool_call_id сохраняются без разбивки пар).
+ * Строгие правила защиты промптов пользователя (v3.5):
+ *  1. НЕ ТРОГАЕМ:
+ *     - System Prompt (messages[0]) — ВСЕГДА остаётся 100% нетронутым.
+ *     - Первое сообщение пользователя (messages[1]) — ВСЕГДА остаётся 100% нетронутым.
+ *     - Любые явные инструкции и сообщения человека (роль user БЕЗ вывода инструментов) — НЕ ТРОГАЕМ.
+ *     - Последние 6 сообщений (свежий хвост с текущим шагом) — НЕ ТРОГАЕМ.
+ *  2. ЧТО ИМЕННО ПОДРЕЗАЕТСЯ ПРИ HTTP 413:
+ *     - ИСКЛЮЧИТЕЛЬНО сырые блоки результатов выполнения инструментов из середины истории
+ *       (текст, начинающийся с "[read_file for...", "[execute_command for...", "[list_dir for...").
+ *     - В этих блоках сохраняется заголовок вызова, первые 100 символов результата и последние 100 символов,
+ *       а середина гигантских логов/файлов ужимается:
+ *       "[... Proxy truncated X chars of tool output on 413 ...]".
+ *     - Старые base64 скриншоты в середине заменяются текстовыми плашками.
+ *  3. 100% Валидность схемы OpenAI и сохранение 100% авторских промптов!
  */
 
 const http  = require('http');
@@ -157,69 +155,71 @@ function getKeyIdxForSession(sessionId) {
   return assignedIdx;
 }
 
-// ── BULLETPROOF 413 CONTEXT TRIMMER v3.4 ──────────────────────────────────────
+// ── STRICT USER-PROTECTED 413 CONTEXT TRIMMER v3.5 ──────────────────────────
 function pruneMiddleFor413(bodyBuffer, pass = 1) {
   try {
     const text = bodyBuffer.toString('utf8');
     const obj  = JSON.parse(text);
-    if (!obj || !Array.isArray(obj.messages) || obj.messages.length < 2) {
+    if (!obj || !Array.isArray(obj.messages) || obj.messages.length < 6) {
       return null;
     }
     const msgs = obj.messages;
 
-    const tailCount = Math.min(6, Math.max(2, msgs.length - 2));
-    const middleCount = msgs.length - 1 - tailCount;
-
-    let truncatedStrings = 0;
+    // ЗАЩИЩАЕМ: msgs[0] (System), msgs[1] (First user task), и последние 6 сообщений (хвост)
+    const tailStartIdx = Math.max(2, msgs.length - 6);
+    let truncatedTools = 0;
     let truncatedImages = 0;
-    const maxCharLen = pass === 1 ? 300 : 150;
+    const maxResultLen = pass === 1 ? 300 : 100;
 
-    // Шаг 1: Обработка середины (msgs[1] ... msgs[middleCount])
-    if (middleCount > 0) {
-      for (let i = 1; i <= middleCount; i++) {
-        const m = msgs[i];
-        if (!m || !m.content) continue;
+    for (let i = 2; i < tailStartIdx; i++) {
+      const m = msgs[i];
+      if (!m || !m.content) continue;
 
-        if (typeof m.content === 'string' && m.content.length > maxCharLen) {
-          const origLen = m.content.length;
-          m.content = m.content.slice(0, 150) + `\n[... Proxy truncated ${origLen - 300} chars of old tool output on 413 ...]\n` + m.content.slice(-150);
-          truncatedStrings++;
-        } else if (Array.isArray(m.content)) {
-          for (let pIdx = 0; pIdx < m.content.length; pIdx++) {
-            const part = m.content[pIdx];
-            if (!part) continue;
+      if (Array.isArray(m.content)) {
+        for (let pIdx = 0; pIdx < m.content.length; pIdx++) {
+          const part = m.content[pIdx];
+          if (!part) continue;
 
-            // Обработка текстовых блоков
-            if (part.type === 'text' && typeof part.text === 'string' && part.text.length > maxCharLen) {
-              const origLen = part.text.length;
-              part.text = part.text.slice(0, 150) + `\n[... Proxy truncated ${origLen - 300} chars on 413 ...]\n` + part.text.slice(-150);
-              truncatedStrings++;
-            }
-            // ЭДЖ-КЕЙС #1: Обработка мультимодальных скриншотов base64 в истории
-            else if (part.type === 'image_url' || part.image_url) {
-              m.content[pIdx] = {
-                type: 'text',
-                text: '[Proxy: Past base64 screenshot truncated to resolve 413 Payload Too Large]',
-              };
-              truncatedImages++;
+          // Усекаем ИСКЛЮЧИТЕЛЬНО блоки результатов выполнения инструментов (read_file, execute_command, list_dir...)
+          if (part.type === 'text' && typeof part.text === 'string') {
+            const t = part.text;
+            if (t.startsWith('[') && (t.includes(' Result:\n') || t.includes("for '"))) {
+              if (t.length > maxResultLen + 150) {
+                const resIdx = t.indexOf(' Result:\n');
+                if (resIdx !== -1) {
+                  const header = t.slice(0, resIdx + 9);
+                  const body   = t.slice(resIdx + 9);
+                  if (body.length > maxResultLen) {
+                    part.text = header + body.slice(0, 100) + `\n[... Proxy truncated ${body.length - maxResultLen} chars of tool output on 413 ...]\n` + body.slice(-100);
+                    truncatedTools++;
+                  }
+                } else {
+                  part.text = t.slice(0, 100) + `\n[... Proxy truncated ${t.length - maxResultLen} chars of tool output on 413 ...]\n` + t.slice(-100);
+                  truncatedTools++;
+                }
+              }
             }
           }
+          // Мультимодальные картинки в середине
+          else if (part.type === 'image_url' || part.image_url) {
+            m.content[pIdx] = {
+              type: 'text',
+              text: '[Proxy: Past base64 screenshot truncated to resolve 413 Payload Too Large]',
+            };
+            truncatedImages++;
+          }
+        }
+      } else if (typeof m.content === 'string') {
+        const t = m.content;
+        if (t.startsWith('[') && (t.includes(' Result:\n') || t.includes("for '")) && t.length > maxResultLen + 150) {
+          m.content = t.slice(0, 100) + `\n[... Proxy truncated ${t.length - maxResultLen} chars of tool output on 413 ...]\n` + t.slice(-100);
+          truncatedTools++;
         }
       }
     }
 
-    // ЭДЖ-КЕЙС #2: Если одиночное сообщение огромно (>400КБ), подрезаем его внутри
-    for (let i = 0; i < msgs.length; i++) {
-      const m = msgs[i];
-      if (typeof m?.content === 'string' && m.content.length > 400000) {
-        const origLen = m.content.length;
-        m.content = m.content.slice(0, 100000) + `\n[... Proxy truncated giant single message from ${origLen} to 200k chars on 413 ...]\n` + m.content.slice(-100000);
-        log(`✂️ TRUNCATED GIANT MESSAGE #${i}: ${origLen} → ${m.content.length} chars`);
-      }
-    }
-
     const newBodyStr = JSON.stringify(obj);
-    log(`✂️ BULLETPROOF 413 TRIM (Pass ${pass}): Truncated ${truncatedStrings} tool outputs & ${truncatedImages} old base64 images. Size: ${bodyBuffer.length} → ${newBodyStr.length} bytes (100% Context & Schema Safe).`);
+    log(`✂️ STRICT USER-PROTECTED 413 TRIM (Pass ${pass}): Truncated ${truncatedTools} tool outputs & ${truncatedImages} base64 images in middle history. System prompt & User prompts 100% preserved. Size: ${bodyBuffer.length} → ${newBodyStr.length} bytes.`);
     return Buffer.from(newBodyStr, 'utf8');
   } catch (err) {
     log(`⚠ Prune 413 failed: ${err.message}`);
@@ -307,12 +307,12 @@ function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rat
       return;
     }
 
-    // ── 413 PAYLOAD TOO LARGE → РЕАКТИВНАЯ 2-ЭТАПНАЯ ПОДРЕЗКА ───────────────
+    // ── 413 PAYLOAD TOO LARGE → РЕАКТИВНАЯ ПОДРЕЗКА ИНСТРУМЕНТОВ ────────────
     if (upRes.statusCode === 413) {
       upRes.resume();
       keyAuto413Trims[keyIdx]++;
       const nextPass = prunePass + 1;
-      log(`✂️ HTTP 413 Payload Too Large (Key #${keyNum}) → Reactively trimming middle history (Pass ${nextPass}) & retrying...`);
+      log(`✂️ HTTP 413 Payload Too Large (Key #${keyNum}) → Reactively trimming tool output dumps (Pass ${nextPass}) & retrying...`);
       const prunedBody = pruneMiddleFor413(body, nextPass);
       if (prunedBody && prunedBody.length < body.length) {
         executeForward(req, res, prunedBody, cleanUrl, sessionId, retryCount + 1, rateLimitRetry, nextPass);
@@ -454,7 +454,7 @@ function renderHtmlDashboard() {
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="refresh" content="3">
-  <title>Grok Proxy v3.4 — Live Status</title>
+  <title>Grok Proxy v3.5 — Live Status</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; background: #0b0f19; color: #e2e8f0; padding: 24px; }
@@ -485,8 +485,8 @@ function renderHtmlDashboard() {
 <body>
   <div class="header">
     <div>
-      <div class="title">🚀 Grok Proxy v3.4 Live Status</div>
-      <div class="subtitle">Bulletproof 413 Trimmer &bull; Wait-and-Retry (20s) &bull; Smart LRU Balancer &bull; Dead Key Guard</div>
+      <div class="title">🚀 Grok Proxy v3.5 Live Status</div>
+      <div class="subtitle">Strict User-Protected 413 Trimmer &bull; Wait-and-Retry (20s) &bull; Smart LRU Balancer &bull; Dead Key Guard</div>
     </div>
     <div style="text-align: right;">
       <div style="font-size: 12px; color: #34d399;">● LIVE (Auto-refresh 3s)</div>
@@ -551,10 +551,10 @@ const server = http.createServer((req, res) => {
 
 server.listen(PROXY_PORT, '127.0.0.1', () => {
   log(`=======================================================`);
-  log(`🚀 grok-proxy v3.4 BULLETPROOF LIVE BALANCER`);
+  log(`🚀 grok-proxy v3.5 STRICT USER-PROTECTED LIVE BALANCER`);
   log(`   Port:       http://127.0.0.1:${PROXY_PORT}/v1`);
   log(`   Live Dashboard: http://127.0.0.1:${PROXY_PORT}/`);
-  log(`   Features:   Bulletproof 413 Trimmer + Smart LRU + Dead Key Guard`);
+  log(`   Features:   Strict User-Protected 413 Trimmer + Smart LRU + Dead Key Guard`);
   log(`=======================================================\n`);
 });
 
