@@ -334,14 +334,15 @@ function checkAndInjectDirectives(bodyBuffer, sessionId, keyIdx) {
   }
   if (!obj || !Array.isArray(obj.messages) || obj.messages.length === 0) return bodyBuffer;
 
-  // Subagent Classifier: checks ONLY first message (system prompt / initial instructions)
+  // Subagent Classifier: strict role check to prevent misclassifying main agents
   const firstMsgStr = (obj.messages[0] ? JSON.stringify(obj.messages[0]) : '').toLowerCase();
-  const isSubagent = firstMsgStr.includes('you are subagent') || 
-                     firstMsgStr.includes('you are a subagent') || 
-                     firstMsgStr.includes('subagent discover') || 
-                     firstMsgStr.includes('subagent recon') ||
-                     firstMsgStr.includes('research subagent') ||
-                     firstMsgStr.includes('read-only tools');
+  const isSubagent = (
+    firstMsgStr.includes('you are a subagent') || 
+    firstMsgStr.includes('you are subagent') ||
+    firstMsgStr.includes('role: subagent') ||
+    firstMsgStr.includes('subagent type:') ||
+    firstMsgStr.includes('subagent role:')
+  ) && !firstMsgStr.includes('you are an interactive cli') && !firstMsgStr.includes('you are an autonomous agent');
 
   let directiveText = '';
   if (isSubagent) {
