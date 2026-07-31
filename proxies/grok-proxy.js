@@ -38,10 +38,14 @@ const UPSTREAM   = 'https://tunnel.rue.onl';
 
 // ── SAFETY CAPS ──────────────────────────────────────────────────────────────
 const MAX_NET_RETRIES    = 6;    // Network error retry cap
-const MAX_RATE_RETRIES   = 10;   // 429 retry cap
-const MAX_PRUNE_PASSES   = 3;    // 413 prune pass cap
-const SESSION_TTL_MS     = 2 * 60 * 60 * 1000; // 2 hours — evict stale sessions
-const SESSION_GC_INTERVAL_MS = 5 * 60 * 1000;  // Run session GC every 5 min
+// 429: NO CAP — infinite retry is a FEATURE. The proxy's job is to wait out rate limits.
+const MAX_PRUNE_PASSES   = 5;    // 413 prune pass cap (5 passes should reduce any payload)
+// Session GC: DOES NOT kill active chats. sessionKeyMap only tracks which API key
+// is assigned to which session for load balancing. GC just forgets the key assignment
+// for sessions that haven't sent a request in SESSION_TTL_MS. If the session comes
+// back later, it simply gets a fresh key assignment via getBestAvailableKeyIdx().
+const SESSION_TTL_MS     = 4 * 60 * 60 * 1000; // 4 hours — forget stale key assignments
+const SESSION_GC_INTERVAL_MS = 10 * 60 * 1000; // Run GC every 10 min
 
 // ── ANSI COLOR STYLING ENGINE ────────────────────────────────────────────────
 const C = {
@@ -455,11 +459,7 @@ function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rat
     sendErrorToClient(res, 502, `Proxy: upstream unreachable after ${MAX_NET_RETRIES} retries`);
     return;
   }
-  if (rateLimitRetry > MAX_RATE_RETRIES) {
-    log(`${C.brightRed}❌ MAX 429 RETRIES (${MAX_RATE_RETRIES}) exceeded. Giving up.${C.reset}`);
-    sendErrorToClient(res, 429, `Proxy: rate limited after ${MAX_RATE_RETRIES} waits`);
-    return;
-  }
+  // 429 has NO retry cap — infinite wait-and-retry is the core feature of this proxy.
   if (deadKeyAttempts >= GROK_KEYS.length) {
     log(`${C.brightRed}❌ ALL ${GROK_KEYS.length} KEYS REJECTED (401/403). No valid keys left.${C.reset}`);
     sendErrorToClient(res, 401, `Proxy: all ${GROK_KEYS.length} API keys rejected`);
