@@ -4,7 +4,7 @@
  "components": [
   {
    "name": "backup_apr03_may21_mine_chainsplit",
-   "total_tokens": 58210962504,
+   "total_tokens": 0,
    "class": "ИЗМЕРЕНО",
    "source": "codex_chains_totals.json, totals_chain_split",
    "note": "Пересчитывается локально методом chain-split при каждом скане."
@@ -31,10 +31,10 @@
  "external_measurements_present": true,
  "external_missing": [],
  "consistent_total_max_basis": {
-  "total_tokens": 119058904842,
+  "total_tokens": 60847942338,
   "note": "Согласованный базис: все слагаемые по методу максимума или chain-split."
  },
- "upper_bound_if_delta_valid": 152399687739,
+ "upper_bound_if_delta_valid": 94188725235,
  "upper_bound_note": "То же, но июньский хвост danat по методу приростов, как в прежнем аудите. Метод приростов на тех данных завышает: при сопоставимом числе сбросов счётчика расхождение на сброс отличается в 2145 раз. Поэтому это граница, а не оценка.",
  "prior_figures": {
   "ledger_headline_inflated": 138912242896,

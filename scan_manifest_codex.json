@@ -1,0 +1,12 @@
+{
+ "captured_by": "codex_agg_chains",
+ "roots": [
+  "C:\\Users\\Admin\\.codex\\sessions"
+ ],
+ "files": 2,
+ "bytes": 69756,
+ "sizes": {
+  "C:\\Users\\Admin\\.codex\\sessions|2026\\07\\08\\rollout-2026-07-08T10-46-06-019f407a-0491-7bd2-bf08-67014579c97a.jsonl": 31161,
+  "C:\\Users\\Admin\\.codex\\sessions|2026\\07\\08\\rollout-2026-07-08T13-37-56-019f4117-552b-7a60-841c-63e595c403f4.jsonl": 38595
+ }
+}

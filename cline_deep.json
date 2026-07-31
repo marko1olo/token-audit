@@ -1,0 +1,7346 @@
+{
+  "totals": {
+    "tool": "cline",
+    "scanned_at": "2026-07-31T16:16:05.660365+04:00",
+    "task_count": 97,
+    "request_count": 4472,
+    "inp": 235400832,
+    "out": 1858550,
+    "cw": 20153,
+    "cr": 198840109,
+    "total_tokens": 436119644,
+    "by_model": {
+      "grok-4.5": {
+        "inp": 228365267,
+        "out": 1790097,
+        "cw": 0,
+        "cr": 197443456,
+        "reqs": 4256
+      },
+      "kimi-k3": {
+        "inp": 864289,
+        "out": 6450,
+        "cw": 0,
+        "cr": 0,
+        "reqs": 35
+      },
+      "claude-opus-4-8": {
+        "inp": 67395,
+        "out": 1452,
+        "cw": 20153,
+        "cr": 26925,
+        "reqs": 9
+      },
+      "glm-5.2": {
+        "inp": 460121,
+        "out": 4489,
+        "cw": 0,
+        "cr": 0,
+        "reqs": 22
+      },
+      "gpt-5.6-sol": {
+        "inp": 3717157,
+        "out": 35316,
+        "cw": 0,
+        "cr": 0,
+        "reqs": 107
+      },
+      "moonshotai/kimi-k3-free": {
+        "inp": 1926603,
+        "out": 20746,
+        "cw": 0,
+        "cr": 1369728,
+        "reqs": 43
+      }
+    },
+    "by_day": {
+      "2026-07-26": {
+        "inp": 2740822,
+        "out": 22122,
+        "cw": 20153,
+        "cr": 26925,
+        "reqs": 87
+      },
+      "2026-07-27": {
+        "inp": 4037019,
+        "out": 38159,
+        "cw": 0,
+        "cr": 0,
+        "reqs": 118
+      },
+      "2026-07-30": {
+        "inp": 121237018,
+        "out": 861274,
+        "cw": 0,
+        "cr": 105192320,
+        "reqs": 2238
+      },
+      "2026-07-31": {
+        "inp": 107385973,
+        "out": 936995,
+        "cw": 0,
+        "cr": 93620864,
+        "reqs": 2029
+      }
+    }
+  },
+  "tasks": [
+    {
+      "task_id": "1785491226465",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "ПРОЕКТ DENTAL-CRM\n\nWhat are you least confident about right now? What's the biggest thing I'm missing about the situatio",
+      "ts_start": 1785491226488,
+      "reqs": 325,
+      "inp": 17299453,
+      "out": 147385,
+      "cw": 0,
+      "cr": 14892928,
+      "total_tokens": 32339766
+    },
+    {
+      "task_id": "1785446476233",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HANDOFF SUMMARY (context compact) — continue without stopping\n\n1. Primary Request and Intent\nArchitect work on Hecton8 P",
+      "ts_start": 1785446476260,
+      "reqs": 136,
+      "inp": 7741756,
+      "out": 70970,
+      "cw": 0,
+      "cr": 7072256,
+      "total_tokens": 14884982
+    },
+    {
+      "task_id": "1785397573273",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HECTON-8 cline-orchestrator HANDOFF (2026-07-30 ~10:31 Samara)\n\nREPO: C:\\hades\\Hecton8 | lock: .agent-locks/ACTIVE/cline",
+      "ts_start": 1785397573292,
+      "reqs": 134,
+      "inp": 7055098,
+      "out": 73945,
+      "cw": 0,
+      "cr": 6184960,
+      "total_tokens": 13314003
+    },
+    {
+      "task_id": "1785485178222",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "CONTEXT HANDOFF (continue immediately — user: «РАБОТАЙ ДАЛЬШЕ»)\n\n## Repo / HEAD\n\n- Project: C:\\hades\\Hecton8\n- HEAD: c06",
+      "ts_start": 1785485178260,
+      "reqs": 135,
+      "inp": 6732630,
+      "out": 61310,
+      "cw": 0,
+      "cr": 6227072,
+      "total_tokens": 13021012
+    },
+    {
+      "task_id": "1785465846077",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "FULL HANDOFF — continue immediately (user: «РАБОТАЙ ДАЛЬШЕ ПО ПЛАНУ»)\nPrimary goal\nPlayable V0: spawn→swim→tools→fauna→d",
+      "ts_start": 1785465846209,
+      "reqs": 132,
+      "inp": 6662796,
+      "out": 55790,
+      "cw": 0,
+      "cr": 5954944,
+      "total_tokens": 12673530
+    },
+    {
+      "task_id": "1785410133378",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Handoff summary (context compact)\n1. Primary request\nDrive Hecton8 toward a playable V0 vertical slice, not more SEO/met",
+      "ts_start": 1785410133388,
+      "reqs": 116,
+      "inp": 6160616,
+      "out": 41642,
+      "cw": 0,
+      "cr": 5585280,
+      "total_tokens": 11787538
+    },
+    {
+      "task_id": "1785493032409",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "привет 34.0k200.0k 5/8 Run CORPSHOT proof (kill→corpse→E→CORPSE LOOTED) Cline wants to execute this command: Completed `",
+      "ts_start": 1785493032441,
+      "reqs": 115,
+      "inp": 5913340,
+      "out": 62253,
+      "cw": 0,
+      "cr": 5135104,
+      "total_tokens": 11110697
+    },
+    {
+      "task_id": "1785401956463",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "# DENTE forever-loop HANDOFF (full)\n\n## Repo / git\n\n- Path: `C:\\Clinic_MVP\\dental-crm` (ONLY this tree; NOT c:\\hades\\den",
+      "ts_start": 1785401956469,
+      "reqs": 107,
+      "inp": 5797247,
+      "out": 36952,
+      "cw": 0,
+      "cr": 5221248,
+      "total_tokens": 11055447
+    },
+    {
+      "task_id": "1785368555112",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "/goal Ты — Главный Системный Программист C++20 движка GIGAHRUSH 2 (CMake, EnTT ECS, SDL3, ImGui, CTest).\n\n══════════════",
+      "ts_start": 1785368555121,
+      "reqs": 90,
+      "inp": 5735511,
+      "out": 18976,
+      "cw": 0,
+      "cr": 5080704,
+      "total_tokens": 10835191
+    },
+    {
+      "task_id": "1785398685602",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Engineering handoff written to `.agents/worker_game_audit/` (4 files, ~20 KB):\n\n- __ORIGINAL_REQUEST.md__ — user intent ",
+      "ts_start": 1785398685620,
+      "reqs": 103,
+      "inp": 5703757,
+      "out": 39482,
+      "cw": 0,
+      "cr": 5072768,
+      "total_tokens": 10816007
+    },
+    {
+      "task_id": "1785413213905",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "pact)\nPrimary request\nEternal DENTE daemon on C:\\Clinic_MVP\\dental-crm (main). Campaign: API request.body bare cast → Zo",
+      "ts_start": 1785413213914,
+      "reqs": 93,
+      "inp": 5731325,
+      "out": 45835,
+      "cw": 0,
+      "cr": 4999040,
+      "total_tokens": 10776200
+    },
+    {
+      "task_id": "1785404786182",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HANDOFF — Hecton8 forever-loop (cline-orchestrator)\nWhen: 2026-07-30 ~13:43 Samara · Do not disturb other agents\n\nAgent ",
+      "ts_start": 1785404786193,
+      "reqs": 101,
+      "inp": 5267879,
+      "out": 32504,
+      "cw": 0,
+      "cr": 4664064,
+      "total_tokens": 9964447
+    },
+    {
+      "task_id": "1785484114496",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "## FULL CONTINUATION SUMMARY (context compact — user: «работай дальше»)\n\n### 1. Primary Request and Intent\n\n- Work ONLY ",
+      "ts_start": 1785484114525,
+      "reqs": 81,
+      "inp": 5055768,
+      "out": 37404,
+      "cw": 0,
+      "cr": 4622848,
+      "total_tokens": 9716020
+    },
+    {
+      "task_id": "1785445515720",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Context compact handoff — work incomplete; use summary below to continue.\n\n## FOR1 mid-flight state (do not lose)\n\n__Rep",
+      "ts_start": 1785445515739,
+      "reqs": 87,
+      "inp": 4357288,
+      "out": 26695,
+      "cw": 0,
+      "cr": 3980288,
+      "total_tokens": 8364271
+    },
+    {
+      "task_id": "1785406070108",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Handoff for eternal DENTE daemon (context full). Repo C:\\Clinic_MVP\\dental-crm main. DONE pushed: inventory+telephony bo",
+      "ts_start": 1785406070116,
+      "reqs": 87,
+      "inp": 4463178,
+      "out": 20215,
+      "cw": 0,
+      "cr": 3770496,
+      "total_tokens": 8253889
+    },
+    {
+      "task_id": "1785498055291",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "проект HECTON8\n\nчитай хендофф и беклоги если есть\n\nWhat are you least confident about right now? What's the biggest thin",
+      "ts_start": 1785498055329,
+      "reqs": 87,
+      "inp": 4262377,
+      "out": 53240,
+      "cw": 0,
+      "cr": 3765504,
+      "total_tokens": 8081121
+    },
+    {
+      "task_id": "1785478283631",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "ONTINUE IMMEDIATELY — user: «РАБОТАЙ ДАЛЬШЕ ПО ПЛАНУ»\n\n## Canonical handoff (READ FIRST)\n\n`C:\\hades\\Hecton8\\Docs\\AgentLo",
+      "ts_start": 1785478283662,
+      "reqs": 83,
+      "inp": 4419679,
+      "out": 32717,
+      "cw": 0,
+      "cr": 3611776,
+      "total_tokens": 8064172
+    },
+    {
+      "task_id": "1785433308674",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Handoff (work incomplete — continue immediately, no status essays):\n\nRepo: C:\\Clinic_MVP\\dental-crm main HEAD 8a50b0610 ",
+      "ts_start": 1785433308686,
+      "reqs": 75,
+      "inp": 4097243,
+      "out": 48013,
+      "cw": 0,
+      "cr": 3780608,
+      "total_tokens": 7925864
+    },
+    {
+      "task_id": "1785367714094",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "ку ты кто",
+      "ts_start": 1785367714111,
+      "reqs": 62,
+      "inp": 4053514,
+      "out": 17263,
+      "cw": 0,
+      "cr": 3619072,
+      "total_tokens": 7689849
+    },
+    {
+      "task_id": "1785465753241",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "# CORP1 HANDOFF — next dialog (IMPLEMENT, no re-diagnose)\n\n## Status\n\n__Code + test written. Build reported OK. NOT YET:",
+      "ts_start": 1785465753259,
+      "reqs": 72,
+      "inp": 3978984,
+      "out": 21830,
+      "cw": 0,
+      "cr": 3455488,
+      "total_tokens": 7456302
+    },
+    {
+      "task_id": "1785434682691",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "# HECTON8 WORK HANDOFF (forced compact — RESUME WORK, do not re-diagnose from zero) ## User law (verbatim intent) - Arch",
+      "ts_start": 1785434682707,
+      "reqs": 77,
+      "inp": 3878114,
+      "out": 34315,
+      "cw": 0,
+      "cr": 3438080,
+      "total_tokens": 7350509
+    },
+    {
+      "task_id": "1785446493792",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Session summary (handoff) — continue from here without re-asking.\n\n## 1. Primary Request and Intent\n\n- Work only in __C:",
+      "ts_start": 1785446493816,
+      "reqs": 65,
+      "inp": 3805038,
+      "out": 23310,
+      "cw": 0,
+      "cr": 3351936,
+      "total_tokens": 7180284
+    },
+    {
+      "task_id": "1785410147779",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HANDOFF — Hecton8 forever-loop (cline-orchestrator) When: 2026-07-30 ~13:43 Samara · Do not disturb other agents Agent p",
+      "ts_start": 1785410147791,
+      "reqs": 73,
+      "inp": 3679695,
+      "out": 25182,
+      "cw": 0,
+      "cr": 3290112,
+      "total_tokens": 6994989
+    },
+    {
+      "task_id": "1785404539858",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Handoff for eternal DENTE daemon (context full). Repo C:\\Clinic_MVP\\dental-crm main.\n\nDONE pushed: inventory+telephony b",
+      "ts_start": 1785404539921,
+      "reqs": 64,
+      "inp": 3650796,
+      "out": 15211,
+      "cw": 0,
+      "cr": 3281024,
+      "total_tokens": 6947031
+    },
+    {
+      "task_id": "1785441472702",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Handoff summary for next session (work incomplete):\n\nGOAL: Drive Hecton8 (C:\\hades\\Hecton8) to playable V0 spawn→swim→to",
+      "ts_start": 1785441472742,
+      "reqs": 62,
+      "inp": 3546158,
+      "out": 46738,
+      "cw": 0,
+      "cr": 3127936,
+      "total_tokens": 6720832
+    },
+    {
+      "task_id": "1785433830655",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "## Session handoff (context compact)\n\n### Least confident / biggest missing / not integrated\n\n- __Least confident:__ `ma",
+      "ts_start": 1785433830668,
+      "reqs": 66,
+      "inp": 3828375,
+      "out": 23938,
+      "cw": 0,
+      "cr": 2862848,
+      "total_tokens": 6715161
+    },
+    {
+      "task_id": "1785400169414",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "```javascript\n# DENTE CRM — forever loop (self-directed)\n\nТы агент dental-crm. Работа НЕ «закончилась»: forever loop. Не",
+      "ts_start": 1785400169422,
+      "reqs": 60,
+      "inp": 3603279,
+      "out": 22156,
+      "cw": 0,
+      "cr": 2960128,
+      "total_tokens": 6585563
+    },
+    {
+      "task_id": "1785447946248",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HECTON8 V0 HANDOFF — 2026-07-31 ~01:40 Samara (continue from here)\n\nGOAL: Playable V0 spawn→swim→tools→fauna→death/save.",
+      "ts_start": 1785447946270,
+      "reqs": 58,
+      "inp": 3433724,
+      "out": 24410,
+      "cw": 0,
+      "cr": 3079296,
+      "total_tokens": 6537430
+    },
+    {
+      "task_id": "1785475081172",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "## Context handoff summary (workspace continues in C:\\Clinic_MVP\\dental-crm)\n\n### DONE this session\n\n- __Workspace profi",
+      "ts_start": 1785475081189,
+      "reqs": 53,
+      "inp": 3116488,
+      "out": 23377,
+      "cw": 0,
+      "cr": 2725248,
+      "total_tokens": 5865113
+    },
+    {
+      "task_id": "1785391584729",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HECTON-8 orchestrator handoff (context compact)\n\n## Done this cycle\n\n- Confirmed repo C:\\hades\\Hecton8, main ahead 33 be",
+      "ts_start": 1785391584735,
+      "reqs": 54,
+      "inp": 2973576,
+      "out": 16156,
+      "cw": 0,
+      "cr": 2706432,
+      "total_tokens": 5696164
+    },
+    {
+      "task_id": "1785406091999",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Session summary for continuation (context compact):\n\n__F9 CLOSED__: Full F9 load is on HEAD in `src/app/main.cpp` (~1538",
+      "ts_start": 1785406092010,
+      "reqs": 56,
+      "inp": 3161116,
+      "out": 12528,
+      "cw": 0,
+      "cr": 2412160,
+      "total_tokens": 5585804
+    },
+    {
+      "task_id": "1785391595172",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Session compact summary — DEMON MODE GIGAHRUSH2, continue immediately.\n\n__User:__ continuous work, max effort, do not st",
+      "ts_start": 1785391595179,
+      "reqs": 65,
+      "inp": 2861616,
+      "out": 22169,
+      "cw": 0,
+      "cr": 2576512,
+      "total_tokens": 5460297
+    },
+    {
+      "task_id": "1785434370896",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "## Handoff summary\n\n__Primary intent:__ Drive Hecton8 (`C:\\hades\\Hecton8`) to playable V0: spawn→swim→tools→fauna→death/",
+      "ts_start": 1785434370912,
+      "reqs": 52,
+      "inp": 2901115,
+      "out": 22396,
+      "cw": 0,
+      "cr": 2456960,
+      "total_tokens": 5380471
+    },
+    {
+      "task_id": "1785393051644",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HANDOFF SUMMARY (continue immediately — user said «Не ной. работай по максимум»)\n\n\\=== 1. PRIMARY REQUEST === Demon-orch",
+      "ts_start": 1785393051649,
+      "reqs": 62,
+      "inp": 3040495,
+      "out": 30146,
+      "cw": 0,
+      "cr": 2306048,
+      "total_tokens": 5376689
+    },
+    {
+      "task_id": "1785401809181",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "# HECTON8 — forever loop (self-directed)\n\nТы агент Hecton8. Работа НЕ «закончилась»: forever loop. Не спрашивай «что дал",
+      "ts_start": 1785401809188,
+      "reqs": 61,
+      "inp": 2934507,
+      "out": 26785,
+      "cw": 0,
+      "cr": 2337280,
+      "total_tokens": 5298572
+    },
+    {
+      "task_id": "1785368527247",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "[29.07.2026 12:00] Николай Романов: агент! ТЫ ЖЕ РАБОТАЕШЬ С СУЬАГЕНТАМИ КАК ОРКЕСТРАТОР ГЛУБОКО И МУДРО?\n\nдальше улучша",
+      "ts_start": 1785368527260,
+      "reqs": 33,
+      "inp": 2635599,
+      "out": 7191,
+      "cw": 0,
+      "cr": 2498304,
+      "total_tokens": 5141094
+    },
+    {
+      "task_id": "1785406110492",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Handoff summary (context compact)\n1. Primary request\nDrive Hecton8 toward a playable V0 vertical slice, not more SEO/met",
+      "ts_start": 1785406110508,
+      "reqs": 43,
+      "inp": 2672698,
+      "out": 21149,
+      "cw": 0,
+      "cr": 2300160,
+      "total_tokens": 4994007
+    },
+    {
+      "task_id": "1785445097575",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Context limit hit mid-batch. Summary for continuation:\n\n__DONE this session (not committed/pushed yet):__\n\n1. `leads.ts`",
+      "ts_start": 1785445097591,
+      "reqs": 47,
+      "inp": 2549900,
+      "out": 17201,
+      "cw": 0,
+      "cr": 2327680,
+      "total_tokens": 4894781
+    },
+    {
+      "task_id": "1785402221821",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "# gigahrush2 forever-loop HANDOFF (full)\n\n## Repo / git\n\n- Path: `C:\\hades\\gigahrush2` (ONLY this tree)\n- Branch: `main`",
+      "ts_start": 1785402221894,
+      "reqs": 40,
+      "inp": 2439451,
+      "out": 13994,
+      "cw": 0,
+      "cr": 2232832,
+      "total_tokens": 4686277
+    },
+    {
+      "task_id": "1785497977933",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "привет 34.0k200.0k 5/8 Run CORPSHOT proof (kill→corpse→E→CORPSE LOOTED) Cline wants to execute this command: Completed `",
+      "ts_start": 1785497977952,
+      "reqs": 55,
+      "inp": 2659189,
+      "out": 20662,
+      "cw": 0,
+      "cr": 1957504,
+      "total_tokens": 4637355
+    },
+    {
+      "task_id": "1785441290061",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "## Architect blunt answers (standing)\n\n__Least confident:__ Ecology-clock fix alone → ecologySampledDays>0. Clock may no",
+      "ts_start": 1785441290081,
+      "reqs": 45,
+      "inp": 2243266,
+      "out": 19418,
+      "cw": 0,
+      "cr": 2105728,
+      "total_tokens": 4368412
+    },
+    {
+      "task_id": "1785441108422",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "## Context summary (handoff)\n\n### 1. Primary Request and Intent\n\n- Continue dental-crm work at `C:\\Clinic_MVP\\dental-crm",
+      "ts_start": 1785441108453,
+      "reqs": 37,
+      "inp": 2200841,
+      "out": 15496,
+      "cw": 0,
+      "cr": 1853440,
+      "total_tokens": 4069777
+    },
+    {
+      "task_id": "1785448163546",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "CONTEXT HANDOFF (session mid-slice — continue immediately)\n\n## Primary Request and Intent\n\n- Work ONLY in `C:\\Clinic_MVP",
+      "ts_start": 1785448163568,
+      "reqs": 44,
+      "inp": 2164872,
+      "out": 11570,
+      "cw": 0,
+      "cr": 1857920,
+      "total_tokens": 4034362
+    },
+    {
+      "task_id": "1785427818857",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "# HECTON8 WORK HANDOFF (forced compact — RESUME WORK, do not re-diagnose from zero)\n\n## User law (verbatim intent)\n\n- Ar",
+      "ts_start": 1785427818872,
+      "reqs": 39,
+      "inp": 2114061,
+      "out": 14881,
+      "cw": 0,
+      "cr": 1712384,
+      "total_tokens": 3841326
+    },
+    {
+      "task_id": "1785398670310",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Session handoff summary (context compacting). Work is NOT complete — continue forever loop.\n\n__HEAD: bf6750c9d on origin",
+      "ts_start": 1785398670327,
+      "reqs": 41,
+      "inp": 2158376,
+      "out": 17778,
+      "cw": 0,
+      "cr": 1665152,
+      "total_tokens": 3841306
+    },
+    {
+      "task_id": "1785431034201",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "## Session handoff (context compact)\n\n### Least confident / biggest missing / not integrated\n\n- __Least confident:__ `ma",
+      "ts_start": 1785431034217,
+      "reqs": 38,
+      "inp": 1953088,
+      "out": 14795,
+      "cw": 0,
+      "cr": 1821056,
+      "total_tokens": 3788939
+    },
+    {
+      "task_id": "1785441385225",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Handoff compact — FOR1 mid-flight. Do not lose work.\n\nState\nRepo: C:\\hades\\gigahrush2, main=origin at caa0660 (render fo",
+      "ts_start": 1785441385271,
+      "reqs": 41,
+      "inp": 1885769,
+      "out": 11434,
+      "cw": 0,
+      "cr": 1794560,
+      "total_tokens": 3691763
+    },
+    {
+      "task_id": "1785391241059",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "CRITICAL HANDOFF — user said «Не ной. работай по максимум». Incomplete. Resume code work immediately.\n\n=== 1. PRIMARY RE",
+      "ts_start": 1785391241064,
+      "reqs": 37,
+      "inp": 1916668,
+      "out": 9080,
+      "cw": 0,
+      "cr": 1748096,
+      "total_tokens": 3673844
+    },
+    {
+      "task_id": "1785499484934",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "привет 34.0k200.0k 5/8 Run CORPSHOT proof (kill→corpse→E→CORPSE LOOTED) Cline wants to execute this command: Completed `",
+      "ts_start": 1785499484957,
+      "reqs": 45,
+      "inp": 2059125,
+      "out": 26260,
+      "cw": 0,
+      "cr": 1542144,
+      "total_tokens": 3627529
+    },
+    {
+      "task_id": "1785465869459",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Handoff written to `C:\\hades\\Hecton8\\Docs\\AgentLogs\\HANDOFF_p0_ecology_clock_20260731.md`.\n\n__Status one-liner:__ Ready ",
+      "ts_start": 1785465869519,
+      "reqs": 32,
+      "inp": 1928957,
+      "out": 30637,
+      "cw": 0,
+      "cr": 1647488,
+      "total_tokens": 3607082
+    },
+    {
+      "task_id": "1785403947941",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "I need to produce a comprehensive summary. The summarize_task tool isn't in my listed tools but the system instruction m",
+      "ts_start": 1785403947950,
+      "reqs": 47,
+      "inp": 1899017,
+      "out": 14715,
+      "cw": 0,
+      "cr": 1581696,
+      "total_tokens": 3495428
+    },
+    {
+      "task_id": "1785488679542",
+      "source": "cline",
+      "model_id": "moonshotai/kimi-k3-free",
+      "task_text": "привет",
+      "ts_start": 1785488679569,
+      "reqs": 42,
+      "inp": 1926603,
+      "out": 20746,
+      "cw": 0,
+      "cr": 1369728,
+      "total_tokens": 3317077
+    },
+    {
+      "task_id": "1785447773423",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "# FULL HANDOFF — CORP1 implement NOW (user: «РАБОТАЙ ДАЛЬГЕ ТУТ ПО ПЛАНУ»)\n\n## DONE\n\n- FOR1/MAG1 CLOSED: game_test 21391",
+      "ts_start": 1785447773445,
+      "reqs": 34,
+      "inp": 1788962,
+      "out": 15926,
+      "cw": 0,
+      "cr": 1338240,
+      "total_tokens": 3143128
+    },
+    {
+      "task_id": "1785369696079",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "[29.07.2026 12:00] Николай Романов: агент! ТЫ ЖЕ РАБОТАЕШЬ С СУЬАГЕНТАМИ КАК ОРКЕСТРАТОР ГЛУБОКО И МУДРО? дальше улучшай",
+      "ts_start": 1785369696091,
+      "reqs": 26,
+      "inp": 1597721,
+      "out": 15435,
+      "cw": 0,
+      "cr": 1463808,
+      "total_tokens": 3076964
+    },
+    {
+      "task_id": "1785390967109",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Handoff summary (continue demon orchestration)\nPrimary intent\nYou are Главный Архитектор / оркестратор HECTON-8 (Unity a",
+      "ts_start": 1785390967116,
+      "reqs": 32,
+      "inp": 1389405,
+      "out": 14889,
+      "cw": 0,
+      "cr": 1301120,
+      "total_tokens": 2705414
+    },
+    {
+      "task_id": "1785483773064",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HANDOFF — continue product fixes (user: «работай дальше»). No new product commits this turn after a233fb682.\n\n## L09 MEA",
+      "ts_start": 1785483773096,
+      "reqs": 25,
+      "inp": 1305342,
+      "out": 10372,
+      "cw": 0,
+      "cr": 1126528,
+      "total_tokens": 2442242
+    },
+    {
+      "task_id": "1785403560515",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Hecton8 \nМой проект\n1. сравни с gigahrush, gigahrush2\nобъективно по многим параметрам и честно\n2. отсмотри последние 3-4",
+      "ts_start": 1785403560525,
+      "reqs": 23,
+      "inp": 1242623,
+      "out": 19539,
+      "cw": 0,
+      "cr": 1092864,
+      "total_tokens": 2355026
+    },
+    {
+      "task_id": "1785413242758",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Session summary for continuation (context compact): __F9 CLOSED__: Full F9 load is on HEAD in `src/app/main.cpp` (~1538+",
+      "ts_start": 1785413242770,
+      "reqs": 22,
+      "inp": 1311604,
+      "out": 3853,
+      "cw": 0,
+      "cr": 950016,
+      "total_tokens": 2265473
+    },
+    {
+      "task_id": "1785390821558",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "CRITICAL HANDOFF — user said «дальше работай ищи че улучшить и улучшай». Incomplete. Resume code work immediately after ",
+      "ts_start": 1785390821563,
+      "reqs": 27,
+      "inp": 1205226,
+      "out": 7912,
+      "cw": 0,
+      "cr": 1018496,
+      "total_tokens": 2231634
+    },
+    {
+      "task_id": "1785465681064",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "CONTEXT HANDOFF — workspace profile body-guard slice IN PROGRESS (not committed)\n\nPrimary intent\nWork ONLY in C:\\Clinic_",
+      "ts_start": 1785465681082,
+      "reqs": 19,
+      "inp": 1049462,
+      "out": 5422,
+      "cw": 0,
+      "cr": 924416,
+      "total_tokens": 1979300
+    },
+    {
+      "task_id": "1785477850842",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HANDOFF — CORP1 closeout (gigahrush2)\nRepo: C:\\hades\\gigahrush2 (NOT Desktop)\nBranch: main...origin/main (synced at star",
+      "ts_start": 1785477850862,
+      "reqs": 18,
+      "inp": 1050101,
+      "out": 11762,
+      "cw": 0,
+      "cr": 846848,
+      "total_tokens": 1908711
+    },
+    {
+      "task_id": "1785397564025",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "**Handoff (write to `.agents/` worker dir next session — user ordered «хендофф пиши»)**\n\n## Done this session\n- **Commit",
+      "ts_start": 1785397564040,
+      "reqs": 18,
+      "inp": 993575,
+      "out": 22272,
+      "cw": 0,
+      "cr": 828288,
+      "total_tokens": 1844135
+    },
+    {
+      "task_id": "1785445761166",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "# HECTON8 V0 HANDOFF — 2026-07-31 ~01:05 Samara\n\n## GOAL\n\nPlayable V0: spawn→swim→tools→fauna→death/save. No mocks. Real",
+      "ts_start": 1785445761208,
+      "reqs": 16,
+      "inp": 941739,
+      "out": 14219,
+      "cw": 0,
+      "cr": 837248,
+      "total_tokens": 1793206
+    },
+    {
+      "task_id": "1785444458173",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HANDOFF — «работай дальше не останавливайся» (context forced compact)\n1. Primary Request and Intent\nArchitect work on He",
+      "ts_start": 1785444458237,
+      "reqs": 18,
+      "inp": 897295,
+      "out": 11169,
+      "cw": 0,
+      "cr": 810240,
+      "total_tokens": 1718704
+    },
+    {
+      "task_id": "1785100549322",
+      "source": "cline",
+      "model_id": "gpt-5.6-sol",
+      "task_text": "Открой файл Hecton8/Docs/AgentTasks/CLINE_TASK_TERRAIN_7B_P1.md и выполни задачу P1 (Раздел 7b) строго по правилам:\n\nИзу",
+      "ts_start": 1785100549326,
+      "reqs": 28,
+      "inp": 1699651,
+      "out": 10538,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 1710189
+    },
+    {
+      "task_id": "1785444436944",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "HANDOFF SUMMARY (context compact) — dental-crm body-guard batch NOT YET IMPLEMENTED\n\nPrimary Request and Intent:\nWork ON",
+      "ts_start": 1785444436961,
+      "reqs": 16,
+      "inp": 877811,
+      "out": 13527,
+      "cw": 0,
+      "cr": 785792,
+      "total_tokens": 1677130
+    },
+    {
+      "task_id": "1785427836392",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "COMPREHENSIVE HANDOFF (context compact) — continue V0 playability; no mocks.\n\n1. Primary intent Drive Hecton8 (C:\\hades\\",
+      "ts_start": 1785427836406,
+      "reqs": 18,
+      "inp": 851597,
+      "out": 5352,
+      "cw": 0,
+      "cr": 757632,
+      "total_tokens": 1614581
+    },
+    {
+      "task_id": "1785435761510",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "<summary_task> <context>\n\n1. Primary Request and Intent:\n\n   - Continue incomplete dental-crm handoff on repo `C:\\Clinic",
+      "ts_start": 1785435761525,
+      "reqs": 15,
+      "inp": 858307,
+      "out": 7023,
+      "cw": 0,
+      "cr": 702976,
+      "total_tokens": 1568306
+    },
+    {
+      "task_id": "1785442444785",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Session summary (context compact handoff)\n\n1. Primary Request and Intent:\n\n- Continue dental-crm only at C:\\Clinic_MVP\\d",
+      "ts_start": 1785442444804,
+      "reqs": 15,
+      "inp": 783121,
+      "out": 4695,
+      "cw": 0,
+      "cr": 630016,
+      "total_tokens": 1417832
+    },
+    {
+      "task_id": "1785405290805",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Что улучшить в Hecton8 прямо сейчас Объективно: у H8 сильная системная база (KCC, fauna/VAT, ecosystem, save, registry),",
+      "ts_start": 1785405290817,
+      "reqs": 10,
+      "inp": 676064,
+      "out": 3593,
+      "cw": 0,
+      "cr": 581632,
+      "total_tokens": 1261289
+    },
+    {
+      "task_id": "1785096625907",
+      "source": "cline",
+      "model_id": "gpt-5.6-sol",
+      "task_text": "привет ты солнце или терра или луна",
+      "ts_start": 1785096625911,
+      "reqs": 31,
+      "inp": 1124573,
+      "out": 10120,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 1134693
+    },
+    {
+      "task_id": "1785492607359",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "привет\n\n34.0k200.0k\n\n5/8\n\nRun CORPSHOT proof (kill→corpse→E→CORPSE LOOTED)\n\nCline wants to execute this command:\n\nComple",
+      "ts_start": 1785492607377,
+      "reqs": 13,
+      "inp": 535868,
+      "out": 2154,
+      "cw": 0,
+      "cr": 484608,
+      "total_tokens": 1022630
+    },
+    {
+      "task_id": "1785404373061",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Что улучшить в Hecton8 прямо сейчас\nОбъективно: у H8 сильная системная база (KCC, fauna/VAT, ecosystem, save, registry),",
+      "ts_start": 1785404373070,
+      "reqs": 11,
+      "inp": 513544,
+      "out": 2383,
+      "cw": 0,
+      "cr": 439936,
+      "total_tokens": 955863
+    },
+    {
+      "task_id": "019f9fc3-43c7-76ba-ac45-67e947827472",
+      "source": "roo-cline",
+      "model_id": "grok-4.5",
+      "task_text": "\"C:\\Users\\Admin\\Downloads\\Дизайн приложения _Смен3232а_\"\nвнедри дизайн оттуда к нам в  \"C:\\Clinic_MVP\\dental-crm\"\n\nдумай",
+      "ts_start": 1785092650172,
+      "reqs": 14,
+      "inp": 835688,
+      "out": 4684,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 840372
+    },
+    {
+      "task_id": "019f9f52-a9b6-763d-bff5-73aeea2ed334",
+      "source": "roo-cline",
+      "model_id": "grok-4.5",
+      "task_text": "Привет\nкто ты\nпопробуй прочитать \n\"C:\\Clinic_MVP\\dental-crm\"",
+      "ts_start": 1785087833443,
+      "reqs": 15,
+      "inp": 816195,
+      "out": 7603,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 823798
+    },
+    {
+      "task_id": "1785093448108",
+      "source": "cline",
+      "model_id": "kimi-k3",
+      "task_text": "привет",
+      "ts_start": 1785093448112,
+      "reqs": 21,
+      "inp": 749536,
+      "out": 4708,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 754244
+    },
+    {
+      "task_id": "1785095835693",
+      "source": "cline",
+      "model_id": "glm-5.2",
+      "task_text": "ты тут? ты глм 5.2?",
+      "ts_start": 1785095835696,
+      "reqs": 22,
+      "inp": 460121,
+      "out": 4489,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 464610
+    },
+    {
+      "task_id": "1785098623798",
+      "source": "cline",
+      "model_id": "gpt-5.6-sol",
+      "task_text": "Проект: C:\\hades\\Hecton8 (Unity 6000.5.0f1 URP, branch main)\n\nПРАВИЛА: одна функция за раз, git commit после каждого шаг",
+      "ts_start": 1785098623802,
+      "reqs": 20,
+      "inp": 429562,
+      "out": 6308,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 435870
+    },
+    {
+      "task_id": "1785491278831",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "ПРОЕКТ HECTON8 \nИЩИ БЕКЛОГ ФАЙЛЫ, ХЕНДОФФ ФАЙЛЫ АКТУЛАЬНЫЕ. ПИШИ В НИХ - МЫ СОХРАНЯЕМ ПАМЯТЬ АГЕНТА.\nЧИАТЙ ИХ ПОСЛЕ АВТО",
+      "ts_start": 1785491278856,
+      "reqs": 5,
+      "inp": 206494,
+      "out": 1541,
+      "cw": 0,
+      "cr": 129536,
+      "total_tokens": 337571
+    },
+    {
+      "task_id": "1785099320855",
+      "source": "cline",
+      "model_id": "gpt-5.6-sol",
+      "task_text": "Открой файл Hecton8/Docs/AgentTasks/CLINE_TASK_TERRAIN_9A_P1.md и выполни задачу P1 (Раздел 9a) строго по правилам:\n\nИзу",
+      "ts_start": 1785099320858,
+      "reqs": 15,
+      "inp": 265672,
+      "out": 3723,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 269395
+    },
+    {
+      "task_id": "1785101481099",
+      "source": "cline",
+      "model_id": "gpt-5.6-sol",
+      "task_text": "Проект: C:\\hades\\Hecton8 (Unity 6000.5.0f1 URP, branch main)\n\nПРАВИЛА: хирургические правки, одна логическая часть за ра",
+      "ts_start": 1785101481103,
+      "reqs": 8,
+      "inp": 169757,
+      "out": 3351,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 173108
+    },
+    {
+      "task_id": "1785490286327",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Работай полностью автономно. Не спрашивай разрешения, не останавливайся и не предлагай варианты. Просто делай.\n\nЗадание:",
+      "ts_start": 1785490286344,
+      "reqs": 8,
+      "inp": 77075,
+      "out": 724,
+      "cw": 0,
+      "cr": 57728,
+      "total_tokens": 135527
+    },
+    {
+      "task_id": "1785095323286",
+      "source": "cline",
+      "model_id": "claude-opus-4-8",
+      "task_text": "Привет ты тут?",
+      "ts_start": 1785095323290,
+      "reqs": 9,
+      "inp": 67395,
+      "out": 1452,
+      "cw": 20153,
+      "cr": 26925,
+      "total_tokens": 115925
+    },
+    {
+      "task_id": "1785094730149",
+      "source": "cline",
+      "model_id": "kimi-k3",
+      "task_text": "Читай и выполняй строго по шагам документ Docs/AgentTasks/R100_HANDOFF_NEXT_ITERATION.md. Вноси правки в HectonVoxelEngi",
+      "ts_start": 1785094730152,
+      "reqs": 12,
+      "inp": 110154,
+      "out": 1632,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 111786
+    },
+    {
+      "task_id": "1785490570247",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Работай полностью автономно. \n\n1. Сгенерируй текстовый файл C:\\Users\\Admin\\Documents\\compact_test.txt и запиши в него 50",
+      "ts_start": 1785490570262,
+      "reqs": 5,
+      "inp": 62508,
+      "out": 2593,
+      "cw": 0,
+      "cr": 36864,
+      "total_tokens": 101965
+    },
+    {
+      "task_id": "1785367353918",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Привет! ты кто",
+      "ts_start": 1785367353926,
+      "reqs": 4,
+      "inp": 36060,
+      "out": 423,
+      "cw": 0,
+      "cr": 26496,
+      "total_tokens": 62979
+    },
+    {
+      "task_id": "1785102202259",
+      "source": "cline",
+      "model_id": "gpt-5.6-sol",
+      "task_text": "Открой файл Hecton8/Docs/AgentTasks/CLINE_TASK_TERRAIN_7B_P1.md. \nЯ полностью обновил его содержимое. Там подробно описа",
+      "ts_start": 1785102202262,
+      "reqs": 5,
+      "inp": 27942,
+      "out": 1276,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 29218
+    },
+    {
+      "task_id": "1785489957846",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "1. Выведи строго в первом абзаце информацию: с каким провайдером, эндпоинтом и лимитом contextWindow/maxTokens ты работа",
+      "ts_start": 1785489957869,
+      "reqs": 2,
+      "inp": 19693,
+      "out": 317,
+      "cw": 0,
+      "cr": 8960,
+      "total_tokens": 28970
+    },
+    {
+      "task_id": "1785486836301",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Проверь свой список доступных инструментов (tools). Видишь ли ты инструмент summarize_task? Вызови прямо сейчас инструме",
+      "ts_start": 1785486836327,
+      "reqs": 2,
+      "inp": 17300,
+      "out": 314,
+      "cw": 0,
+      "cr": 8448,
+      "total_tokens": 26062
+    },
+    {
+      "task_id": "019f9fbf-4d37-73cb-aaaa-9c12ed44d212",
+      "source": "roo-cline",
+      "model_id": "grok-4.5",
+      "task_text": "\"C:\\Users\\Admin\\Downloads\\Дизайн приложения _Смен3232а_.zip\"\n\nвнедри дизайн оттуда к нам\n\nдумай и внедряй",
+      "ts_start": 1785091700045,
+      "reqs": 3,
+      "inp": 16996,
+      "out": 287,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 17283
+    },
+    {
+      "task_id": "019fb76d-73e7-740c-98f6-59c4421746a3",
+      "source": "roo-cline",
+      "model_id": "grok-4.5",
+      "task_text": "привет",
+      "ts_start": 1785489470349,
+      "reqs": 3,
+      "inp": 16353,
+      "out": 608,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 16961
+    },
+    {
+      "task_id": "1785370299696",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "привет!",
+      "ts_start": 1785370299746,
+      "reqs": 3,
+      "inp": 7130,
+      "out": 7,
+      "cw": 0,
+      "cr": 128,
+      "total_tokens": 7265
+    },
+    {
+      "task_id": "1785095123849",
+      "source": "cline",
+      "model_id": "kimi-k3",
+      "task_text": "твоя модель, кратко",
+      "ts_start": 1785095123853,
+      "reqs": 2,
+      "inp": 4599,
+      "out": 110,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 4709
+    },
+    {
+      "task_id": "1785486786686",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Проверь свой список доступных инструментов (tools). Видишь ли ты инструмент summarize_task? Вызови прямо сейчас инструме",
+      "ts_start": 1785486786710,
+      "reqs": 1,
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 0
+    },
+    {
+      "task_id": "1785486820925",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Comprehensive summary of the full session for context continuation. Key state:\n\n- dental-crm only at C:\\Clinic_MVP\\denta",
+      "ts_start": 1785486820958,
+      "reqs": 1,
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 0
+    },
+    {
+      "task_id": "1785487175562",
+      "source": "cline",
+      "model_id": "grok-4.5",
+      "task_text": "Проверь свой список доступных инструментов (tools). Видишь ли ты инструмент summarize_task? Вызови прямо сейчас инструме",
+      "ts_start": 1785487175605,
+      "reqs": 1,
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 0
+    },
+    {
+      "task_id": "1785487256596",
+      "source": "cline",
+      "model_id": "moonshotai/kimi-k3-free",
+      "task_text": "Проверь свой список доступных инструментов (tools). Видишь ли ты инструмент summarize_task? Вызови прямо сейчас инструме",
+      "ts_start": 1785487256618,
+      "reqs": 1,
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "total_tokens": 0
+    }
+  ],
+  "by_hour": {
+    "2026-07-26 20:00": {
+      "inp": 816195,
+      "out": 7603,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 14
+    },
+    "2026-07-26 21:00": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 22:00": {
+      "inp": 484934,
+      "out": 4115,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 13
+    },
+    "2026-07-26 23:00": {
+      "inp": 1439693,
+      "out": 10404,
+      "cw": 20153,
+      "cr": 26925,
+      "reqs": 59
+    },
+    "2026-07-27 00:00": {
+      "inp": 2139669,
+      "out": 22994,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 77
+    },
+    "2026-07-27 01:00": {
+      "inp": 1897350,
+      "out": 15165,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 41
+    },
+    "2026-07-30 03:00": {
+      "inp": 5143866,
+      "out": 19418,
+      "cw": 0,
+      "cr": 4765440,
+      "reqs": 95
+    },
+    "2026-07-30 04:00": {
+      "inp": 3148479,
+      "out": 8846,
+      "cw": 0,
+      "cr": 2958464,
+      "reqs": 36
+    },
+    "2026-07-30 09:00": {
+      "inp": 7365297,
+      "out": 46934,
+      "cw": 0,
+      "cr": 6376192,
+      "reqs": 134
+    },
+    "2026-07-30 10:00": {
+      "inp": 9878551,
+      "out": 66256,
+      "cw": 0,
+      "cr": 8646528,
+      "reqs": 193
+    },
+    "2026-07-30 11:00": {
+      "inp": 4502464,
+      "out": 59796,
+      "cw": 0,
+      "cr": 3882112,
+      "reqs": 92
+    },
+    "2026-07-30 12:00": {
+      "inp": 16894514,
+      "out": 133198,
+      "cw": 0,
+      "cr": 14331392,
+      "reqs": 305
+    },
+    "2026-07-30 13:00": {
+      "inp": 21078149,
+      "out": 144815,
+      "cw": 0,
+      "cr": 18520960,
+      "reqs": 401
+    },
+    "2026-07-30 14:00": {
+      "inp": 11687072,
+      "out": 67677,
+      "cw": 0,
+      "cr": 9811712,
+      "reqs": 218
+    },
+    "2026-07-30 15:00": {
+      "inp": 10722163,
+      "out": 65240,
+      "cw": 0,
+      "cr": 9646976,
+      "reqs": 203
+    },
+    "2026-07-30 16:00": {
+      "inp": 5835255,
+      "out": 45430,
+      "cw": 0,
+      "cr": 4908032,
+      "reqs": 92
+    },
+    "2026-07-30 20:00": {
+      "inp": 4431419,
+      "out": 30599,
+      "cw": 0,
+      "cr": 3757440,
+      "reqs": 82
+    },
+    "2026-07-30 21:00": {
+      "inp": 5773641,
+      "out": 54257,
+      "cw": 0,
+      "cr": 5151744,
+      "reqs": 113
+    },
+    "2026-07-30 22:00": {
+      "inp": 10965635,
+      "out": 85839,
+      "cw": 0,
+      "cr": 9581184,
+      "reqs": 202
+    },
+    "2026-07-30 23:00": {
+      "inp": 3810513,
+      "out": 32969,
+      "cw": 0,
+      "cr": 2854144,
+      "reqs": 72
+    },
+    "2026-07-31 00:00": {
+      "inp": 9449466,
+      "out": 96582,
+      "cw": 0,
+      "cr": 8473088,
+      "reqs": 172
+    },
+    "2026-07-31 01:00": {
+      "inp": 23992560,
+      "out": 180033,
+      "cw": 0,
+      "cr": 21650304,
+      "reqs": 448
+    },
+    "2026-07-31 02:00": {
+      "inp": 528397,
+      "out": 1917,
+      "cw": 0,
+      "cr": 472960,
+      "reqs": 7
+    },
+    "2026-07-31 06:00": {
+      "inp": 6139205,
+      "out": 59709,
+      "cw": 0,
+      "cr": 5054336,
+      "reqs": 117
+    },
+    "2026-07-31 07:00": {
+      "inp": 3458208,
+      "out": 16924,
+      "cw": 0,
+      "cr": 3199232,
+      "reqs": 54
+    },
+    "2026-07-31 08:00": {
+      "inp": 1743104,
+      "out": 13716,
+      "cw": 0,
+      "cr": 1630720,
+      "reqs": 34
+    },
+    "2026-07-31 09:00": {
+      "inp": 4267118,
+      "out": 49466,
+      "cw": 0,
+      "cr": 3626496,
+      "reqs": 79
+    },
+    "2026-07-31 10:00": {
+      "inp": 4934574,
+      "out": 43144,
+      "cw": 0,
+      "cr": 4425088,
+      "reqs": 85
+    },
+    "2026-07-31 11:00": {
+      "inp": 5968349,
+      "out": 38891,
+      "cw": 0,
+      "cr": 4975104,
+      "reqs": 116
+    },
+    "2026-07-31 12:00": {
+      "inp": 11866914,
+      "out": 98130,
+      "cw": 0,
+      "cr": 10732928,
+      "reqs": 212
+    },
+    "2026-07-31 13:00": {
+      "inp": 1238365,
+      "out": 17038,
+      "cw": 0,
+      "cr": 813056,
+      "reqs": 50
+    },
+    "2026-07-31 14:00": {
+      "inp": 8626081,
+      "out": 68251,
+      "cw": 0,
+      "cr": 7248512,
+      "reqs": 169
+    },
+    "2026-07-31 15:00": {
+      "inp": 17675934,
+      "out": 171899,
+      "cw": 0,
+      "cr": 14798080,
+      "reqs": 337
+    },
+    "2026-07-31 16:00": {
+      "inp": 7497698,
+      "out": 81295,
+      "cw": 0,
+      "cr": 6520960,
+      "reqs": 149
+    }
+  },
+  "by_minute": {
+    "2026-07-26 20:47": {
+      "inp": 33759,
+      "out": 455,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-26 20:48": {
+      "inp": 90745,
+      "out": 1426,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-26 20:49": {
+      "inp": 182392,
+      "out": 2111,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-26 20:50": {
+      "inp": 80764,
+      "out": 1078,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 20:58": {
+      "inp": 166038,
+      "out": 894,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-26 20:59": {
+      "inp": 262497,
+      "out": 1639,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-26 21:12": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 22:46": {
+      "inp": 16996,
+      "out": 287,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-26 22:50": {
+      "inp": 77361,
+      "out": 1399,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-26 22:51": {
+      "inp": 105386,
+      "out": 735,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-26 22:53": {
+      "inp": 53548,
+      "out": 718,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 22:54": {
+      "inp": 76455,
+      "out": 531,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 22:55": {
+      "inp": 77207,
+      "out": 376,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 22:56": {
+      "inp": 77981,
+      "out": 69,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:00": {
+      "inp": 81419,
+      "out": 445,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:01": {
+      "inp": 92205,
+      "out": 92,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:02": {
+      "inp": 92991,
+      "out": 73,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:03": {
+      "inp": 101135,
+      "out": 246,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:17": {
+      "inp": 4695,
+      "out": 143,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:21": {
+      "inp": 36791,
+      "out": 281,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-26 23:22": {
+      "inp": 136013,
+      "out": 1927,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-26 23:26": {
+      "inp": 39977,
+      "out": 174,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:27": {
+      "inp": 126481,
+      "out": 273,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-26 23:28": {
+      "inp": 194314,
+      "out": 311,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-26 23:29": {
+      "inp": 156266,
+      "out": 270,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-26 23:30": {
+      "inp": 54999,
+      "out": 1329,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:31": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:38": {
+      "inp": 4655,
+      "out": 85,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:40": {
+      "inp": 5249,
+      "out": 81,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:41": {
+      "inp": 60110,
+      "out": 567,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 6
+    },
+    "2026-07-26 23:42": {
+      "inp": 40140,
+      "out": 899,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-26 23:45": {
+      "inp": 4599,
+      "out": 110,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:46": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:48": {
+      "inp": 6746,
+      "out": 169,
+      "cw": 5589,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:49": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:50": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:52": {
+      "inp": 18702,
+      "out": 644,
+      "cw": 8975,
+      "cr": 8975,
+      "reqs": 2
+    },
+    "2026-07-26 23:53": {
+      "inp": 27308,
+      "out": 638,
+      "cw": 5589,
+      "cr": 8975,
+      "reqs": 3
+    },
+    "2026-07-26 23:55": {
+      "inp": 14639,
+      "out": 1,
+      "cw": 0,
+      "cr": 8975,
+      "reqs": 1
+    },
+    "2026-07-26 23:57": {
+      "inp": 30523,
+      "out": 667,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-26 23:58": {
+      "inp": 8733,
+      "out": 219,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-26 23:59": {
+      "inp": 101003,
+      "out": 760,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 6
+    },
+    "2026-07-27 00:00": {
+      "inp": 152245,
+      "out": 1340,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 6
+    },
+    "2026-07-27 00:01": {
+      "inp": 167617,
+      "out": 1503,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 00:02": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-27 00:10": {
+      "inp": 5682,
+      "out": 106,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-27 00:11": {
+      "inp": 46298,
+      "out": 1664,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 5
+    },
+    "2026-07-27 00:12": {
+      "inp": 60627,
+      "out": 1207,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-27 00:14": {
+      "inp": 123990,
+      "out": 1330,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 00:15": {
+      "inp": 125232,
+      "out": 561,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-27 00:16": {
+      "inp": 176210,
+      "out": 1031,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 00:17": {
+      "inp": 146393,
+      "out": 1510,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-27 00:22": {
+      "inp": 160543,
+      "out": 1039,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-27 00:23": {
+      "inp": 201460,
+      "out": 1151,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-27 00:24": {
+      "inp": 78138,
+      "out": 521,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-27 00:43": {
+      "inp": 12865,
+      "out": 540,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-27 00:44": {
+      "inp": 28361,
+      "out": 869,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 00:45": {
+      "inp": 53852,
+      "out": 1543,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 00:46": {
+      "inp": 102237,
+      "out": 1324,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 00:47": {
+      "inp": 150968,
+      "out": 917,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 00:48": {
+      "inp": 39963,
+      "out": 512,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-27 00:49": {
+      "inp": 41316,
+      "out": 603,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-27 00:55": {
+      "inp": 36362,
+      "out": 1298,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 00:56": {
+      "inp": 93842,
+      "out": 1066,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 5
+    },
+    "2026-07-27 00:57": {
+      "inp": 88104,
+      "out": 750,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 00:58": {
+      "inp": 47364,
+      "out": 609,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-27 01:15": {
+      "inp": 5933,
+      "out": 278,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-27 01:16": {
+      "inp": 98737,
+      "out": 2790,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 5
+    },
+    "2026-07-27 01:17": {
+      "inp": 144620,
+      "out": 733,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-27 01:18": {
+      "inp": 186308,
+      "out": 1154,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-27 01:19": {
+      "inp": 224934,
+      "out": 1180,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-27 01:20": {
+      "inp": 155622,
+      "out": 767,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-27 01:21": {
+      "inp": 242003,
+      "out": 892,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-27 01:22": {
+      "inp": 81811,
+      "out": 250,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-27 01:23": {
+      "inp": 167039,
+      "out": 784,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-27 01:24": {
+      "inp": 188154,
+      "out": 1011,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-27 01:25": {
+      "inp": 204490,
+      "out": 699,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-27 01:26": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-27 01:31": {
+      "inp": 44644,
+      "out": 1671,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 01:32": {
+      "inp": 38963,
+      "out": 456,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-27 01:35": {
+      "inp": 86150,
+      "out": 1224,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 3
+    },
+    "2026-07-27 01:43": {
+      "inp": 27942,
+      "out": 1276,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 4
+    },
+    "2026-07-27 01:44": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-30 03:22": {
+      "inp": 17398,
+      "out": 203,
+      "cw": 0,
+      "cr": 8576,
+      "reqs": 2
+    },
+    "2026-07-30 03:26": {
+      "inp": 9194,
+      "out": 134,
+      "cw": 0,
+      "cr": 8832,
+      "reqs": 1
+    },
+    "2026-07-30 03:27": {
+      "inp": 9468,
+      "out": 86,
+      "cw": 0,
+      "cr": 9088,
+      "reqs": 1
+    },
+    "2026-07-30 03:28": {
+      "inp": 17370,
+      "out": 146,
+      "cw": 0,
+      "cr": 8576,
+      "reqs": 2
+    },
+    "2026-07-30 03:32": {
+      "inp": 9144,
+      "out": 244,
+      "cw": 0,
+      "cr": 8832,
+      "reqs": 1
+    },
+    "2026-07-30 03:41": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-30 03:42": {
+      "inp": 41544,
+      "out": 593,
+      "cw": 0,
+      "cr": 23808,
+      "reqs": 4
+    },
+    "2026-07-30 03:43": {
+      "inp": 13895,
+      "out": 366,
+      "cw": 0,
+      "cr": 11392,
+      "reqs": 3
+    },
+    "2026-07-30 03:44": {
+      "inp": 132093,
+      "out": 2052,
+      "cw": 0,
+      "cr": 113536,
+      "reqs": 6
+    },
+    "2026-07-30 03:45": {
+      "inp": 384464,
+      "out": 821,
+      "cw": 0,
+      "cr": 323968,
+      "reqs": 5
+    },
+    "2026-07-30 03:46": {
+      "inp": 397554,
+      "out": 786,
+      "cw": 0,
+      "cr": 376832,
+      "reqs": 5
+    },
+    "2026-07-30 03:47": {
+      "inp": 897182,
+      "out": 2195,
+      "cw": 0,
+      "cr": 816384,
+      "reqs": 17
+    },
+    "2026-07-30 03:48": {
+      "inp": 696383,
+      "out": 1806,
+      "cw": 0,
+      "cr": 660096,
+      "reqs": 11
+    },
+    "2026-07-30 03:49": {
+      "inp": 647189,
+      "out": 1706,
+      "cw": 0,
+      "cr": 630144,
+      "reqs": 11
+    },
+    "2026-07-30 03:50": {
+      "inp": 608028,
+      "out": 2586,
+      "cw": 0,
+      "cr": 573440,
+      "reqs": 7
+    },
+    "2026-07-30 03:51": {
+      "inp": 205004,
+      "out": 1827,
+      "cw": 0,
+      "cr": 199936,
+      "reqs": 5
+    },
+    "2026-07-30 03:52": {
+      "inp": 106536,
+      "out": 647,
+      "cw": 0,
+      "cr": 102400,
+      "reqs": 2
+    },
+    "2026-07-30 03:53": {
+      "inp": 55667,
+      "out": 68,
+      "cw": 0,
+      "cr": 54016,
+      "reqs": 1
+    },
+    "2026-07-30 03:54": {
+      "inp": 56711,
+      "out": 570,
+      "cw": 0,
+      "cr": 55552,
+      "reqs": 1
+    },
+    "2026-07-30 03:55": {
+      "inp": 142091,
+      "out": 1538,
+      "cw": 0,
+      "cr": 119808,
+      "reqs": 2
+    },
+    "2026-07-30 03:56": {
+      "inp": 93672,
+      "out": 99,
+      "cw": 0,
+      "cr": 78848,
+      "reqs": 1
+    },
+    "2026-07-30 03:57": {
+      "inp": 191457,
+      "out": 192,
+      "cw": 0,
+      "cr": 187648,
+      "reqs": 2
+    },
+    "2026-07-30 03:58": {
+      "inp": 196615,
+      "out": 201,
+      "cw": 0,
+      "cr": 195072,
+      "reqs": 2
+    },
+    "2026-07-30 03:59": {
+      "inp": 215207,
+      "out": 552,
+      "cw": 0,
+      "cr": 198656,
+      "reqs": 2
+    },
+    "2026-07-30 04:00": {
+      "inp": 779686,
+      "out": 1986,
+      "cw": 0,
+      "cr": 742528,
+      "reqs": 8
+    },
+    "2026-07-30 04:01": {
+      "inp": 462385,
+      "out": 935,
+      "cw": 0,
+      "cr": 403712,
+      "reqs": 5
+    },
+    "2026-07-30 04:02": {
+      "inp": 809873,
+      "out": 2000,
+      "cw": 0,
+      "cr": 794624,
+      "reqs": 8
+    },
+    "2026-07-30 04:03": {
+      "inp": 281855,
+      "out": 317,
+      "cw": 0,
+      "cr": 278656,
+      "reqs": 3
+    },
+    "2026-07-30 04:04": {
+      "inp": 296234,
+      "out": 827,
+      "cw": 0,
+      "cr": 281600,
+      "reqs": 3
+    },
+    "2026-07-30 04:05": {
+      "inp": 302069,
+      "out": 1584,
+      "cw": 0,
+      "cr": 296064,
+      "reqs": 3
+    },
+    "2026-07-30 04:06": {
+      "inp": 163785,
+      "out": 1096,
+      "cw": 0,
+      "cr": 161152,
+      "reqs": 3
+    },
+    "2026-07-30 04:07": {
+      "inp": 52592,
+      "out": 101,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 2
+    },
+    "2026-07-30 04:12": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-30 09:10": {
+      "inp": 255191,
+      "out": 2992,
+      "cw": 0,
+      "cr": 108032,
+      "reqs": 5
+    },
+    "2026-07-30 09:11": {
+      "inp": 1005990,
+      "out": 3036,
+      "cw": 0,
+      "cr": 756736,
+      "reqs": 10
+    },
+    "2026-07-30 09:12": {
+      "inp": 830665,
+      "out": 6682,
+      "cw": 0,
+      "cr": 798208,
+      "reqs": 10
+    },
+    "2026-07-30 09:13": {
+      "inp": 129899,
+      "out": 671,
+      "cw": 0,
+      "cr": 71680,
+      "reqs": 5
+    },
+    "2026-07-30 09:14": {
+      "inp": 577635,
+      "out": 5255,
+      "cw": 0,
+      "cr": 551552,
+      "reqs": 15
+    },
+    "2026-07-30 09:15": {
+      "inp": 712594,
+      "out": 3204,
+      "cw": 0,
+      "cr": 665728,
+      "reqs": 13
+    },
+    "2026-07-30 09:16": {
+      "inp": 596955,
+      "out": 980,
+      "cw": 0,
+      "cr": 571008,
+      "reqs": 9
+    },
+    "2026-07-30 09:17": {
+      "inp": 377112,
+      "out": 960,
+      "cw": 0,
+      "cr": 337152,
+      "reqs": 5
+    },
+    "2026-07-30 09:18": {
+      "inp": 158306,
+      "out": 135,
+      "cw": 0,
+      "cr": 147968,
+      "reqs": 2
+    },
+    "2026-07-30 09:46": {
+      "inp": 94034,
+      "out": 997,
+      "cw": 0,
+      "cr": 90240,
+      "reqs": 1
+    },
+    "2026-07-30 09:53": {
+      "inp": 140815,
+      "out": 1746,
+      "cw": 0,
+      "cr": 117120,
+      "reqs": 5
+    },
+    "2026-07-30 09:54": {
+      "inp": 149007,
+      "out": 1078,
+      "cw": 0,
+      "cr": 83328,
+      "reqs": 7
+    },
+    "2026-07-30 09:55": {
+      "inp": 709647,
+      "out": 4127,
+      "cw": 0,
+      "cr": 597504,
+      "reqs": 12
+    },
+    "2026-07-30 09:56": {
+      "inp": 535678,
+      "out": 4311,
+      "cw": 0,
+      "cr": 447488,
+      "reqs": 15
+    },
+    "2026-07-30 09:57": {
+      "inp": 180393,
+      "out": 2283,
+      "cw": 0,
+      "cr": 160256,
+      "reqs": 7
+    },
+    "2026-07-30 09:58": {
+      "inp": 158175,
+      "out": 1955,
+      "cw": 0,
+      "cr": 137856,
+      "reqs": 3
+    },
+    "2026-07-30 09:59": {
+      "inp": 753201,
+      "out": 6522,
+      "cw": 0,
+      "cr": 734336,
+      "reqs": 10
+    },
+    "2026-07-30 10:00": {
+      "inp": 657176,
+      "out": 2811,
+      "cw": 0,
+      "cr": 631040,
+      "reqs": 10
+    },
+    "2026-07-30 10:01": {
+      "inp": 612919,
+      "out": 7410,
+      "cw": 0,
+      "cr": 481408,
+      "reqs": 14
+    },
+    "2026-07-30 10:02": {
+      "inp": 275847,
+      "out": 1078,
+      "cw": 0,
+      "cr": 260608,
+      "reqs": 5
+    },
+    "2026-07-30 10:03": {
+      "inp": 236034,
+      "out": 331,
+      "cw": 0,
+      "cr": 225280,
+      "reqs": 4
+    },
+    "2026-07-30 10:04": {
+      "inp": 309527,
+      "out": 471,
+      "cw": 0,
+      "cr": 306304,
+      "reqs": 5
+    },
+    "2026-07-30 10:05": {
+      "inp": 341299,
+      "out": 1566,
+      "cw": 0,
+      "cr": 326656,
+      "reqs": 5
+    },
+    "2026-07-30 10:06": {
+      "inp": 280051,
+      "out": 1725,
+      "cw": 0,
+      "cr": 173568,
+      "reqs": 10
+    },
+    "2026-07-30 10:07": {
+      "inp": 577175,
+      "out": 2810,
+      "cw": 0,
+      "cr": 529280,
+      "reqs": 17
+    },
+    "2026-07-30 10:08": {
+      "inp": 588352,
+      "out": 2570,
+      "cw": 0,
+      "cr": 560768,
+      "reqs": 11
+    },
+    "2026-07-30 10:09": {
+      "inp": 597890,
+      "out": 4941,
+      "cw": 0,
+      "cr": 542592,
+      "reqs": 8
+    },
+    "2026-07-30 10:10": {
+      "inp": 421507,
+      "out": 3696,
+      "cw": 0,
+      "cr": 345216,
+      "reqs": 5
+    },
+    "2026-07-30 10:11": {
+      "inp": 223311,
+      "out": 5981,
+      "cw": 0,
+      "cr": 139008,
+      "reqs": 10
+    },
+    "2026-07-30 10:12": {
+      "inp": 326357,
+      "out": 3914,
+      "cw": 0,
+      "cr": 298880,
+      "reqs": 12
+    },
+    "2026-07-30 10:13": {
+      "inp": 553159,
+      "out": 3037,
+      "cw": 0,
+      "cr": 524160,
+      "reqs": 12
+    },
+    "2026-07-30 10:14": {
+      "inp": 381635,
+      "out": 4411,
+      "cw": 0,
+      "cr": 367104,
+      "reqs": 7
+    },
+    "2026-07-30 10:15": {
+      "inp": 903202,
+      "out": 2514,
+      "cw": 0,
+      "cr": 873728,
+      "reqs": 14
+    },
+    "2026-07-30 10:16": {
+      "inp": 637450,
+      "out": 1623,
+      "cw": 0,
+      "cr": 568064,
+      "reqs": 9
+    },
+    "2026-07-30 10:17": {
+      "inp": 238523,
+      "out": 830,
+      "cw": 0,
+      "cr": 234368,
+      "reqs": 3
+    },
+    "2026-07-30 10:30": {
+      "inp": 9967,
+      "out": 49,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-30 10:31": {
+      "inp": 438833,
+      "out": 5033,
+      "cw": 0,
+      "cr": 389632,
+      "reqs": 10
+    },
+    "2026-07-30 10:32": {
+      "inp": 482970,
+      "out": 2714,
+      "cw": 0,
+      "cr": 431616,
+      "reqs": 10
+    },
+    "2026-07-30 10:33": {
+      "inp": 137729,
+      "out": 2189,
+      "cw": 0,
+      "cr": 122624,
+      "reqs": 3
+    },
+    "2026-07-30 10:34": {
+      "inp": 282558,
+      "out": 1291,
+      "cw": 0,
+      "cr": 241920,
+      "reqs": 4
+    },
+    "2026-07-30 10:35": {
+      "inp": 202281,
+      "out": 2718,
+      "cw": 0,
+      "cr": 256,
+      "reqs": 2
+    },
+    "2026-07-30 10:36": {
+      "inp": 162799,
+      "out": 543,
+      "cw": 0,
+      "cr": 72320,
+      "reqs": 2
+    },
+    "2026-07-30 11:43": {
+      "inp": 169306,
+      "out": 3541,
+      "cw": 0,
+      "cr": 82176,
+      "reqs": 2
+    },
+    "2026-07-30 11:44": {
+      "inp": 27834,
+      "out": 70,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-30 11:45": {
+      "inp": 223820,
+      "out": 1831,
+      "cw": 0,
+      "cr": 211328,
+      "reqs": 6
+    },
+    "2026-07-30 11:46": {
+      "inp": 257340,
+      "out": 3109,
+      "cw": 0,
+      "cr": 199424,
+      "reqs": 10
+    },
+    "2026-07-30 11:47": {
+      "inp": 387098,
+      "out": 8711,
+      "cw": 0,
+      "cr": 330240,
+      "reqs": 9
+    },
+    "2026-07-30 11:48": {
+      "inp": 122845,
+      "out": 1655,
+      "cw": 0,
+      "cr": 112128,
+      "reqs": 4
+    },
+    "2026-07-30 11:49": {
+      "inp": 529105,
+      "out": 4812,
+      "cw": 0,
+      "cr": 471680,
+      "reqs": 8
+    },
+    "2026-07-30 11:50": {
+      "inp": 333988,
+      "out": 10877,
+      "cw": 0,
+      "cr": 213504,
+      "reqs": 8
+    },
+    "2026-07-30 11:51": {
+      "inp": 235596,
+      "out": 3817,
+      "cw": 0,
+      "cr": 214912,
+      "reqs": 6
+    },
+    "2026-07-30 11:52": {
+      "inp": 349849,
+      "out": 3842,
+      "cw": 0,
+      "cr": 318208,
+      "reqs": 7
+    },
+    "2026-07-30 11:53": {
+      "inp": 641399,
+      "out": 7444,
+      "cw": 0,
+      "cr": 601216,
+      "reqs": 11
+    },
+    "2026-07-30 11:54": {
+      "inp": 682243,
+      "out": 4982,
+      "cw": 0,
+      "cr": 635264,
+      "reqs": 9
+    },
+    "2026-07-30 11:55": {
+      "inp": 76347,
+      "out": 79,
+      "cw": 0,
+      "cr": 71040,
+      "reqs": 1
+    },
+    "2026-07-30 11:56": {
+      "inp": 155725,
+      "out": 392,
+      "cw": 0,
+      "cr": 153088,
+      "reqs": 2
+    },
+    "2026-07-30 11:57": {
+      "inp": 242464,
+      "out": 3550,
+      "cw": 0,
+      "cr": 221440,
+      "reqs": 3
+    },
+    "2026-07-30 11:58": {
+      "inp": 21885,
+      "out": 928,
+      "cw": 0,
+      "cr": 7296,
+      "reqs": 2
+    },
+    "2026-07-30 11:59": {
+      "inp": 45620,
+      "out": 156,
+      "cw": 0,
+      "cr": 39040,
+      "reqs": 3
+    },
+    "2026-07-30 12:00": {
+      "inp": 252036,
+      "out": 638,
+      "cw": 0,
+      "cr": 229120,
+      "reqs": 7
+    },
+    "2026-07-30 12:01": {
+      "inp": 120952,
+      "out": 4112,
+      "cw": 0,
+      "cr": 93696,
+      "reqs": 2
+    },
+    "2026-07-30 12:03": {
+      "inp": 151977,
+      "out": 297,
+      "cw": 0,
+      "cr": 143232,
+      "reqs": 2
+    },
+    "2026-07-30 12:04": {
+      "inp": 279546,
+      "out": 1131,
+      "cw": 0,
+      "cr": 179712,
+      "reqs": 6
+    },
+    "2026-07-30 12:05": {
+      "inp": 356588,
+      "out": 1437,
+      "cw": 0,
+      "cr": 285568,
+      "reqs": 10
+    },
+    "2026-07-30 12:06": {
+      "inp": 514050,
+      "out": 6284,
+      "cw": 0,
+      "cr": 467328,
+      "reqs": 11
+    },
+    "2026-07-30 12:07": {
+      "inp": 405260,
+      "out": 2012,
+      "cw": 0,
+      "cr": 348800,
+      "reqs": 9
+    },
+    "2026-07-30 12:08": {
+      "inp": 604429,
+      "out": 7248,
+      "cw": 0,
+      "cr": 557312,
+      "reqs": 8
+    },
+    "2026-07-30 12:09": {
+      "inp": 239980,
+      "out": 3788,
+      "cw": 0,
+      "cr": 125568,
+      "reqs": 4
+    },
+    "2026-07-30 12:10": {
+      "inp": 456957,
+      "out": 7360,
+      "cw": 0,
+      "cr": 396544,
+      "reqs": 12
+    },
+    "2026-07-30 12:11": {
+      "inp": 388436,
+      "out": 3834,
+      "cw": 0,
+      "cr": 340992,
+      "reqs": 5
+    },
+    "2026-07-30 12:12": {
+      "inp": 696978,
+      "out": 4203,
+      "cw": 0,
+      "cr": 585600,
+      "reqs": 12
+    },
+    "2026-07-30 12:13": {
+      "inp": 960009,
+      "out": 5230,
+      "cw": 0,
+      "cr": 875392,
+      "reqs": 12
+    },
+    "2026-07-30 12:14": {
+      "inp": 172951,
+      "out": 932,
+      "cw": 0,
+      "cr": 88192,
+      "reqs": 5
+    },
+    "2026-07-30 12:15": {
+      "inp": 160748,
+      "out": 737,
+      "cw": 0,
+      "cr": 147328,
+      "reqs": 4
+    },
+    "2026-07-30 12:16": {
+      "inp": 191457,
+      "out": 957,
+      "cw": 0,
+      "cr": 184704,
+      "reqs": 4
+    },
+    "2026-07-30 12:17": {
+      "inp": 288204,
+      "out": 1444,
+      "cw": 0,
+      "cr": 273280,
+      "reqs": 5
+    },
+    "2026-07-30 12:18": {
+      "inp": 430818,
+      "out": 4562,
+      "cw": 0,
+      "cr": 344960,
+      "reqs": 5
+    },
+    "2026-07-30 12:19": {
+      "inp": 75423,
+      "out": 408,
+      "cw": 0,
+      "cr": 56320,
+      "reqs": 3
+    },
+    "2026-07-30 12:20": {
+      "inp": 83044,
+      "out": 7193,
+      "cw": 0,
+      "cr": 78720,
+      "reqs": 3
+    },
+    "2026-07-30 12:21": {
+      "inp": 214576,
+      "out": 2479,
+      "cw": 0,
+      "cr": 177664,
+      "reqs": 6
+    },
+    "2026-07-30 12:22": {
+      "inp": 407119,
+      "out": 1794,
+      "cw": 0,
+      "cr": 348160,
+      "reqs": 9
+    },
+    "2026-07-30 12:23": {
+      "inp": 253883,
+      "out": 403,
+      "cw": 0,
+      "cr": 244480,
+      "reqs": 4
+    },
+    "2026-07-30 12:24": {
+      "inp": 420079,
+      "out": 5399,
+      "cw": 0,
+      "cr": 295424,
+      "reqs": 5
+    },
+    "2026-07-30 12:25": {
+      "inp": 429750,
+      "out": 1939,
+      "cw": 0,
+      "cr": 384128,
+      "reqs": 8
+    },
+    "2026-07-30 12:26": {
+      "inp": 500411,
+      "out": 1530,
+      "cw": 0,
+      "cr": 476288,
+      "reqs": 8
+    },
+    "2026-07-30 12:27": {
+      "inp": 278426,
+      "out": 2454,
+      "cw": 0,
+      "cr": 271232,
+      "reqs": 4
+    },
+    "2026-07-30 12:28": {
+      "inp": 352294,
+      "out": 4914,
+      "cw": 0,
+      "cr": 238336,
+      "reqs": 9
+    },
+    "2026-07-30 12:29": {
+      "inp": 565228,
+      "out": 3979,
+      "cw": 0,
+      "cr": 501120,
+      "reqs": 13
+    },
+    "2026-07-30 12:30": {
+      "inp": 45984,
+      "out": 603,
+      "cw": 0,
+      "cr": 43648,
+      "reqs": 2
+    },
+    "2026-07-30 12:31": {
+      "inp": 526524,
+      "out": 2236,
+      "cw": 0,
+      "cr": 393600,
+      "reqs": 10
+    },
+    "2026-07-30 12:32": {
+      "inp": 353945,
+      "out": 1033,
+      "cw": 0,
+      "cr": 323072,
+      "reqs": 8
+    },
+    "2026-07-30 12:33": {
+      "inp": 703750,
+      "out": 2358,
+      "cw": 0,
+      "cr": 659712,
+      "reqs": 10
+    },
+    "2026-07-30 12:34": {
+      "inp": 722445,
+      "out": 3819,
+      "cw": 0,
+      "cr": 570368,
+      "reqs": 9
+    },
+    "2026-07-30 12:35": {
+      "inp": 319373,
+      "out": 4475,
+      "cw": 0,
+      "cr": 239744,
+      "reqs": 6
+    },
+    "2026-07-30 12:36": {
+      "inp": 492045,
+      "out": 6589,
+      "cw": 0,
+      "cr": 459264,
+      "reqs": 9
+    },
+    "2026-07-30 12:37": {
+      "inp": 619882,
+      "out": 6311,
+      "cw": 0,
+      "cr": 525440,
+      "reqs": 10
+    },
+    "2026-07-30 12:38": {
+      "inp": 630336,
+      "out": 3748,
+      "cw": 0,
+      "cr": 592896,
+      "reqs": 10
+    },
+    "2026-07-30 12:39": {
+      "inp": 460807,
+      "out": 3711,
+      "cw": 0,
+      "cr": 271616,
+      "reqs": 6
+    },
+    "2026-07-30 12:40": {
+      "inp": 340732,
+      "out": 1077,
+      "cw": 0,
+      "cr": 269952,
+      "reqs": 7
+    },
+    "2026-07-30 12:41": {
+      "inp": 471536,
+      "out": 832,
+      "cw": 0,
+      "cr": 462336,
+      "reqs": 7
+    },
+    "2026-07-30 12:42": {
+      "inp": 224465,
+      "out": 1314,
+      "cw": 0,
+      "cr": 219136,
+      "reqs": 3
+    },
+    "2026-07-30 12:43": {
+      "inp": 241605,
+      "out": 1890,
+      "cw": 0,
+      "cr": 197632,
+      "reqs": 3
+    },
+    "2026-07-30 12:56": {
+      "inp": 281434,
+      "out": 2949,
+      "cw": 0,
+      "cr": 209408,
+      "reqs": 5
+    },
+    "2026-07-30 12:57": {
+      "inp": 111586,
+      "out": 1073,
+      "cw": 0,
+      "cr": 71424,
+      "reqs": 3
+    },
+    "2026-07-30 12:59": {
+      "inp": 96456,
+      "out": 482,
+      "cw": 0,
+      "cr": 82944,
+      "reqs": 2
+    },
+    "2026-07-30 13:00": {
+      "inp": 216018,
+      "out": 1261,
+      "cw": 0,
+      "cr": 180608,
+      "reqs": 5
+    },
+    "2026-07-30 13:01": {
+      "inp": 189734,
+      "out": 7249,
+      "cw": 0,
+      "cr": 177920,
+      "reqs": 3
+    },
+    "2026-07-30 13:02": {
+      "inp": 134160,
+      "out": 1273,
+      "cw": 0,
+      "cr": 117376,
+      "reqs": 2
+    },
+    "2026-07-30 13:03": {
+      "inp": 143221,
+      "out": 3985,
+      "cw": 0,
+      "cr": 137344,
+      "reqs": 2
+    },
+    "2026-07-30 13:04": {
+      "inp": 304431,
+      "out": 1687,
+      "cw": 0,
+      "cr": 260992,
+      "reqs": 7
+    },
+    "2026-07-30 13:05": {
+      "inp": 259036,
+      "out": 2385,
+      "cw": 0,
+      "cr": 202112,
+      "reqs": 3
+    },
+    "2026-07-30 13:06": {
+      "inp": 160792,
+      "out": 3948,
+      "cw": 0,
+      "cr": 129664,
+      "reqs": 3
+    },
+    "2026-07-30 13:07": {
+      "inp": 41689,
+      "out": 1655,
+      "cw": 0,
+      "cr": 28416,
+      "reqs": 2
+    },
+    "2026-07-30 13:08": {
+      "inp": 113328,
+      "out": 473,
+      "cw": 0,
+      "cr": 97408,
+      "reqs": 5
+    },
+    "2026-07-30 13:09": {
+      "inp": 38485,
+      "out": 95,
+      "cw": 0,
+      "cr": 35200,
+      "reqs": 2
+    },
+    "2026-07-30 13:10": {
+      "inp": 122116,
+      "out": 289,
+      "cw": 0,
+      "cr": 114432,
+      "reqs": 4
+    },
+    "2026-07-30 13:11": {
+      "inp": 338087,
+      "out": 1455,
+      "cw": 0,
+      "cr": 226688,
+      "reqs": 6
+    },
+    "2026-07-30 13:12": {
+      "inp": 75024,
+      "out": 764,
+      "cw": 0,
+      "cr": 67456,
+      "reqs": 2
+    },
+    "2026-07-30 13:13": {
+      "inp": 248370,
+      "out": 910,
+      "cw": 0,
+      "cr": 128000,
+      "reqs": 4
+    },
+    "2026-07-30 13:14": {
+      "inp": 218789,
+      "out": 7156,
+      "cw": 0,
+      "cr": 215296,
+      "reqs": 3
+    },
+    "2026-07-30 13:15": {
+      "inp": 86902,
+      "out": 149,
+      "cw": 0,
+      "cr": 84864,
+      "reqs": 2
+    },
+    "2026-07-30 13:16": {
+      "inp": 48143,
+      "out": 50,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-30 13:17": {
+      "inp": 268881,
+      "out": 3303,
+      "cw": 0,
+      "cr": 234624,
+      "reqs": 7
+    },
+    "2026-07-30 13:18": {
+      "inp": 237640,
+      "out": 2573,
+      "cw": 0,
+      "cr": 230784,
+      "reqs": 5
+    },
+    "2026-07-30 13:19": {
+      "inp": 327793,
+      "out": 3080,
+      "cw": 0,
+      "cr": 302464,
+      "reqs": 8
+    },
+    "2026-07-30 13:20": {
+      "inp": 218770,
+      "out": 887,
+      "cw": 0,
+      "cr": 186624,
+      "reqs": 4
+    },
+    "2026-07-30 13:21": {
+      "inp": 295947,
+      "out": 584,
+      "cw": 0,
+      "cr": 287872,
+      "reqs": 5
+    },
+    "2026-07-30 13:22": {
+      "inp": 248541,
+      "out": 273,
+      "cw": 0,
+      "cr": 243968,
+      "reqs": 4
+    },
+    "2026-07-30 13:23": {
+      "inp": 243677,
+      "out": 230,
+      "cw": 0,
+      "cr": 239360,
+      "reqs": 4
+    },
+    "2026-07-30 13:24": {
+      "inp": 818324,
+      "out": 3372,
+      "cw": 0,
+      "cr": 663808,
+      "reqs": 12
+    },
+    "2026-07-30 13:25": {
+      "inp": 256627,
+      "out": 4526,
+      "cw": 0,
+      "cr": 232704,
+      "reqs": 7
+    },
+    "2026-07-30 13:26": {
+      "inp": 425902,
+      "out": 1882,
+      "cw": 0,
+      "cr": 385792,
+      "reqs": 14
+    },
+    "2026-07-30 13:27": {
+      "inp": 611678,
+      "out": 2902,
+      "cw": 0,
+      "cr": 527360,
+      "reqs": 15
+    },
+    "2026-07-30 13:28": {
+      "inp": 501800,
+      "out": 2956,
+      "cw": 0,
+      "cr": 478976,
+      "reqs": 10
+    },
+    "2026-07-30 13:29": {
+      "inp": 598436,
+      "out": 3397,
+      "cw": 0,
+      "cr": 568448,
+      "reqs": 10
+    },
+    "2026-07-30 13:30": {
+      "inp": 696397,
+      "out": 4960,
+      "cw": 0,
+      "cr": 672128,
+      "reqs": 10
+    },
+    "2026-07-30 13:31": {
+      "inp": 788425,
+      "out": 4686,
+      "cw": 0,
+      "cr": 745728,
+      "reqs": 10
+    },
+    "2026-07-30 13:32": {
+      "inp": 627381,
+      "out": 6613,
+      "cw": 0,
+      "cr": 467072,
+      "reqs": 10
+    },
+    "2026-07-30 13:33": {
+      "inp": 387953,
+      "out": 1036,
+      "cw": 0,
+      "cr": 324480,
+      "reqs": 10
+    },
+    "2026-07-30 13:34": {
+      "inp": 175744,
+      "out": 2533,
+      "cw": 0,
+      "cr": 170624,
+      "reqs": 3
+    },
+    "2026-07-30 13:35": {
+      "inp": 407485,
+      "out": 8477,
+      "cw": 0,
+      "cr": 272128,
+      "reqs": 5
+    },
+    "2026-07-30 13:36": {
+      "inp": 161950,
+      "out": 1259,
+      "cw": 0,
+      "cr": 113408,
+      "reqs": 7
+    },
+    "2026-07-30 13:37": {
+      "inp": 673103,
+      "out": 4030,
+      "cw": 0,
+      "cr": 631040,
+      "reqs": 15
+    },
+    "2026-07-30 13:38": {
+      "inp": 401059,
+      "out": 2535,
+      "cw": 0,
+      "cr": 285824,
+      "reqs": 6
+    },
+    "2026-07-30 13:39": {
+      "inp": 580760,
+      "out": 1817,
+      "cw": 0,
+      "cr": 559616,
+      "reqs": 10
+    },
+    "2026-07-30 13:40": {
+      "inp": 538288,
+      "out": 2135,
+      "cw": 0,
+      "cr": 473472,
+      "reqs": 8
+    },
+    "2026-07-30 13:41": {
+      "inp": 292966,
+      "out": 1234,
+      "cw": 0,
+      "cr": 275328,
+      "reqs": 4
+    },
+    "2026-07-30 13:42": {
+      "inp": 75189,
+      "out": 548,
+      "cw": 0,
+      "cr": 39040,
+      "reqs": 4
+    },
+    "2026-07-30 13:43": {
+      "inp": 236375,
+      "out": 925,
+      "cw": 0,
+      "cr": 209152,
+      "reqs": 5
+    },
+    "2026-07-30 13:44": {
+      "inp": 198163,
+      "out": 3178,
+      "cw": 0,
+      "cr": 191744,
+      "reqs": 3
+    },
+    "2026-07-30 13:45": {
+      "inp": 231858,
+      "out": 806,
+      "cw": 0,
+      "cr": 223872,
+      "reqs": 4
+    },
+    "2026-07-30 13:46": {
+      "inp": 263760,
+      "out": 2893,
+      "cw": 0,
+      "cr": 233344,
+      "reqs": 9
+    },
+    "2026-07-30 13:47": {
+      "inp": 351186,
+      "out": 1294,
+      "cw": 0,
+      "cr": 336256,
+      "reqs": 10
+    },
+    "2026-07-30 13:48": {
+      "inp": 667183,
+      "out": 3428,
+      "cw": 0,
+      "cr": 521600,
+      "reqs": 10
+    },
+    "2026-07-30 13:49": {
+      "inp": 569316,
+      "out": 2069,
+      "cw": 0,
+      "cr": 514432,
+      "reqs": 11
+    },
+    "2026-07-30 13:50": {
+      "inp": 518691,
+      "out": 1662,
+      "cw": 0,
+      "cr": 508160,
+      "reqs": 10
+    },
+    "2026-07-30 13:51": {
+      "inp": 421648,
+      "out": 1290,
+      "cw": 0,
+      "cr": 347008,
+      "reqs": 6
+    },
+    "2026-07-30 13:52": {
+      "inp": 688993,
+      "out": 3833,
+      "cw": 0,
+      "cr": 665728,
+      "reqs": 12
+    },
+    "2026-07-30 13:53": {
+      "inp": 372165,
+      "out": 3454,
+      "cw": 0,
+      "cr": 302336,
+      "reqs": 11
+    },
+    "2026-07-30 13:54": {
+      "inp": 499504,
+      "out": 3177,
+      "cw": 0,
+      "cr": 391296,
+      "reqs": 11
+    },
+    "2026-07-30 13:55": {
+      "inp": 491284,
+      "out": 1679,
+      "cw": 0,
+      "cr": 439424,
+      "reqs": 8
+    },
+    "2026-07-30 13:56": {
+      "inp": 901254,
+      "out": 3269,
+      "cw": 0,
+      "cr": 804224,
+      "reqs": 13
+    },
+    "2026-07-30 13:57": {
+      "inp": 653002,
+      "out": 3050,
+      "cw": 0,
+      "cr": 638592,
+      "reqs": 9
+    },
+    "2026-07-30 13:58": {
+      "inp": 414726,
+      "out": 2196,
+      "cw": 0,
+      "cr": 377216,
+      "reqs": 6
+    },
+    "2026-07-30 14:07": {
+      "inp": 197104,
+      "out": 1649,
+      "cw": 0,
+      "cr": 172416,
+      "reqs": 4
+    },
+    "2026-07-30 14:08": {
+      "inp": 536647,
+      "out": 2778,
+      "cw": 0,
+      "cr": 347008,
+      "reqs": 22
+    },
+    "2026-07-30 14:09": {
+      "inp": 336849,
+      "out": 2061,
+      "cw": 0,
+      "cr": 287104,
+      "reqs": 10
+    },
+    "2026-07-30 14:10": {
+      "inp": 431261,
+      "out": 583,
+      "cw": 0,
+      "cr": 350592,
+      "reqs": 10
+    },
+    "2026-07-30 14:11": {
+      "inp": 391642,
+      "out": 1867,
+      "cw": 0,
+      "cr": 371584,
+      "reqs": 9
+    },
+    "2026-07-30 14:12": {
+      "inp": 493127,
+      "out": 2223,
+      "cw": 0,
+      "cr": 467456,
+      "reqs": 9
+    },
+    "2026-07-30 14:13": {
+      "inp": 707662,
+      "out": 2272,
+      "cw": 0,
+      "cr": 544000,
+      "reqs": 10
+    },
+    "2026-07-30 14:14": {
+      "inp": 949655,
+      "out": 3628,
+      "cw": 0,
+      "cr": 775552,
+      "reqs": 11
+    },
+    "2026-07-30 14:15": {
+      "inp": 474423,
+      "out": 3343,
+      "cw": 0,
+      "cr": 367744,
+      "reqs": 6
+    },
+    "2026-07-30 14:16": {
+      "inp": 327241,
+      "out": 2716,
+      "cw": 0,
+      "cr": 186496,
+      "reqs": 3
+    },
+    "2026-07-30 14:17": {
+      "inp": 407011,
+      "out": 1953,
+      "cw": 0,
+      "cr": 344064,
+      "reqs": 6
+    },
+    "2026-07-30 14:18": {
+      "inp": 435265,
+      "out": 1000,
+      "cw": 0,
+      "cr": 367360,
+      "reqs": 7
+    },
+    "2026-07-30 14:19": {
+      "inp": 98512,
+      "out": 205,
+      "cw": 0,
+      "cr": 80640,
+      "reqs": 2
+    },
+    "2026-07-30 14:20": {
+      "inp": 397150,
+      "out": 4386,
+      "cw": 0,
+      "cr": 373504,
+      "reqs": 6
+    },
+    "2026-07-30 14:21": {
+      "inp": 200261,
+      "out": 534,
+      "cw": 0,
+      "cr": 192768,
+      "reqs": 3
+    },
+    "2026-07-30 14:22": {
+      "inp": 487032,
+      "out": 1327,
+      "cw": 0,
+      "cr": 436352,
+      "reqs": 8
+    },
+    "2026-07-30 14:23": {
+      "inp": 287934,
+      "out": 1212,
+      "cw": 0,
+      "cr": 209536,
+      "reqs": 5
+    },
+    "2026-07-30 14:24": {
+      "inp": 103805,
+      "out": 556,
+      "cw": 0,
+      "cr": 99328,
+      "reqs": 2
+    },
+    "2026-07-30 14:25": {
+      "inp": 175529,
+      "out": 815,
+      "cw": 0,
+      "cr": 167296,
+      "reqs": 3
+    },
+    "2026-07-30 14:26": {
+      "inp": 331838,
+      "out": 3721,
+      "cw": 0,
+      "cr": 208768,
+      "reqs": 4
+    },
+    "2026-07-30 14:27": {
+      "inp": 392221,
+      "out": 2117,
+      "cw": 0,
+      "cr": 342528,
+      "reqs": 5
+    },
+    "2026-07-30 14:28": {
+      "inp": 92966,
+      "out": 618,
+      "cw": 0,
+      "cr": 90496,
+      "reqs": 1
+    },
+    "2026-07-30 14:29": {
+      "inp": 63943,
+      "out": 754,
+      "cw": 0,
+      "cr": 62592,
+      "reqs": 1
+    },
+    "2026-07-30 14:34": {
+      "inp": 95041,
+      "out": 283,
+      "cw": 0,
+      "cr": 92928,
+      "reqs": 1
+    },
+    "2026-07-30 14:39": {
+      "inp": 73767,
+      "out": 376,
+      "cw": 0,
+      "cr": 63872,
+      "reqs": 1
+    },
+    "2026-07-30 14:41": {
+      "inp": 169316,
+      "out": 2746,
+      "cw": 0,
+      "cr": 152832,
+      "reqs": 2
+    },
+    "2026-07-30 14:42": {
+      "inp": 96709,
+      "out": 317,
+      "cw": 0,
+      "cr": 90112,
+      "reqs": 1
+    },
+    "2026-07-30 14:45": {
+      "inp": 167707,
+      "out": 3693,
+      "cw": 0,
+      "cr": 165376,
+      "reqs": 2
+    },
+    "2026-07-30 14:46": {
+      "inp": 10203,
+      "out": 1060,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-30 14:47": {
+      "inp": 72056,
+      "out": 1336,
+      "cw": 0,
+      "cr": 61568,
+      "reqs": 5
+    },
+    "2026-07-30 14:48": {
+      "inp": 44569,
+      "out": 1240,
+      "cw": 0,
+      "cr": 37376,
+      "reqs": 2
+    },
+    "2026-07-30 14:49": {
+      "inp": 121400,
+      "out": 238,
+      "cw": 0,
+      "cr": 107776,
+      "reqs": 4
+    },
+    "2026-07-30 14:50": {
+      "inp": 131043,
+      "out": 1413,
+      "cw": 0,
+      "cr": 123392,
+      "reqs": 3
+    },
+    "2026-07-30 14:51": {
+      "inp": 102091,
+      "out": 1264,
+      "cw": 0,
+      "cr": 93056,
+      "reqs": 2
+    },
+    "2026-07-30 14:53": {
+      "inp": 241607,
+      "out": 1072,
+      "cw": 0,
+      "cr": 228352,
+      "reqs": 4
+    },
+    "2026-07-30 14:54": {
+      "inp": 210863,
+      "out": 181,
+      "cw": 0,
+      "cr": 204416,
+      "reqs": 3
+    },
+    "2026-07-30 14:55": {
+      "inp": 77757,
+      "out": 752,
+      "cw": 0,
+      "cr": 72960,
+      "reqs": 1
+    },
+    "2026-07-30 14:56": {
+      "inp": 711972,
+      "out": 2582,
+      "cw": 0,
+      "cr": 613248,
+      "reqs": 9
+    },
+    "2026-07-30 14:57": {
+      "inp": 309070,
+      "out": 2191,
+      "cw": 0,
+      "cr": 236672,
+      "reqs": 15
+    },
+    "2026-07-30 14:58": {
+      "inp": 442929,
+      "out": 1860,
+      "cw": 0,
+      "cr": 392192,
+      "reqs": 10
+    },
+    "2026-07-30 14:59": {
+      "inp": 289894,
+      "out": 2755,
+      "cw": 0,
+      "cr": 230272,
+      "reqs": 5
+    },
+    "2026-07-30 15:00": {
+      "inp": 498046,
+      "out": 1279,
+      "cw": 0,
+      "cr": 466688,
+      "reqs": 8
+    },
+    "2026-07-30 15:01": {
+      "inp": 236396,
+      "out": 504,
+      "cw": 0,
+      "cr": 208768,
+      "reqs": 3
+    },
+    "2026-07-30 15:15": {
+      "inp": 143143,
+      "out": 1045,
+      "cw": 0,
+      "cr": 91008,
+      "reqs": 6
+    },
+    "2026-07-30 15:16": {
+      "inp": 242241,
+      "out": 3713,
+      "cw": 0,
+      "cr": 205696,
+      "reqs": 9
+    },
+    "2026-07-30 15:17": {
+      "inp": 227381,
+      "out": 3481,
+      "cw": 0,
+      "cr": 169216,
+      "reqs": 6
+    },
+    "2026-07-30 15:18": {
+      "inp": 580049,
+      "out": 4361,
+      "cw": 0,
+      "cr": 531200,
+      "reqs": 11
+    },
+    "2026-07-30 15:19": {
+      "inp": 469028,
+      "out": 3834,
+      "cw": 0,
+      "cr": 444032,
+      "reqs": 8
+    },
+    "2026-07-30 15:20": {
+      "inp": 424236,
+      "out": 3665,
+      "cw": 0,
+      "cr": 390400,
+      "reqs": 11
+    },
+    "2026-07-30 15:21": {
+      "inp": 583370,
+      "out": 3951,
+      "cw": 0,
+      "cr": 495104,
+      "reqs": 10
+    },
+    "2026-07-30 15:22": {
+      "inp": 297639,
+      "out": 1484,
+      "cw": 0,
+      "cr": 283904,
+      "reqs": 6
+    },
+    "2026-07-30 15:23": {
+      "inp": 413966,
+      "out": 1662,
+      "cw": 0,
+      "cr": 405632,
+      "reqs": 7
+    },
+    "2026-07-30 15:24": {
+      "inp": 405214,
+      "out": 1770,
+      "cw": 0,
+      "cr": 396160,
+      "reqs": 6
+    },
+    "2026-07-30 15:25": {
+      "inp": 604018,
+      "out": 2508,
+      "cw": 0,
+      "cr": 595200,
+      "reqs": 8
+    },
+    "2026-07-30 15:26": {
+      "inp": 160419,
+      "out": 263,
+      "cw": 0,
+      "cr": 155904,
+      "reqs": 2
+    },
+    "2026-07-30 15:27": {
+      "inp": 243651,
+      "out": 3412,
+      "cw": 0,
+      "cr": 158848,
+      "reqs": 3
+    },
+    "2026-07-30 15:29": {
+      "inp": 47990,
+      "out": 1005,
+      "cw": 0,
+      "cr": 22656,
+      "reqs": 3
+    },
+    "2026-07-30 15:30": {
+      "inp": 59039,
+      "out": 1033,
+      "cw": 0,
+      "cr": 56192,
+      "reqs": 3
+    },
+    "2026-07-30 15:31": {
+      "inp": 218935,
+      "out": 2233,
+      "cw": 0,
+      "cr": 207104,
+      "reqs": 8
+    },
+    "2026-07-30 15:32": {
+      "inp": 290128,
+      "out": 4296,
+      "cw": 0,
+      "cr": 214400,
+      "reqs": 6
+    },
+    "2026-07-30 15:33": {
+      "inp": 274282,
+      "out": 1395,
+      "cw": 0,
+      "cr": 252800,
+      "reqs": 7
+    },
+    "2026-07-30 15:34": {
+      "inp": 379437,
+      "out": 2743,
+      "cw": 0,
+      "cr": 269568,
+      "reqs": 8
+    },
+    "2026-07-30 15:35": {
+      "inp": 639842,
+      "out": 1980,
+      "cw": 0,
+      "cr": 604032,
+      "reqs": 11
+    },
+    "2026-07-30 15:36": {
+      "inp": 313469,
+      "out": 1690,
+      "cw": 0,
+      "cr": 268800,
+      "reqs": 7
+    },
+    "2026-07-30 15:37": {
+      "inp": 626308,
+      "out": 3295,
+      "cw": 0,
+      "cr": 597248,
+      "reqs": 12
+    },
+    "2026-07-30 15:38": {
+      "inp": 501750,
+      "out": 1986,
+      "cw": 0,
+      "cr": 489088,
+      "reqs": 9
+    },
+    "2026-07-30 15:39": {
+      "inp": 679973,
+      "out": 1428,
+      "cw": 0,
+      "cr": 653184,
+      "reqs": 10
+    },
+    "2026-07-30 15:40": {
+      "inp": 761650,
+      "out": 1616,
+      "cw": 0,
+      "cr": 679424,
+      "reqs": 10
+    },
+    "2026-07-30 15:41": {
+      "inp": 314576,
+      "out": 2704,
+      "cw": 0,
+      "cr": 256896,
+      "reqs": 4
+    },
+    "2026-07-30 15:57": {
+      "inp": 85987,
+      "out": 904,
+      "cw": 0,
+      "cr": 77824,
+      "reqs": 1
+    },
+    "2026-07-30 16:06": {
+      "inp": 100553,
+      "out": 1587,
+      "cw": 0,
+      "cr": 88576,
+      "reqs": 2
+    },
+    "2026-07-30 16:07": {
+      "inp": 738568,
+      "out": 6358,
+      "cw": 0,
+      "cr": 560000,
+      "reqs": 15
+    },
+    "2026-07-30 16:08": {
+      "inp": 323905,
+      "out": 556,
+      "cw": 0,
+      "cr": 311424,
+      "reqs": 5
+    },
+    "2026-07-30 16:09": {
+      "inp": 387662,
+      "out": 1268,
+      "cw": 0,
+      "cr": 307840,
+      "reqs": 6
+    },
+    "2026-07-30 16:10": {
+      "inp": 308496,
+      "out": 1092,
+      "cw": 0,
+      "cr": 208640,
+      "reqs": 4
+    },
+    "2026-07-30 16:11": {
+      "inp": 293721,
+      "out": 535,
+      "cw": 0,
+      "cr": 285568,
+      "reqs": 4
+    },
+    "2026-07-30 16:12": {
+      "inp": 590957,
+      "out": 1939,
+      "cw": 0,
+      "cr": 422912,
+      "reqs": 7
+    },
+    "2026-07-30 16:36": {
+      "inp": 544951,
+      "out": 4601,
+      "cw": 0,
+      "cr": 519552,
+      "reqs": 7
+    },
+    "2026-07-30 16:37": {
+      "inp": 279685,
+      "out": 3093,
+      "cw": 0,
+      "cr": 241792,
+      "reqs": 4
+    },
+    "2026-07-30 16:38": {
+      "inp": 227870,
+      "out": 2257,
+      "cw": 0,
+      "cr": 219136,
+      "reqs": 6
+    },
+    "2026-07-30 16:39": {
+      "inp": 408615,
+      "out": 2818,
+      "cw": 0,
+      "cr": 391680,
+      "reqs": 8
+    },
+    "2026-07-30 16:40": {
+      "inp": 279507,
+      "out": 491,
+      "cw": 0,
+      "cr": 262144,
+      "reqs": 4
+    },
+    "2026-07-30 16:41": {
+      "inp": 76638,
+      "out": 850,
+      "cw": 0,
+      "cr": 75776,
+      "reqs": 1
+    },
+    "2026-07-30 16:42": {
+      "inp": 88817,
+      "out": 4499,
+      "cw": 0,
+      "cr": 76544,
+      "reqs": 1
+    },
+    "2026-07-30 16:43": {
+      "inp": 86741,
+      "out": 2801,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-30 16:44": {
+      "inp": 77757,
+      "out": 3810,
+      "cw": 0,
+      "cr": 38656,
+      "reqs": 2
+    },
+    "2026-07-30 16:45": {
+      "inp": 332119,
+      "out": 2960,
+      "cw": 0,
+      "cr": 307072,
+      "reqs": 6
+    },
+    "2026-07-30 16:46": {
+      "inp": 283463,
+      "out": 2313,
+      "cw": 0,
+      "cr": 202880,
+      "reqs": 4
+    },
+    "2026-07-30 16:47": {
+      "inp": 316650,
+      "out": 1256,
+      "cw": 0,
+      "cr": 301312,
+      "reqs": 4
+    },
+    "2026-07-30 16:48": {
+      "inp": 88580,
+      "out": 346,
+      "cw": 0,
+      "cr": 86400,
+      "reqs": 1
+    },
+    "2026-07-30 20:09": {
+      "inp": 90536,
+      "out": 482,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-30 20:10": {
+      "inp": 514920,
+      "out": 4861,
+      "cw": 0,
+      "cr": 350592,
+      "reqs": 14
+    },
+    "2026-07-30 20:11": {
+      "inp": 410892,
+      "out": 3707,
+      "cw": 0,
+      "cr": 365824,
+      "reqs": 10
+    },
+    "2026-07-30 20:12": {
+      "inp": 216458,
+      "out": 1340,
+      "cw": 0,
+      "cr": 191104,
+      "reqs": 4
+    },
+    "2026-07-30 20:13": {
+      "inp": 369953,
+      "out": 1474,
+      "cw": 0,
+      "cr": 309120,
+      "reqs": 7
+    },
+    "2026-07-30 20:14": {
+      "inp": 453206,
+      "out": 1057,
+      "cw": 0,
+      "cr": 428160,
+      "reqs": 7
+    },
+    "2026-07-30 20:15": {
+      "inp": 407231,
+      "out": 9112,
+      "cw": 0,
+      "cr": 386560,
+      "reqs": 5
+    },
+    "2026-07-30 20:16": {
+      "inp": 379089,
+      "out": 1358,
+      "cw": 0,
+      "cr": 290176,
+      "reqs": 8
+    },
+    "2026-07-30 20:17": {
+      "inp": 255637,
+      "out": 1408,
+      "cw": 0,
+      "cr": 244736,
+      "reqs": 5
+    },
+    "2026-07-30 20:18": {
+      "inp": 440671,
+      "out": 987,
+      "cw": 0,
+      "cr": 412160,
+      "reqs": 6
+    },
+    "2026-07-30 20:19": {
+      "inp": 81029,
+      "out": 925,
+      "cw": 0,
+      "cr": 40064,
+      "reqs": 1
+    },
+    "2026-07-30 20:27": {
+      "inp": 346772,
+      "out": 1099,
+      "cw": 0,
+      "cr": 297088,
+      "reqs": 8
+    },
+    "2026-07-30 20:28": {
+      "inp": 215043,
+      "out": 637,
+      "cw": 0,
+      "cr": 204800,
+      "reqs": 3
+    },
+    "2026-07-30 20:29": {
+      "inp": 249982,
+      "out": 2152,
+      "cw": 0,
+      "cr": 236928,
+      "reqs": 3
+    },
+    "2026-07-30 21:03": {
+      "inp": 7385,
+      "out": 548,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-30 21:04": {
+      "inp": 327246,
+      "out": 805,
+      "cw": 0,
+      "cr": 318720,
+      "reqs": 4
+    },
+    "2026-07-30 21:09": {
+      "inp": 233507,
+      "out": 1362,
+      "cw": 0,
+      "cr": 187136,
+      "reqs": 6
+    },
+    "2026-07-30 21:10": {
+      "inp": 344511,
+      "out": 1823,
+      "cw": 0,
+      "cr": 336512,
+      "reqs": 6
+    },
+    "2026-07-30 21:11": {
+      "inp": 192235,
+      "out": 787,
+      "cw": 0,
+      "cr": 188032,
+      "reqs": 3
+    },
+    "2026-07-30 21:12": {
+      "inp": 346237,
+      "out": 1129,
+      "cw": 0,
+      "cr": 338944,
+      "reqs": 5
+    },
+    "2026-07-30 21:13": {
+      "inp": 313264,
+      "out": 2364,
+      "cw": 0,
+      "cr": 303232,
+      "reqs": 4
+    },
+    "2026-07-30 21:14": {
+      "inp": 83653,
+      "out": 2600,
+      "cw": 0,
+      "cr": 81920,
+      "reqs": 1
+    },
+    "2026-07-30 21:15": {
+      "inp": 170431,
+      "out": 1794,
+      "cw": 0,
+      "cr": 132992,
+      "reqs": 5
+    },
+    "2026-07-30 21:16": {
+      "inp": 215272,
+      "out": 1742,
+      "cw": 0,
+      "cr": 206592,
+      "reqs": 5
+    },
+    "2026-07-30 21:37": {
+      "inp": 216532,
+      "out": 1328,
+      "cw": 0,
+      "cr": 131456,
+      "reqs": 3
+    },
+    "2026-07-30 21:38": {
+      "inp": 89419,
+      "out": 569,
+      "cw": 0,
+      "cr": 87680,
+      "reqs": 1
+    },
+    "2026-07-30 21:41": {
+      "inp": 8994,
+      "out": 673,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-30 21:46": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-30 21:47": {
+      "inp": 11393,
+      "out": 192,
+      "cw": 0,
+      "cr": 8960,
+      "reqs": 1
+    },
+    "2026-07-30 21:48": {
+      "inp": 90281,
+      "out": 658,
+      "cw": 0,
+      "cr": 78592,
+      "reqs": 5
+    },
+    "2026-07-30 21:49": {
+      "inp": 231542,
+      "out": 1954,
+      "cw": 0,
+      "cr": 220672,
+      "reqs": 8
+    },
+    "2026-07-30 21:50": {
+      "inp": 326750,
+      "out": 2618,
+      "cw": 0,
+      "cr": 286592,
+      "reqs": 10
+    },
+    "2026-07-30 21:51": {
+      "inp": 142758,
+      "out": 1686,
+      "cw": 0,
+      "cr": 133248,
+      "reqs": 2
+    },
+    "2026-07-30 21:52": {
+      "inp": 345782,
+      "out": 9470,
+      "cw": 0,
+      "cr": 244608,
+      "reqs": 5
+    },
+    "2026-07-30 21:54": {
+      "inp": 162469,
+      "out": 3105,
+      "cw": 0,
+      "cr": 109696,
+      "reqs": 2
+    },
+    "2026-07-30 21:55": {
+      "inp": 159322,
+      "out": 981,
+      "cw": 0,
+      "cr": 116736,
+      "reqs": 4
+    },
+    "2026-07-30 21:56": {
+      "inp": 317399,
+      "out": 7349,
+      "cw": 0,
+      "cr": 303360,
+      "reqs": 6
+    },
+    "2026-07-30 21:57": {
+      "inp": 66676,
+      "out": 742,
+      "cw": 0,
+      "cr": 49536,
+      "reqs": 2
+    },
+    "2026-07-30 21:58": {
+      "inp": 698031,
+      "out": 2559,
+      "cw": 0,
+      "cr": 636800,
+      "reqs": 10
+    },
+    "2026-07-30 21:59": {
+      "inp": 672552,
+      "out": 5419,
+      "cw": 0,
+      "cr": 649472,
+      "reqs": 12
+    },
+    "2026-07-30 22:00": {
+      "inp": 635447,
+      "out": 5559,
+      "cw": 0,
+      "cr": 524160,
+      "reqs": 19
+    },
+    "2026-07-30 22:01": {
+      "inp": 337299,
+      "out": 4363,
+      "cw": 0,
+      "cr": 314368,
+      "reqs": 8
+    },
+    "2026-07-30 22:02": {
+      "inp": 109777,
+      "out": 564,
+      "cw": 0,
+      "cr": 48128,
+      "reqs": 2
+    },
+    "2026-07-30 22:03": {
+      "inp": 52562,
+      "out": 890,
+      "cw": 0,
+      "cr": 51584,
+      "reqs": 1
+    },
+    "2026-07-30 22:04": {
+      "inp": 178253,
+      "out": 879,
+      "cw": 0,
+      "cr": 162176,
+      "reqs": 4
+    },
+    "2026-07-30 22:05": {
+      "inp": 98200,
+      "out": 1051,
+      "cw": 0,
+      "cr": 80896,
+      "reqs": 3
+    },
+    "2026-07-30 22:06": {
+      "inp": 209519,
+      "out": 1004,
+      "cw": 0,
+      "cr": 196736,
+      "reqs": 5
+    },
+    "2026-07-30 22:07": {
+      "inp": 286743,
+      "out": 1957,
+      "cw": 0,
+      "cr": 199552,
+      "reqs": 4
+    },
+    "2026-07-30 22:08": {
+      "inp": 387715,
+      "out": 4991,
+      "cw": 0,
+      "cr": 373120,
+      "reqs": 4
+    },
+    "2026-07-30 22:09": {
+      "inp": 197190,
+      "out": 2772,
+      "cw": 0,
+      "cr": 181376,
+      "reqs": 3
+    },
+    "2026-07-30 22:10": {
+      "inp": 257574,
+      "out": 6958,
+      "cw": 0,
+      "cr": 233216,
+      "reqs": 6
+    },
+    "2026-07-30 22:11": {
+      "inp": 84509,
+      "out": 2378,
+      "cw": 0,
+      "cr": 76800,
+      "reqs": 4
+    },
+    "2026-07-30 22:12": {
+      "inp": 286051,
+      "out": 1117,
+      "cw": 0,
+      "cr": 205056,
+      "reqs": 4
+    },
+    "2026-07-30 22:13": {
+      "inp": 217743,
+      "out": 1272,
+      "cw": 0,
+      "cr": 119424,
+      "reqs": 5
+    },
+    "2026-07-30 22:14": {
+      "inp": 386185,
+      "out": 1089,
+      "cw": 0,
+      "cr": 273792,
+      "reqs": 6
+    },
+    "2026-07-30 22:15": {
+      "inp": 397958,
+      "out": 4851,
+      "cw": 0,
+      "cr": 383488,
+      "reqs": 8
+    },
+    "2026-07-30 22:16": {
+      "inp": 209508,
+      "out": 1316,
+      "cw": 0,
+      "cr": 201728,
+      "reqs": 4
+    },
+    "2026-07-30 22:17": {
+      "inp": 599722,
+      "out": 6843,
+      "cw": 0,
+      "cr": 502272,
+      "reqs": 8
+    },
+    "2026-07-30 22:18": {
+      "inp": 264780,
+      "out": 1110,
+      "cw": 0,
+      "cr": 225280,
+      "reqs": 5
+    },
+    "2026-07-30 22:19": {
+      "inp": 629826,
+      "out": 3836,
+      "cw": 0,
+      "cr": 602752,
+      "reqs": 10
+    },
+    "2026-07-30 22:20": {
+      "inp": 812836,
+      "out": 5241,
+      "cw": 0,
+      "cr": 782336,
+      "reqs": 11
+    },
+    "2026-07-30 22:21": {
+      "inp": 193128,
+      "out": 1648,
+      "cw": 0,
+      "cr": 172544,
+      "reqs": 4
+    },
+    "2026-07-30 22:22": {
+      "inp": 191808,
+      "out": 5487,
+      "cw": 0,
+      "cr": 154240,
+      "reqs": 6
+    },
+    "2026-07-30 22:23": {
+      "inp": 133061,
+      "out": 1163,
+      "cw": 0,
+      "cr": 69632,
+      "reqs": 4
+    },
+    "2026-07-30 22:24": {
+      "inp": 189248,
+      "out": 871,
+      "cw": 0,
+      "cr": 156416,
+      "reqs": 6
+    },
+    "2026-07-30 22:25": {
+      "inp": 380796,
+      "out": 3046,
+      "cw": 0,
+      "cr": 352896,
+      "reqs": 9
+    },
+    "2026-07-30 22:26": {
+      "inp": 257904,
+      "out": 1651,
+      "cw": 0,
+      "cr": 240128,
+      "reqs": 5
+    },
+    "2026-07-30 22:27": {
+      "inp": 470368,
+      "out": 1451,
+      "cw": 0,
+      "cr": 440192,
+      "reqs": 8
+    },
+    "2026-07-30 22:28": {
+      "inp": 251985,
+      "out": 1880,
+      "cw": 0,
+      "cr": 187776,
+      "reqs": 4
+    },
+    "2026-07-30 22:29": {
+      "inp": 937385,
+      "out": 3320,
+      "cw": 0,
+      "cr": 912384,
+      "reqs": 14
+    },
+    "2026-07-30 22:30": {
+      "inp": 602965,
+      "out": 1768,
+      "cw": 0,
+      "cr": 548096,
+      "reqs": 9
+    },
+    "2026-07-30 22:31": {
+      "inp": 631525,
+      "out": 2967,
+      "cw": 0,
+      "cr": 554880,
+      "reqs": 8
+    },
+    "2026-07-30 22:32": {
+      "inp": 86065,
+      "out": 546,
+      "cw": 0,
+      "cr": 53760,
+      "reqs": 1
+    },
+    "2026-07-30 23:35": {
+      "inp": 142073,
+      "out": 1795,
+      "cw": 0,
+      "cr": 256,
+      "reqs": 2
+    },
+    "2026-07-30 23:36": {
+      "inp": 519561,
+      "out": 2699,
+      "cw": 0,
+      "cr": 284672,
+      "reqs": 6
+    },
+    "2026-07-30 23:37": {
+      "inp": 78005,
+      "out": 191,
+      "cw": 0,
+      "cr": 65536,
+      "reqs": 1
+    },
+    "2026-07-30 23:38": {
+      "inp": 80510,
+      "out": 507,
+      "cw": 0,
+      "cr": 77952,
+      "reqs": 1
+    },
+    "2026-07-30 23:39": {
+      "inp": 176139,
+      "out": 1935,
+      "cw": 0,
+      "cr": 166400,
+      "reqs": 2
+    },
+    "2026-07-30 23:45": {
+      "inp": 165023,
+      "out": 4917,
+      "cw": 0,
+      "cr": 157312,
+      "reqs": 2
+    },
+    "2026-07-30 23:46": {
+      "inp": 94402,
+      "out": 273,
+      "cw": 0,
+      "cr": 83968,
+      "reqs": 1
+    },
+    "2026-07-30 23:51": {
+      "inp": 10132,
+      "out": 69,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-30 23:52": {
+      "inp": 160364,
+      "out": 2163,
+      "cw": 0,
+      "cr": 125952,
+      "reqs": 5
+    },
+    "2026-07-30 23:53": {
+      "inp": 202883,
+      "out": 1224,
+      "cw": 0,
+      "cr": 189824,
+      "reqs": 4
+    },
+    "2026-07-30 23:54": {
+      "inp": 517250,
+      "out": 4774,
+      "cw": 0,
+      "cr": 382208,
+      "reqs": 8
+    },
+    "2026-07-30 23:55": {
+      "inp": 565240,
+      "out": 2974,
+      "cw": 0,
+      "cr": 369408,
+      "reqs": 13
+    },
+    "2026-07-30 23:56": {
+      "inp": 476190,
+      "out": 4700,
+      "cw": 0,
+      "cr": 451456,
+      "reqs": 12
+    },
+    "2026-07-30 23:57": {
+      "inp": 233229,
+      "out": 2746,
+      "cw": 0,
+      "cr": 190592,
+      "reqs": 4
+    },
+    "2026-07-30 23:58": {
+      "inp": 137742,
+      "out": 1515,
+      "cw": 0,
+      "cr": 76800,
+      "reqs": 5
+    },
+    "2026-07-30 23:59": {
+      "inp": 251770,
+      "out": 487,
+      "cw": 0,
+      "cr": 231680,
+      "reqs": 5
+    },
+    "2026-07-31 00:00": {
+      "inp": 235423,
+      "out": 751,
+      "cw": 0,
+      "cr": 225152,
+      "reqs": 4
+    },
+    "2026-07-31 00:01": {
+      "inp": 288444,
+      "out": 717,
+      "cw": 0,
+      "cr": 270336,
+      "reqs": 4
+    },
+    "2026-07-31 00:02": {
+      "inp": 115795,
+      "out": 1060,
+      "cw": 0,
+      "cr": 94848,
+      "reqs": 3
+    },
+    "2026-07-31 00:04": {
+      "inp": 70667,
+      "out": 764,
+      "cw": 0,
+      "cr": 65408,
+      "reqs": 4
+    },
+    "2026-07-31 00:05": {
+      "inp": 370302,
+      "out": 4641,
+      "cw": 0,
+      "cr": 278272,
+      "reqs": 12
+    },
+    "2026-07-31 00:06": {
+      "inp": 494867,
+      "out": 4448,
+      "cw": 0,
+      "cr": 441984,
+      "reqs": 12
+    },
+    "2026-07-31 00:07": {
+      "inp": 293385,
+      "out": 2176,
+      "cw": 0,
+      "cr": 272512,
+      "reqs": 7
+    },
+    "2026-07-31 00:08": {
+      "inp": 467710,
+      "out": 7929,
+      "cw": 0,
+      "cr": 450816,
+      "reqs": 8
+    },
+    "2026-07-31 00:09": {
+      "inp": 600472,
+      "out": 6696,
+      "cw": 0,
+      "cr": 565760,
+      "reqs": 9
+    },
+    "2026-07-31 00:10": {
+      "inp": 677398,
+      "out": 3591,
+      "cw": 0,
+      "cr": 616576,
+      "reqs": 10
+    },
+    "2026-07-31 00:12": {
+      "inp": 302834,
+      "out": 439,
+      "cw": 0,
+      "cr": 296192,
+      "reqs": 4
+    },
+    "2026-07-31 00:13": {
+      "inp": 319449,
+      "out": 1787,
+      "cw": 0,
+      "cr": 314496,
+      "reqs": 4
+    },
+    "2026-07-31 00:14": {
+      "inp": 512010,
+      "out": 4055,
+      "cw": 0,
+      "cr": 463232,
+      "reqs": 10
+    },
+    "2026-07-31 00:15": {
+      "inp": 326881,
+      "out": 1049,
+      "cw": 0,
+      "cr": 280064,
+      "reqs": 6
+    },
+    "2026-07-31 00:16": {
+      "inp": 169124,
+      "out": 326,
+      "cw": 0,
+      "cr": 109696,
+      "reqs": 2
+    },
+    "2026-07-31 00:19": {
+      "inp": 72620,
+      "out": 4768,
+      "cw": 0,
+      "cr": 67584,
+      "reqs": 1
+    },
+    "2026-07-31 00:20": {
+      "inp": 82510,
+      "out": 77,
+      "cw": 0,
+      "cr": 72576,
+      "reqs": 1
+    },
+    "2026-07-31 00:21": {
+      "inp": 270953,
+      "out": 5975,
+      "cw": 0,
+      "cr": 205312,
+      "reqs": 3
+    },
+    "2026-07-31 00:22": {
+      "inp": 44408,
+      "out": 151,
+      "cw": 0,
+      "cr": 21760,
+      "reqs": 2
+    },
+    "2026-07-31 00:23": {
+      "inp": 105660,
+      "out": 2613,
+      "cw": 0,
+      "cr": 89088,
+      "reqs": 3
+    },
+    "2026-07-31 00:24": {
+      "inp": 87164,
+      "out": 476,
+      "cw": 0,
+      "cr": 82304,
+      "reqs": 2
+    },
+    "2026-07-31 00:25": {
+      "inp": 96277,
+      "out": 2237,
+      "cw": 0,
+      "cr": 89344,
+      "reqs": 2
+    },
+    "2026-07-31 00:26": {
+      "inp": 114638,
+      "out": 1481,
+      "cw": 0,
+      "cr": 106112,
+      "reqs": 2
+    },
+    "2026-07-31 00:27": {
+      "inp": 190687,
+      "out": 988,
+      "cw": 0,
+      "cr": 184192,
+      "reqs": 3
+    },
+    "2026-07-31 00:28": {
+      "inp": 280059,
+      "out": 2517,
+      "cw": 0,
+      "cr": 271744,
+      "reqs": 4
+    },
+    "2026-07-31 00:29": {
+      "inp": 84739,
+      "out": 4002,
+      "cw": 0,
+      "cr": 73216,
+      "reqs": 1
+    },
+    "2026-07-31 00:30": {
+      "inp": 190033,
+      "out": 3516,
+      "cw": 0,
+      "cr": 178944,
+      "reqs": 2
+    },
+    "2026-07-31 00:31": {
+      "inp": 130878,
+      "out": 241,
+      "cw": 0,
+      "cr": 80512,
+      "reqs": 3
+    },
+    "2026-07-31 00:32": {
+      "inp": 367179,
+      "out": 607,
+      "cw": 0,
+      "cr": 343424,
+      "reqs": 6
+    },
+    "2026-07-31 00:33": {
+      "inp": 739977,
+      "out": 6976,
+      "cw": 0,
+      "cr": 715136,
+      "reqs": 9
+    },
+    "2026-07-31 00:34": {
+      "inp": 87632,
+      "out": 29,
+      "cw": 0,
+      "cr": 50304,
+      "reqs": 1
+    },
+    "2026-07-31 00:47": {
+      "inp": 46443,
+      "out": 2137,
+      "cw": 0,
+      "cr": 21504,
+      "reqs": 4
+    },
+    "2026-07-31 00:48": {
+      "inp": 16945,
+      "out": 63,
+      "cw": 0,
+      "cr": 14336,
+      "reqs": 1
+    },
+    "2026-07-31 00:49": {
+      "inp": 163598,
+      "out": 1979,
+      "cw": 0,
+      "cr": 137216,
+      "reqs": 4
+    },
+    "2026-07-31 00:50": {
+      "inp": 171424,
+      "out": 1849,
+      "cw": 0,
+      "cr": 147968,
+      "reqs": 4
+    },
+    "2026-07-31 00:51": {
+      "inp": 201317,
+      "out": 2180,
+      "cw": 0,
+      "cr": 157952,
+      "reqs": 5
+    },
+    "2026-07-31 00:52": {
+      "inp": 251228,
+      "out": 682,
+      "cw": 0,
+      "cr": 244736,
+      "reqs": 4
+    },
+    "2026-07-31 00:53": {
+      "inp": 66368,
+      "out": 3201,
+      "cw": 0,
+      "cr": 64512,
+      "reqs": 1
+    },
+    "2026-07-31 00:54": {
+      "inp": 76205,
+      "out": 2994,
+      "cw": 0,
+      "cr": 66304,
+      "reqs": 1
+    },
+    "2026-07-31 00:55": {
+      "inp": 165623,
+      "out": 3318,
+      "cw": 0,
+      "cr": 158592,
+      "reqs": 2
+    },
+    "2026-07-31 00:56": {
+      "inp": 91205,
+      "out": 361,
+      "cw": 0,
+      "cr": 82944,
+      "reqs": 1
+    },
+    "2026-07-31 00:58": {
+      "inp": 8935,
+      "out": 735,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-31 01:03": {
+      "inp": 52308,
+      "out": 463,
+      "cw": 0,
+      "cr": 33408,
+      "reqs": 3
+    },
+    "2026-07-31 01:04": {
+      "inp": 327248,
+      "out": 1660,
+      "cw": 0,
+      "cr": 302336,
+      "reqs": 7
+    },
+    "2026-07-31 01:05": {
+      "inp": 210034,
+      "out": 2283,
+      "cw": 0,
+      "cr": 191360,
+      "reqs": 4
+    },
+    "2026-07-31 01:06": {
+      "inp": 54503,
+      "out": 102,
+      "cw": 0,
+      "cr": 51840,
+      "reqs": 1
+    },
+    "2026-07-31 01:07": {
+      "inp": 110480,
+      "out": 194,
+      "cw": 0,
+      "cr": 109440,
+      "reqs": 2
+    },
+    "2026-07-31 01:08": {
+      "inp": 423466,
+      "out": 3073,
+      "cw": 0,
+      "cr": 383616,
+      "reqs": 9
+    },
+    "2026-07-31 01:09": {
+      "inp": 243970,
+      "out": 4817,
+      "cw": 0,
+      "cr": 179072,
+      "reqs": 6
+    },
+    "2026-07-31 01:10": {
+      "inp": 244151,
+      "out": 1578,
+      "cw": 0,
+      "cr": 198528,
+      "reqs": 7
+    },
+    "2026-07-31 01:11": {
+      "inp": 426048,
+      "out": 2503,
+      "cw": 0,
+      "cr": 413440,
+      "reqs": 11
+    },
+    "2026-07-31 01:12": {
+      "inp": 425004,
+      "out": 2643,
+      "cw": 0,
+      "cr": 412544,
+      "reqs": 10
+    },
+    "2026-07-31 01:13": {
+      "inp": 249709,
+      "out": 1035,
+      "cw": 0,
+      "cr": 235904,
+      "reqs": 5
+    },
+    "2026-07-31 01:14": {
+      "inp": 335850,
+      "out": 1587,
+      "cw": 0,
+      "cr": 328064,
+      "reqs": 6
+    },
+    "2026-07-31 01:15": {
+      "inp": 176062,
+      "out": 777,
+      "cw": 0,
+      "cr": 166784,
+      "reqs": 3
+    },
+    "2026-07-31 01:16": {
+      "inp": 365671,
+      "out": 1572,
+      "cw": 0,
+      "cr": 359424,
+      "reqs": 6
+    },
+    "2026-07-31 01:17": {
+      "inp": 1104551,
+      "out": 7267,
+      "cw": 0,
+      "cr": 1078144,
+      "reqs": 16
+    },
+    "2026-07-31 01:18": {
+      "inp": 525047,
+      "out": 4054,
+      "cw": 0,
+      "cr": 503552,
+      "reqs": 7
+    },
+    "2026-07-31 01:19": {
+      "inp": 353961,
+      "out": 713,
+      "cw": 0,
+      "cr": 348800,
+      "reqs": 5
+    },
+    "2026-07-31 01:20": {
+      "inp": 149613,
+      "out": 318,
+      "cw": 0,
+      "cr": 146816,
+      "reqs": 2
+    },
+    "2026-07-31 01:21": {
+      "inp": 435977,
+      "out": 5799,
+      "cw": 0,
+      "cr": 323840,
+      "reqs": 10
+    },
+    "2026-07-31 01:22": {
+      "inp": 336582,
+      "out": 3075,
+      "cw": 0,
+      "cr": 298112,
+      "reqs": 10
+    },
+    "2026-07-31 01:23": {
+      "inp": 302136,
+      "out": 7876,
+      "cw": 0,
+      "cr": 257536,
+      "reqs": 8
+    },
+    "2026-07-31 01:24": {
+      "inp": 73260,
+      "out": 1410,
+      "cw": 0,
+      "cr": 65536,
+      "reqs": 2
+    },
+    "2026-07-31 01:25": {
+      "inp": 688200,
+      "out": 5534,
+      "cw": 0,
+      "cr": 663168,
+      "reqs": 12
+    },
+    "2026-07-31 01:26": {
+      "inp": 158471,
+      "out": 426,
+      "cw": 0,
+      "cr": 152576,
+      "reqs": 2
+    },
+    "2026-07-31 01:27": {
+      "inp": 243193,
+      "out": 3910,
+      "cw": 0,
+      "cr": 206976,
+      "reqs": 3
+    },
+    "2026-07-31 01:28": {
+      "inp": 92331,
+      "out": 1108,
+      "cw": 0,
+      "cr": 60032,
+      "reqs": 3
+    },
+    "2026-07-31 01:29": {
+      "inp": 412430,
+      "out": 3255,
+      "cw": 0,
+      "cr": 388736,
+      "reqs": 10
+    },
+    "2026-07-31 01:30": {
+      "inp": 937629,
+      "out": 3847,
+      "cw": 0,
+      "cr": 878208,
+      "reqs": 20
+    },
+    "2026-07-31 01:31": {
+      "inp": 554748,
+      "out": 2140,
+      "cw": 0,
+      "cr": 456832,
+      "reqs": 10
+    },
+    "2026-07-31 01:32": {
+      "inp": 671847,
+      "out": 4364,
+      "cw": 0,
+      "cr": 641152,
+      "reqs": 11
+    },
+    "2026-07-31 01:33": {
+      "inp": 432714,
+      "out": 5405,
+      "cw": 0,
+      "cr": 409472,
+      "reqs": 6
+    },
+    "2026-07-31 01:34": {
+      "inp": 441825,
+      "out": 7759,
+      "cw": 0,
+      "cr": 327936,
+      "reqs": 8
+    },
+    "2026-07-31 01:35": {
+      "inp": 423991,
+      "out": 3980,
+      "cw": 0,
+      "cr": 375552,
+      "reqs": 9
+    },
+    "2026-07-31 01:36": {
+      "inp": 1037786,
+      "out": 2525,
+      "cw": 0,
+      "cr": 978048,
+      "reqs": 16
+    },
+    "2026-07-31 01:37": {
+      "inp": 647562,
+      "out": 6633,
+      "cw": 0,
+      "cr": 588800,
+      "reqs": 10
+    },
+    "2026-07-31 01:38": {
+      "inp": 501708,
+      "out": 2116,
+      "cw": 0,
+      "cr": 456704,
+      "reqs": 7
+    },
+    "2026-07-31 01:39": {
+      "inp": 489172,
+      "out": 1983,
+      "cw": 0,
+      "cr": 476288,
+      "reqs": 7
+    },
+    "2026-07-31 01:41": {
+      "inp": 359893,
+      "out": 3685,
+      "cw": 0,
+      "cr": 326656,
+      "reqs": 4
+    },
+    "2026-07-31 01:42": {
+      "inp": 171704,
+      "out": 1695,
+      "cw": 0,
+      "cr": 134784,
+      "reqs": 6
+    },
+    "2026-07-31 01:43": {
+      "inp": 354953,
+      "out": 3049,
+      "cw": 0,
+      "cr": 259968,
+      "reqs": 6
+    },
+    "2026-07-31 01:44": {
+      "inp": 737778,
+      "out": 5204,
+      "cw": 0,
+      "cr": 648832,
+      "reqs": 10
+    },
+    "2026-07-31 01:45": {
+      "inp": 1022407,
+      "out": 6481,
+      "cw": 0,
+      "cr": 980480,
+      "reqs": 15
+    },
+    "2026-07-31 01:46": {
+      "inp": 290228,
+      "out": 2308,
+      "cw": 0,
+      "cr": 215552,
+      "reqs": 4
+    },
+    "2026-07-31 01:47": {
+      "inp": 303764,
+      "out": 4419,
+      "cw": 0,
+      "cr": 292480,
+      "reqs": 7
+    },
+    "2026-07-31 01:48": {
+      "inp": 233912,
+      "out": 2105,
+      "cw": 0,
+      "cr": 223872,
+      "reqs": 5
+    },
+    "2026-07-31 01:49": {
+      "inp": 288000,
+      "out": 3257,
+      "cw": 0,
+      "cr": 256000,
+      "reqs": 10
+    },
+    "2026-07-31 01:50": {
+      "inp": 597485,
+      "out": 3141,
+      "cw": 0,
+      "cr": 524928,
+      "reqs": 14
+    },
+    "2026-07-31 01:51": {
+      "inp": 852893,
+      "out": 4240,
+      "cw": 0,
+      "cr": 795648,
+      "reqs": 20
+    },
+    "2026-07-31 01:52": {
+      "inp": 932836,
+      "out": 3531,
+      "cw": 0,
+      "cr": 854656,
+      "reqs": 16
+    },
+    "2026-07-31 01:53": {
+      "inp": 640275,
+      "out": 6205,
+      "cw": 0,
+      "cr": 613376,
+      "reqs": 10
+    },
+    "2026-07-31 01:54": {
+      "inp": 842544,
+      "out": 4159,
+      "cw": 0,
+      "cr": 729600,
+      "reqs": 11
+    },
+    "2026-07-31 01:55": {
+      "inp": 569033,
+      "out": 5403,
+      "cw": 0,
+      "cr": 461184,
+      "reqs": 7
+    },
+    "2026-07-31 01:56": {
+      "inp": 255179,
+      "out": 5678,
+      "cw": 0,
+      "cr": 216832,
+      "reqs": 10
+    },
+    "2026-07-31 01:57": {
+      "inp": 395757,
+      "out": 2141,
+      "cw": 0,
+      "cr": 251264,
+      "reqs": 9
+    },
+    "2026-07-31 01:58": {
+      "inp": 240274,
+      "out": 2537,
+      "cw": 0,
+      "cr": 183296,
+      "reqs": 6
+    },
+    "2026-07-31 01:59": {
+      "inp": 244407,
+      "out": 1011,
+      "cw": 0,
+      "cr": 232320,
+      "reqs": 4
+    },
+    "2026-07-31 02:00": {
+      "inp": 456656,
+      "out": 1292,
+      "cw": 0,
+      "cr": 439040,
+      "reqs": 6
+    },
+    "2026-07-31 02:01": {
+      "inp": 71741,
+      "out": 625,
+      "cw": 0,
+      "cr": 33920,
+      "reqs": 1
+    },
+    "2026-07-31 06:35": {
+      "inp": 161223,
+      "out": 1577,
+      "cw": 0,
+      "cr": 80256,
+      "reqs": 2
+    },
+    "2026-07-31 06:36": {
+      "inp": 748792,
+      "out": 5812,
+      "cw": 0,
+      "cr": 424192,
+      "reqs": 9
+    },
+    "2026-07-31 06:37": {
+      "inp": 387020,
+      "out": 3699,
+      "cw": 0,
+      "cr": 344064,
+      "reqs": 6
+    },
+    "2026-07-31 06:38": {
+      "inp": 258413,
+      "out": 3496,
+      "cw": 0,
+      "cr": 211840,
+      "reqs": 5
+    },
+    "2026-07-31 06:39": {
+      "inp": 191496,
+      "out": 405,
+      "cw": 0,
+      "cr": 178048,
+      "reqs": 3
+    },
+    "2026-07-31 06:40": {
+      "inp": 370800,
+      "out": 1736,
+      "cw": 0,
+      "cr": 362112,
+      "reqs": 5
+    },
+    "2026-07-31 06:41": {
+      "inp": 435268,
+      "out": 4473,
+      "cw": 0,
+      "cr": 413440,
+      "reqs": 6
+    },
+    "2026-07-31 06:42": {
+      "inp": 427014,
+      "out": 8778,
+      "cw": 0,
+      "cr": 392832,
+      "reqs": 6
+    },
+    "2026-07-31 06:43": {
+      "inp": 98090,
+      "out": 505,
+      "cw": 0,
+      "cr": 86272,
+      "reqs": 1
+    },
+    "2026-07-31 06:44": {
+      "inp": 15024,
+      "out": 1737,
+      "cw": 0,
+      "cr": 256,
+      "reqs": 2
+    },
+    "2026-07-31 06:46": {
+      "inp": 16915,
+      "out": 130,
+      "cw": 0,
+      "cr": 8832,
+      "reqs": 1
+    },
+    "2026-07-31 06:47": {
+      "inp": 37263,
+      "out": 277,
+      "cw": 0,
+      "cr": 26112,
+      "reqs": 2
+    },
+    "2026-07-31 06:48": {
+      "inp": 58133,
+      "out": 359,
+      "cw": 0,
+      "cr": 55808,
+      "reqs": 3
+    },
+    "2026-07-31 06:49": {
+      "inp": 144422,
+      "out": 755,
+      "cw": 0,
+      "cr": 59904,
+      "reqs": 5
+    },
+    "2026-07-31 06:50": {
+      "inp": 127411,
+      "out": 599,
+      "cw": 0,
+      "cr": 103936,
+      "reqs": 3
+    },
+    "2026-07-31 06:51": {
+      "inp": 321877,
+      "out": 1594,
+      "cw": 0,
+      "cr": 310528,
+      "reqs": 6
+    },
+    "2026-07-31 06:52": {
+      "inp": 304521,
+      "out": 2088,
+      "cw": 0,
+      "cr": 297088,
+      "reqs": 6
+    },
+    "2026-07-31 06:53": {
+      "inp": 67467,
+      "out": 287,
+      "cw": 0,
+      "cr": 65280,
+      "reqs": 2
+    },
+    "2026-07-31 06:54": {
+      "inp": 109245,
+      "out": 628,
+      "cw": 0,
+      "cr": 105472,
+      "reqs": 3
+    },
+    "2026-07-31 06:55": {
+      "inp": 244081,
+      "out": 938,
+      "cw": 0,
+      "cr": 216448,
+      "reqs": 8
+    },
+    "2026-07-31 06:56": {
+      "inp": 622315,
+      "out": 2107,
+      "cw": 0,
+      "cr": 539904,
+      "reqs": 13
+    },
+    "2026-07-31 06:57": {
+      "inp": 379642,
+      "out": 3722,
+      "cw": 0,
+      "cr": 272000,
+      "reqs": 7
+    },
+    "2026-07-31 06:58": {
+      "inp": 260018,
+      "out": 5647,
+      "cw": 0,
+      "cr": 251136,
+      "reqs": 8
+    },
+    "2026-07-31 06:59": {
+      "inp": 352755,
+      "out": 8360,
+      "cw": 0,
+      "cr": 248576,
+      "reqs": 5
+    },
+    "2026-07-31 07:00": {
+      "inp": 311094,
+      "out": 7006,
+      "cw": 0,
+      "cr": 241792,
+      "reqs": 4
+    },
+    "2026-07-31 07:01": {
+      "inp": 551469,
+      "out": 2265,
+      "cw": 0,
+      "cr": 532096,
+      "reqs": 7
+    },
+    "2026-07-31 07:02": {
+      "inp": 348075,
+      "out": 603,
+      "cw": 0,
+      "cr": 340992,
+      "reqs": 5
+    },
+    "2026-07-31 07:03": {
+      "inp": 148289,
+      "out": 221,
+      "cw": 0,
+      "cr": 145920,
+      "reqs": 2
+    },
+    "2026-07-31 07:04": {
+      "inp": 469755,
+      "out": 436,
+      "cw": 0,
+      "cr": 463744,
+      "reqs": 6
+    },
+    "2026-07-31 07:05": {
+      "inp": 380551,
+      "out": 503,
+      "cw": 0,
+      "cr": 312320,
+      "reqs": 6
+    },
+    "2026-07-31 07:06": {
+      "inp": 223689,
+      "out": 812,
+      "cw": 0,
+      "cr": 213376,
+      "reqs": 3
+    },
+    "2026-07-31 07:07": {
+      "inp": 398664,
+      "out": 802,
+      "cw": 0,
+      "cr": 383104,
+      "reqs": 5
+    },
+    "2026-07-31 07:56": {
+      "inp": 18404,
+      "out": 213,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-31 07:57": {
+      "inp": 157023,
+      "out": 2048,
+      "cw": 0,
+      "cr": 139136,
+      "reqs": 6
+    },
+    "2026-07-31 07:58": {
+      "inp": 223273,
+      "out": 1838,
+      "cw": 0,
+      "cr": 207872,
+      "reqs": 5
+    },
+    "2026-07-31 07:59": {
+      "inp": 227922,
+      "out": 177,
+      "cw": 0,
+      "cr": 218752,
+      "reqs": 4
+    },
+    "2026-07-31 08:00": {
+      "inp": 265578,
+      "out": 1506,
+      "cw": 0,
+      "cr": 253056,
+      "reqs": 4
+    },
+    "2026-07-31 08:01": {
+      "inp": 231828,
+      "out": 239,
+      "cw": 0,
+      "cr": 224128,
+      "reqs": 3
+    },
+    "2026-07-31 08:02": {
+      "inp": 82279,
+      "out": 1001,
+      "cw": 0,
+      "cr": 79360,
+      "reqs": 1
+    },
+    "2026-07-31 08:03": {
+      "inp": 173116,
+      "out": 2772,
+      "cw": 0,
+      "cr": 167936,
+      "reqs": 2
+    },
+    "2026-07-31 08:04": {
+      "inp": 166978,
+      "out": 1884,
+      "cw": 0,
+      "cr": 144256,
+      "reqs": 10
+    },
+    "2026-07-31 08:05": {
+      "inp": 244685,
+      "out": 2213,
+      "cw": 0,
+      "cr": 211072,
+      "reqs": 6
+    },
+    "2026-07-31 08:06": {
+      "inp": 118097,
+      "out": 2674,
+      "cw": 0,
+      "cr": 113920,
+      "reqs": 2
+    },
+    "2026-07-31 08:07": {
+      "inp": 377954,
+      "out": 1374,
+      "cw": 0,
+      "cr": 356480,
+      "reqs": 5
+    },
+    "2026-07-31 08:08": {
+      "inp": 82589,
+      "out": 53,
+      "cw": 0,
+      "cr": 80512,
+      "reqs": 1
+    },
+    "2026-07-31 09:17": {
+      "inp": 450864,
+      "out": 8549,
+      "cw": 0,
+      "cr": 170112,
+      "reqs": 5
+    },
+    "2026-07-31 09:18": {
+      "inp": 318275,
+      "out": 11360,
+      "cw": 0,
+      "cr": 282752,
+      "reqs": 10
+    },
+    "2026-07-31 09:19": {
+      "inp": 228957,
+      "out": 5291,
+      "cw": 0,
+      "cr": 200320,
+      "reqs": 5
+    },
+    "2026-07-31 09:20": {
+      "inp": 575002,
+      "out": 3481,
+      "cw": 0,
+      "cr": 546176,
+      "reqs": 13
+    },
+    "2026-07-31 09:21": {
+      "inp": 448204,
+      "out": 5502,
+      "cw": 0,
+      "cr": 392192,
+      "reqs": 11
+    },
+    "2026-07-31 09:22": {
+      "inp": 610957,
+      "out": 3672,
+      "cw": 0,
+      "cr": 597120,
+      "reqs": 11
+    },
+    "2026-07-31 09:23": {
+      "inp": 237763,
+      "out": 3544,
+      "cw": 0,
+      "cr": 215040,
+      "reqs": 4
+    },
+    "2026-07-31 09:24": {
+      "inp": 282145,
+      "out": 707,
+      "cw": 0,
+      "cr": 199424,
+      "reqs": 4
+    },
+    "2026-07-31 09:25": {
+      "inp": 262537,
+      "out": 2120,
+      "cw": 0,
+      "cr": 254592,
+      "reqs": 4
+    },
+    "2026-07-31 09:26": {
+      "inp": 547059,
+      "out": 1895,
+      "cw": 0,
+      "cr": 534272,
+      "reqs": 7
+    },
+    "2026-07-31 09:27": {
+      "inp": 236875,
+      "out": 2866,
+      "cw": 0,
+      "cr": 167040,
+      "reqs": 4
+    },
+    "2026-07-31 09:28": {
+      "inp": 68480,
+      "out": 479,
+      "cw": 0,
+      "cr": 67456,
+      "reqs": 1
+    },
+    "2026-07-31 10:04": {
+      "inp": 414932,
+      "out": 2546,
+      "cw": 0,
+      "cr": 400256,
+      "reqs": 6
+    },
+    "2026-07-31 10:05": {
+      "inp": 377536,
+      "out": 1751,
+      "cw": 0,
+      "cr": 368000,
+      "reqs": 5
+    },
+    "2026-07-31 10:06": {
+      "inp": 165636,
+      "out": 455,
+      "cw": 0,
+      "cr": 153088,
+      "reqs": 2
+    },
+    "2026-07-31 10:07": {
+      "inp": 42535,
+      "out": 3690,
+      "cw": 0,
+      "cr": 1024,
+      "reqs": 2
+    },
+    "2026-07-31 10:08": {
+      "inp": 36693,
+      "out": 2246,
+      "cw": 0,
+      "cr": 25728,
+      "reqs": 1
+    },
+    "2026-07-31 10:09": {
+      "inp": 227413,
+      "out": 2296,
+      "cw": 0,
+      "cr": 215296,
+      "reqs": 5
+    },
+    "2026-07-31 10:10": {
+      "inp": 260803,
+      "out": 1580,
+      "cw": 0,
+      "cr": 140672,
+      "reqs": 3
+    },
+    "2026-07-31 10:11": {
+      "inp": 286349,
+      "out": 7607,
+      "cw": 0,
+      "cr": 244992,
+      "reqs": 7
+    },
+    "2026-07-31 10:12": {
+      "inp": 404922,
+      "out": 3744,
+      "cw": 0,
+      "cr": 348928,
+      "reqs": 9
+    },
+    "2026-07-31 10:13": {
+      "inp": 648061,
+      "out": 6716,
+      "cw": 0,
+      "cr": 587264,
+      "reqs": 13
+    },
+    "2026-07-31 10:14": {
+      "inp": 661060,
+      "out": 4625,
+      "cw": 0,
+      "cr": 639232,
+      "reqs": 11
+    },
+    "2026-07-31 10:15": {
+      "inp": 310967,
+      "out": 1382,
+      "cw": 0,
+      "cr": 296064,
+      "reqs": 6
+    },
+    "2026-07-31 10:16": {
+      "inp": 130039,
+      "out": 1215,
+      "cw": 0,
+      "cr": 118272,
+      "reqs": 2
+    },
+    "2026-07-31 10:17": {
+      "inp": 583099,
+      "out": 1184,
+      "cw": 0,
+      "cr": 576128,
+      "reqs": 8
+    },
+    "2026-07-31 10:18": {
+      "inp": 154554,
+      "out": 860,
+      "cw": 0,
+      "cr": 151552,
+      "reqs": 2
+    },
+    "2026-07-31 10:38": {
+      "inp": 229975,
+      "out": 1247,
+      "cw": 0,
+      "cr": 158592,
+      "reqs": 3
+    },
+    "2026-07-31 11:33": {
+      "inp": 268376,
+      "out": 3244,
+      "cw": 0,
+      "cr": 384,
+      "reqs": 3
+    },
+    "2026-07-31 11:34": {
+      "inp": 606063,
+      "out": 3977,
+      "cw": 0,
+      "cr": 509952,
+      "reqs": 11
+    },
+    "2026-07-31 11:35": {
+      "inp": 512150,
+      "out": 3192,
+      "cw": 0,
+      "cr": 480512,
+      "reqs": 10
+    },
+    "2026-07-31 11:36": {
+      "inp": 53496,
+      "out": 844,
+      "cw": 0,
+      "cr": 51072,
+      "reqs": 2
+    },
+    "2026-07-31 11:37": {
+      "inp": 94975,
+      "out": 1149,
+      "cw": 0,
+      "cr": 61312,
+      "reqs": 3
+    },
+    "2026-07-31 11:38": {
+      "inp": 232566,
+      "out": 1414,
+      "cw": 0,
+      "cr": 212992,
+      "reqs": 5
+    },
+    "2026-07-31 11:39": {
+      "inp": 413378,
+      "out": 1314,
+      "cw": 0,
+      "cr": 385280,
+      "reqs": 6
+    },
+    "2026-07-31 11:40": {
+      "inp": 173007,
+      "out": 4201,
+      "cw": 0,
+      "cr": 130944,
+      "reqs": 2
+    },
+    "2026-07-31 11:41": {
+      "inp": 41959,
+      "out": 680,
+      "cw": 0,
+      "cr": 20480,
+      "reqs": 2
+    },
+    "2026-07-31 11:42": {
+      "inp": 232326,
+      "out": 836,
+      "cw": 0,
+      "cr": 218496,
+      "reqs": 8
+    },
+    "2026-07-31 11:43": {
+      "inp": 246164,
+      "out": 1364,
+      "cw": 0,
+      "cr": 227712,
+      "reqs": 7
+    },
+    "2026-07-31 11:44": {
+      "inp": 150479,
+      "out": 813,
+      "cw": 0,
+      "cr": 141824,
+      "reqs": 3
+    },
+    "2026-07-31 11:45": {
+      "inp": 195635,
+      "out": 850,
+      "cw": 0,
+      "cr": 178560,
+      "reqs": 3
+    },
+    "2026-07-31 11:46": {
+      "inp": 293588,
+      "out": 530,
+      "cw": 0,
+      "cr": 288256,
+      "reqs": 4
+    },
+    "2026-07-31 11:47": {
+      "inp": 240550,
+      "out": 453,
+      "cw": 0,
+      "cr": 156928,
+      "reqs": 3
+    },
+    "2026-07-31 11:48": {
+      "inp": 94795,
+      "out": 707,
+      "cw": 0,
+      "cr": 25728,
+      "reqs": 3
+    },
+    "2026-07-31 11:49": {
+      "inp": 75221,
+      "out": 1563,
+      "cw": 0,
+      "cr": 54528,
+      "reqs": 4
+    },
+    "2026-07-31 11:55": {
+      "inp": 38933,
+      "out": 264,
+      "cw": 0,
+      "cr": 26752,
+      "reqs": 2
+    },
+    "2026-07-31 11:56": {
+      "inp": 287040,
+      "out": 2020,
+      "cw": 0,
+      "cr": 263808,
+      "reqs": 9
+    },
+    "2026-07-31 11:57": {
+      "inp": 466577,
+      "out": 4067,
+      "cw": 0,
+      "cr": 424832,
+      "reqs": 9
+    },
+    "2026-07-31 11:58": {
+      "inp": 681870,
+      "out": 2905,
+      "cw": 0,
+      "cr": 648192,
+      "reqs": 10
+    },
+    "2026-07-31 11:59": {
+      "inp": 569201,
+      "out": 2504,
+      "cw": 0,
+      "cr": 466560,
+      "reqs": 7
+    },
+    "2026-07-31 12:00": {
+      "inp": 164397,
+      "out": 349,
+      "cw": 0,
+      "cr": 151168,
+      "reqs": 2
+    },
+    "2026-07-31 12:02": {
+      "inp": 355929,
+      "out": 4979,
+      "cw": 0,
+      "cr": 339456,
+      "reqs": 4
+    },
+    "2026-07-31 12:03": {
+      "inp": 362507,
+      "out": 3323,
+      "cw": 0,
+      "cr": 351104,
+      "reqs": 4
+    },
+    "2026-07-31 12:04": {
+      "inp": 253429,
+      "out": 940,
+      "cw": 0,
+      "cr": 192768,
+      "reqs": 5
+    },
+    "2026-07-31 12:05": {
+      "inp": 320149,
+      "out": 2438,
+      "cw": 0,
+      "cr": 313472,
+      "reqs": 5
+    },
+    "2026-07-31 12:06": {
+      "inp": 439489,
+      "out": 1087,
+      "cw": 0,
+      "cr": 400768,
+      "reqs": 11
+    },
+    "2026-07-31 12:07": {
+      "inp": 567649,
+      "out": 3857,
+      "cw": 0,
+      "cr": 472448,
+      "reqs": 11
+    },
+    "2026-07-31 12:08": {
+      "inp": 482137,
+      "out": 5056,
+      "cw": 0,
+      "cr": 453504,
+      "reqs": 8
+    },
+    "2026-07-31 12:09": {
+      "inp": 350713,
+      "out": 839,
+      "cw": 0,
+      "cr": 263168,
+      "reqs": 6
+    },
+    "2026-07-31 12:10": {
+      "inp": 307264,
+      "out": 2674,
+      "cw": 0,
+      "cr": 296320,
+      "reqs": 5
+    },
+    "2026-07-31 12:11": {
+      "inp": 364475,
+      "out": 2415,
+      "cw": 0,
+      "cr": 348672,
+      "reqs": 5
+    },
+    "2026-07-31 12:12": {
+      "inp": 246449,
+      "out": 3761,
+      "cw": 0,
+      "cr": 189952,
+      "reqs": 3
+    },
+    "2026-07-31 12:13": {
+      "inp": 76695,
+      "out": 1793,
+      "cw": 0,
+      "cr": 60800,
+      "reqs": 6
+    },
+    "2026-07-31 12:14": {
+      "inp": 300916,
+      "out": 2545,
+      "cw": 0,
+      "cr": 274560,
+      "reqs": 9
+    },
+    "2026-07-31 12:15": {
+      "inp": 132068,
+      "out": 1743,
+      "cw": 0,
+      "cr": 125184,
+      "reqs": 3
+    },
+    "2026-07-31 12:16": {
+      "inp": 262458,
+      "out": 2330,
+      "cw": 0,
+      "cr": 250368,
+      "reqs": 5
+    },
+    "2026-07-31 12:17": {
+      "inp": 298667,
+      "out": 2033,
+      "cw": 0,
+      "cr": 293504,
+      "reqs": 5
+    },
+    "2026-07-31 12:18": {
+      "inp": 338700,
+      "out": 2246,
+      "cw": 0,
+      "cr": 328960,
+      "reqs": 5
+    },
+    "2026-07-31 12:19": {
+      "inp": 317192,
+      "out": 1563,
+      "cw": 0,
+      "cr": 303872,
+      "reqs": 4
+    },
+    "2026-07-31 12:20": {
+      "inp": 206457,
+      "out": 1297,
+      "cw": 0,
+      "cr": 134656,
+      "reqs": 3
+    },
+    "2026-07-31 12:21": {
+      "inp": 307514,
+      "out": 1235,
+      "cw": 0,
+      "cr": 299008,
+      "reqs": 4
+    },
+    "2026-07-31 12:22": {
+      "inp": 252360,
+      "out": 1922,
+      "cw": 0,
+      "cr": 245504,
+      "reqs": 3
+    },
+    "2026-07-31 12:23": {
+      "inp": 179158,
+      "out": 1132,
+      "cw": 0,
+      "cr": 139264,
+      "reqs": 6
+    },
+    "2026-07-31 12:24": {
+      "inp": 280106,
+      "out": 1224,
+      "cw": 0,
+      "cr": 266624,
+      "reqs": 6
+    },
+    "2026-07-31 12:25": {
+      "inp": 298766,
+      "out": 4872,
+      "cw": 0,
+      "cr": 284544,
+      "reqs": 5
+    },
+    "2026-07-31 12:26": {
+      "inp": 217015,
+      "out": 1762,
+      "cw": 0,
+      "cr": 208896,
+      "reqs": 3
+    },
+    "2026-07-31 12:27": {
+      "inp": 77271,
+      "out": 309,
+      "cw": 0,
+      "cr": 74752,
+      "reqs": 1
+    },
+    "2026-07-31 12:28": {
+      "inp": 491951,
+      "out": 4215,
+      "cw": 0,
+      "cr": 484096,
+      "reqs": 6
+    },
+    "2026-07-31 12:29": {
+      "inp": 520695,
+      "out": 6220,
+      "cw": 0,
+      "cr": 329856,
+      "reqs": 8
+    },
+    "2026-07-31 12:30": {
+      "inp": 605238,
+      "out": 7743,
+      "cw": 0,
+      "cr": 530816,
+      "reqs": 11
+    },
+    "2026-07-31 12:31": {
+      "inp": 64758,
+      "out": 826,
+      "cw": 0,
+      "cr": 58752,
+      "reqs": 2
+    },
+    "2026-07-31 12:32": {
+      "inp": 148504,
+      "out": 2097,
+      "cw": 0,
+      "cr": 139520,
+      "reqs": 4
+    },
+    "2026-07-31 12:33": {
+      "inp": 145796,
+      "out": 3321,
+      "cw": 0,
+      "cr": 134016,
+      "reqs": 5
+    },
+    "2026-07-31 12:34": {
+      "inp": 270961,
+      "out": 2211,
+      "cw": 0,
+      "cr": 243456,
+      "reqs": 6
+    },
+    "2026-07-31 12:35": {
+      "inp": 383783,
+      "out": 1156,
+      "cw": 0,
+      "cr": 375552,
+      "reqs": 5
+    },
+    "2026-07-31 12:36": {
+      "inp": 251129,
+      "out": 302,
+      "cw": 0,
+      "cr": 240896,
+      "reqs": 3
+    },
+    "2026-07-31 12:37": {
+      "inp": 115662,
+      "out": 3433,
+      "cw": 0,
+      "cr": 102656,
+      "reqs": 3
+    },
+    "2026-07-31 12:38": {
+      "inp": 55838,
+      "out": 740,
+      "cw": 0,
+      "cr": 49920,
+      "reqs": 3
+    },
+    "2026-07-31 12:39": {
+      "inp": 105904,
+      "out": 1221,
+      "cw": 0,
+      "cr": 90240,
+      "reqs": 4
+    },
+    "2026-07-31 12:40": {
+      "inp": 194986,
+      "out": 1554,
+      "cw": 0,
+      "cr": 176768,
+      "reqs": 4
+    },
+    "2026-07-31 12:41": {
+      "inp": 345019,
+      "out": 1618,
+      "cw": 0,
+      "cr": 325888,
+      "reqs": 6
+    },
+    "2026-07-31 12:42": {
+      "inp": 406760,
+      "out": 1749,
+      "cw": 0,
+      "cr": 387200,
+      "reqs": 5
+    },
+    "2026-07-31 13:04": {
+      "inp": 7796,
+      "out": 244,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-31 13:06": {
+      "inp": 25441,
+      "out": 1708,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-31 13:07": {
+      "inp": 7908,
+      "out": 342,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-31 13:13": {
+      "inp": 34545,
+      "out": 586,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 2
+    },
+    "2026-07-31 13:17": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-31 13:26": {
+      "inp": 8482,
+      "out": 84,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-31 13:27": {
+      "inp": 11211,
+      "out": 233,
+      "cw": 0,
+      "cr": 8832,
+      "reqs": 1
+    },
+    "2026-07-31 13:31": {
+      "inp": 36388,
+      "out": 365,
+      "cw": 0,
+      "cr": 18432,
+      "reqs": 4
+    },
+    "2026-07-31 13:32": {
+      "inp": 40687,
+      "out": 359,
+      "cw": 0,
+      "cr": 39296,
+      "reqs": 4
+    },
+    "2026-07-31 13:36": {
+      "inp": 8563,
+      "out": 2265,
+      "cw": 0,
+      "cr": 128,
+      "reqs": 1
+    },
+    "2026-07-31 13:37": {
+      "inp": 53945,
+      "out": 328,
+      "cw": 0,
+      "cr": 36736,
+      "reqs": 4
+    },
+    "2026-07-31 13:45": {
+      "inp": 63183,
+      "out": 1528,
+      "cw": 0,
+      "cr": 27264,
+      "reqs": 2
+    },
+    "2026-07-31 13:47": {
+      "inp": 34861,
+      "out": 914,
+      "cw": 0,
+      "cr": 24064,
+      "reqs": 4
+    },
+    "2026-07-31 13:48": {
+      "inp": 312495,
+      "out": 2435,
+      "cw": 0,
+      "cr": 210048,
+      "reqs": 9
+    },
+    "2026-07-31 13:49": {
+      "inp": 37194,
+      "out": 586,
+      "cw": 0,
+      "cr": 35584,
+      "reqs": 1
+    },
+    "2026-07-31 13:56": {
+      "inp": 40336,
+      "out": 212,
+      "cw": 0,
+      "cr": 35840,
+      "reqs": 1
+    },
+    "2026-07-31 13:57": {
+      "inp": 274746,
+      "out": 3416,
+      "cw": 0,
+      "cr": 176640,
+      "reqs": 2
+    },
+    "2026-07-31 13:58": {
+      "inp": 26412,
+      "out": 188,
+      "cw": 0,
+      "cr": 12288,
+      "reqs": 2
+    },
+    "2026-07-31 13:59": {
+      "inp": 214172,
+      "out": 1245,
+      "cw": 0,
+      "cr": 187776,
+      "reqs": 8
+    },
+    "2026-07-31 14:00": {
+      "inp": 453422,
+      "out": 2257,
+      "cw": 0,
+      "cr": 420864,
+      "reqs": 9
+    },
+    "2026-07-31 14:01": {
+      "inp": 351499,
+      "out": 2989,
+      "cw": 0,
+      "cr": 284544,
+      "reqs": 5
+    },
+    "2026-07-31 14:02": {
+      "inp": 114336,
+      "out": 2919,
+      "cw": 0,
+      "cr": 40320,
+      "reqs": 1
+    },
+    "2026-07-31 14:03": {
+      "inp": 134236,
+      "out": 536,
+      "cw": 0,
+      "cr": 53504,
+      "reqs": 5
+    },
+    "2026-07-31 14:04": {
+      "inp": 238237,
+      "out": 1344,
+      "cw": 0,
+      "cr": 232192,
+      "reqs": 3
+    },
+    "2026-07-31 14:05": {
+      "inp": 116938,
+      "out": 3099,
+      "cw": 0,
+      "cr": 40064,
+      "reqs": 3
+    },
+    "2026-07-31 14:06": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-31 14:08": {
+      "inp": 322350,
+      "out": 1259,
+      "cw": 0,
+      "cr": 307968,
+      "reqs": 5
+    },
+    "2026-07-31 14:09": {
+      "inp": 298036,
+      "out": 2046,
+      "cw": 0,
+      "cr": 290944,
+      "reqs": 4
+    },
+    "2026-07-31 14:10": {
+      "inp": 208184,
+      "out": 961,
+      "cw": 0,
+      "cr": 166912,
+      "reqs": 6
+    },
+    "2026-07-31 14:11": {
+      "inp": 327684,
+      "out": 1193,
+      "cw": 0,
+      "cr": 317696,
+      "reqs": 7
+    },
+    "2026-07-31 14:14": {
+      "inp": 167978,
+      "out": 1782,
+      "cw": 0,
+      "cr": 159616,
+      "reqs": 2
+    },
+    "2026-07-31 14:15": {
+      "inp": 31965,
+      "out": 343,
+      "cw": 0,
+      "cr": 17920,
+      "reqs": 3
+    },
+    "2026-07-31 14:16": {
+      "inp": 85249,
+      "out": 926,
+      "cw": 0,
+      "cr": 73472,
+      "reqs": 4
+    },
+    "2026-07-31 14:17": {
+      "inp": 165318,
+      "out": 396,
+      "cw": 0,
+      "cr": 107392,
+      "reqs": 3
+    },
+    "2026-07-31 14:18": {
+      "inp": 229024,
+      "out": 1642,
+      "cw": 0,
+      "cr": 206208,
+      "reqs": 5
+    },
+    "2026-07-31 14:19": {
+      "inp": 317449,
+      "out": 1041,
+      "cw": 0,
+      "cr": 287104,
+      "reqs": 5
+    },
+    "2026-07-31 14:20": {
+      "inp": 90568,
+      "out": 59,
+      "cw": 0,
+      "cr": 77312,
+      "reqs": 2
+    },
+    "2026-07-31 14:42": {
+      "inp": 109887,
+      "out": 2963,
+      "cw": 0,
+      "cr": 93056,
+      "reqs": 2
+    },
+    "2026-07-31 14:43": {
+      "inp": 427525,
+      "out": 828,
+      "cw": 0,
+      "cr": 352128,
+      "reqs": 12
+    },
+    "2026-07-31 14:44": {
+      "inp": 255262,
+      "out": 3162,
+      "cw": 0,
+      "cr": 244736,
+      "reqs": 4
+    },
+    "2026-07-31 14:45": {
+      "inp": 429156,
+      "out": 4339,
+      "cw": 0,
+      "cr": 330880,
+      "reqs": 6
+    },
+    "2026-07-31 14:46": {
+      "inp": 415249,
+      "out": 8881,
+      "cw": 0,
+      "cr": 281472,
+      "reqs": 6
+    },
+    "2026-07-31 14:47": {
+      "inp": 544733,
+      "out": 4353,
+      "cw": 0,
+      "cr": 490880,
+      "reqs": 9
+    },
+    "2026-07-31 14:48": {
+      "inp": 494050,
+      "out": 3548,
+      "cw": 0,
+      "cr": 330880,
+      "reqs": 12
+    },
+    "2026-07-31 14:49": {
+      "inp": 799940,
+      "out": 2210,
+      "cw": 0,
+      "cr": 709120,
+      "reqs": 11
+    },
+    "2026-07-31 14:50": {
+      "inp": 463195,
+      "out": 6583,
+      "cw": 0,
+      "cr": 407296,
+      "reqs": 6
+    },
+    "2026-07-31 14:51": {
+      "inp": 189189,
+      "out": 2348,
+      "cw": 0,
+      "cr": 128640,
+      "reqs": 7
+    },
+    "2026-07-31 14:52": {
+      "inp": 459934,
+      "out": 2164,
+      "cw": 0,
+      "cr": 426752,
+      "reqs": 12
+    },
+    "2026-07-31 14:53": {
+      "inp": 63110,
+      "out": 363,
+      "cw": 0,
+      "cr": 61952,
+      "reqs": 1
+    },
+    "2026-07-31 14:54": {
+      "inp": 64426,
+      "out": 418,
+      "cw": 0,
+      "cr": 63104,
+      "reqs": 1
+    },
+    "2026-07-31 14:59": {
+      "inp": 257952,
+      "out": 1299,
+      "cw": 0,
+      "cr": 243584,
+      "reqs": 7
+    },
+    "2026-07-31 15:00": {
+      "inp": 209129,
+      "out": 7468,
+      "cw": 0,
+      "cr": 187904,
+      "reqs": 4
+    },
+    "2026-07-31 15:02": {
+      "inp": 450653,
+      "out": 2977,
+      "cw": 0,
+      "cr": 432640,
+      "reqs": 6
+    },
+    "2026-07-31 15:03": {
+      "inp": 254905,
+      "out": 3659,
+      "cw": 0,
+      "cr": 243072,
+      "reqs": 3
+    },
+    "2026-07-31 15:04": {
+      "inp": 102326,
+      "out": 1278,
+      "cw": 0,
+      "cr": 92032,
+      "reqs": 7
+    },
+    "2026-07-31 15:05": {
+      "inp": 101795,
+      "out": 1400,
+      "cw": 0,
+      "cr": 92672,
+      "reqs": 4
+    },
+    "2026-07-31 15:06": {
+      "inp": 291618,
+      "out": 884,
+      "cw": 0,
+      "cr": 269696,
+      "reqs": 7
+    },
+    "2026-07-31 15:07": {
+      "inp": 161711,
+      "out": 6471,
+      "cw": 0,
+      "cr": 150784,
+      "reqs": 3
+    },
+    "2026-07-31 15:08": {
+      "inp": 335268,
+      "out": 972,
+      "cw": 0,
+      "cr": 320896,
+      "reqs": 5
+    },
+    "2026-07-31 15:09": {
+      "inp": 390392,
+      "out": 2958,
+      "cw": 0,
+      "cr": 321664,
+      "reqs": 5
+    },
+    "2026-07-31 15:10": {
+      "inp": 352939,
+      "out": 887,
+      "cw": 0,
+      "cr": 301952,
+      "reqs": 8
+    },
+    "2026-07-31 15:11": {
+      "inp": 421806,
+      "out": 958,
+      "cw": 0,
+      "cr": 406656,
+      "reqs": 7
+    },
+    "2026-07-31 15:12": {
+      "inp": 317945,
+      "out": 5132,
+      "cw": 0,
+      "cr": 236800,
+      "reqs": 5
+    },
+    "2026-07-31 15:13": {
+      "inp": 352833,
+      "out": 5648,
+      "cw": 0,
+      "cr": 212224,
+      "reqs": 5
+    },
+    "2026-07-31 15:14": {
+      "inp": 117601,
+      "out": 1335,
+      "cw": 0,
+      "cr": 68352,
+      "reqs": 3
+    },
+    "2026-07-31 15:15": {
+      "inp": 427350,
+      "out": 3768,
+      "cw": 0,
+      "cr": 339328,
+      "reqs": 7
+    },
+    "2026-07-31 15:16": {
+      "inp": 492902,
+      "out": 2026,
+      "cw": 0,
+      "cr": 418432,
+      "reqs": 7
+    },
+    "2026-07-31 15:17": {
+      "inp": 125074,
+      "out": 468,
+      "cw": 0,
+      "cr": 118144,
+      "reqs": 2
+    },
+    "2026-07-31 15:18": {
+      "inp": 235249,
+      "out": 1311,
+      "cw": 0,
+      "cr": 213376,
+      "reqs": 3
+    },
+    "2026-07-31 15:19": {
+      "inp": 136875,
+      "out": 3455,
+      "cw": 0,
+      "cr": 113280,
+      "reqs": 3
+    },
+    "2026-07-31 15:20": {
+      "inp": 259998,
+      "out": 2434,
+      "cw": 0,
+      "cr": 234752,
+      "reqs": 7
+    },
+    "2026-07-31 15:21": {
+      "inp": 332900,
+      "out": 1487,
+      "cw": 0,
+      "cr": 238208,
+      "reqs": 5
+    },
+    "2026-07-31 15:22": {
+      "inp": 261386,
+      "out": 4214,
+      "cw": 0,
+      "cr": 230528,
+      "reqs": 3
+    },
+    "2026-07-31 15:23": {
+      "inp": 170569,
+      "out": 2955,
+      "cw": 0,
+      "cr": 132864,
+      "reqs": 7
+    },
+    "2026-07-31 15:24": {
+      "inp": 117511,
+      "out": 3603,
+      "cw": 0,
+      "cr": 113920,
+      "reqs": 3
+    },
+    "2026-07-31 15:25": {
+      "inp": 210373,
+      "out": 716,
+      "cw": 0,
+      "cr": 157824,
+      "reqs": 3
+    },
+    "2026-07-31 15:26": {
+      "inp": 417822,
+      "out": 2198,
+      "cw": 0,
+      "cr": 363776,
+      "reqs": 6
+    },
+    "2026-07-31 15:27": {
+      "inp": 318752,
+      "out": 2466,
+      "cw": 0,
+      "cr": 308736,
+      "reqs": 4
+    },
+    "2026-07-31 15:28": {
+      "inp": 124283,
+      "out": 2962,
+      "cw": 0,
+      "cr": 97024,
+      "reqs": 3
+    },
+    "2026-07-31 15:29": {
+      "inp": 278930,
+      "out": 3367,
+      "cw": 0,
+      "cr": 249600,
+      "reqs": 7
+    },
+    "2026-07-31 15:30": {
+      "inp": 325840,
+      "out": 2213,
+      "cw": 0,
+      "cr": 314496,
+      "reqs": 6
+    },
+    "2026-07-31 15:31": {
+      "inp": 388265,
+      "out": 972,
+      "cw": 0,
+      "cr": 319104,
+      "reqs": 6
+    },
+    "2026-07-31 15:32": {
+      "inp": 363707,
+      "out": 997,
+      "cw": 0,
+      "cr": 357120,
+      "reqs": 5
+    },
+    "2026-07-31 15:33": {
+      "inp": 161975,
+      "out": 4679,
+      "cw": 0,
+      "cr": 151296,
+      "reqs": 2
+    },
+    "2026-07-31 15:34": {
+      "inp": 149263,
+      "out": 3349,
+      "cw": 0,
+      "cr": 52608,
+      "reqs": 3
+    },
+    "2026-07-31 15:35": {
+      "inp": 114747,
+      "out": 414,
+      "cw": 0,
+      "cr": 108160,
+      "reqs": 4
+    },
+    "2026-07-31 15:36": {
+      "inp": 253693,
+      "out": 1007,
+      "cw": 0,
+      "cr": 242432,
+      "reqs": 7
+    },
+    "2026-07-31 15:37": {
+      "inp": 323126,
+      "out": 1579,
+      "cw": 0,
+      "cr": 307328,
+      "reqs": 6
+    },
+    "2026-07-31 15:38": {
+      "inp": 0,
+      "out": 0,
+      "cw": 0,
+      "cr": 0,
+      "reqs": 1
+    },
+    "2026-07-31 15:39": {
+      "inp": 133195,
+      "out": 445,
+      "cw": 0,
+      "cr": 63488,
+      "reqs": 2
+    },
+    "2026-07-31 15:40": {
+      "inp": 685179,
+      "out": 2220,
+      "cw": 0,
+      "cr": 665472,
+      "reqs": 10
+    },
+    "2026-07-31 15:41": {
+      "inp": 839254,
+      "out": 5765,
+      "cw": 0,
+      "cr": 627712,
+      "reqs": 12
+    },
+    "2026-07-31 15:42": {
+      "inp": 516316,
+      "out": 8138,
+      "cw": 0,
+      "cr": 375296,
+      "reqs": 9
+    },
+    "2026-07-31 15:43": {
+      "inp": 500518,
+      "out": 4504,
+      "cw": 0,
+      "cr": 387712,
+      "reqs": 15
+    },
+    "2026-07-31 15:44": {
+      "inp": 707794,
+      "out": 5125,
+      "cw": 0,
+      "cr": 664192,
+      "reqs": 14
+    },
+    "2026-07-31 15:45": {
+      "inp": 875919,
+      "out": 7662,
+      "cw": 0,
+      "cr": 812160,
+      "reqs": 13
+    },
+    "2026-07-31 15:46": {
+      "inp": 676148,
+      "out": 11124,
+      "cw": 0,
+      "cr": 497152,
+      "reqs": 9
+    },
+    "2026-07-31 15:47": {
+      "inp": 340115,
+      "out": 4582,
+      "cw": 0,
+      "cr": 215040,
+      "reqs": 13
+    },
+    "2026-07-31 15:48": {
+      "inp": 653280,
+      "out": 9960,
+      "cw": 0,
+      "cr": 382976,
+      "reqs": 9
+    },
+    "2026-07-31 15:49": {
+      "inp": 97081,
+      "out": 1428,
+      "cw": 0,
+      "cr": 76544,
+      "reqs": 4
+    },
+    "2026-07-31 15:50": {
+      "inp": 108471,
+      "out": 537,
+      "cw": 0,
+      "cr": 67456,
+      "reqs": 4
+    },
+    "2026-07-31 15:51": {
+      "inp": 102237,
+      "out": 1459,
+      "cw": 0,
+      "cr": 98432,
+      "reqs": 4
+    },
+    "2026-07-31 15:52": {
+      "inp": 307642,
+      "out": 1825,
+      "cw": 0,
+      "cr": 281472,
+      "reqs": 10
+    },
+    "2026-07-31 15:53": {
+      "inp": 80068,
+      "out": 114,
+      "cw": 0,
+      "cr": 77056,
+      "reqs": 2
+    },
+    "2026-07-31 15:54": {
+      "inp": 318674,
+      "out": 1819,
+      "cw": 0,
+      "cr": 300544,
+      "reqs": 7
+    },
+    "2026-07-31 15:55": {
+      "inp": 296883,
+      "out": 2060,
+      "cw": 0,
+      "cr": 219136,
+      "reqs": 5
+    },
+    "2026-07-31 15:56": {
+      "inp": 221610,
+      "out": 976,
+      "cw": 0,
+      "cr": 211328,
+      "reqs": 3
+    },
+    "2026-07-31 15:57": {
+      "inp": 237330,
+      "out": 3631,
+      "cw": 0,
+      "cr": 160896,
+      "reqs": 3
+    },
+    "2026-07-31 15:58": {
+      "inp": 45016,
+      "out": 2037,
+      "cw": 0,
+      "cr": 29440,
+      "reqs": 3
+    },
+    "2026-07-31 15:59": {
+      "inp": 81693,
+      "out": 1821,
+      "cw": 0,
+      "cr": 64896,
+      "reqs": 4
+    },
+    "2026-07-31 16:00": {
+      "inp": 66535,
+      "out": 2701,
+      "cw": 0,
+      "cr": 53888,
+      "reqs": 2
+    },
+    "2026-07-31 16:01": {
+      "inp": 310104,
+      "out": 2203,
+      "cw": 0,
+      "cr": 288384,
+      "reqs": 6
+    },
+    "2026-07-31 16:02": {
+      "inp": 443841,
+      "out": 835,
+      "cw": 0,
+      "cr": 393728,
+      "reqs": 6
+    },
+    "2026-07-31 16:03": {
+      "inp": 59684,
+      "out": 530,
+      "cw": 0,
+      "cr": 51072,
+      "reqs": 2
+    },
+    "2026-07-31 16:04": {
+      "inp": 282245,
+      "out": 4695,
+      "cw": 0,
+      "cr": 208512,
+      "reqs": 4
+    },
+    "2026-07-31 16:05": {
+      "inp": 491971,
+      "out": 8915,
+      "cw": 0,
+      "cr": 447104,
+      "reqs": 9
+    },
+    "2026-07-31 16:06": {
+      "inp": 378705,
+      "out": 6508,
+      "cw": 0,
+      "cr": 337920,
+      "reqs": 10
+    },
+    "2026-07-31 16:07": {
+      "inp": 608402,
+      "out": 8274,
+      "cw": 0,
+      "cr": 463744,
+      "reqs": 11
+    },
+    "2026-07-31 16:08": {
+      "inp": 489071,
+      "out": 6337,
+      "cw": 0,
+      "cr": 362240,
+      "reqs": 12
+    },
+    "2026-07-31 16:09": {
+      "inp": 647941,
+      "out": 3802,
+      "cw": 0,
+      "cr": 592384,
+      "reqs": 11
+    },
+    "2026-07-31 16:10": {
+      "inp": 825215,
+      "out": 5720,
+      "cw": 0,
+      "cr": 762496,
+      "reqs": 16
+    },
+    "2026-07-31 16:11": {
+      "inp": 668790,
+      "out": 8605,
+      "cw": 0,
+      "cr": 623104,
+      "reqs": 10
+    },
+    "2026-07-31 16:12": {
+      "inp": 665129,
+      "out": 7828,
+      "cw": 0,
+      "cr": 537856,
+      "reqs": 15
+    },
+    "2026-07-31 16:13": {
+      "inp": 535523,
+      "out": 8510,
+      "cw": 0,
+      "cr": 496512,
+      "reqs": 11
+    },
+    "2026-07-31 16:14": {
+      "inp": 543170,
+      "out": 3733,
+      "cw": 0,
+      "cr": 464384,
+      "reqs": 10
+    },
+    "2026-07-31 16:15": {
+      "inp": 481372,
+      "out": 2099,
+      "cw": 0,
+      "cr": 437632,
+      "reqs": 14
+    }
+  }
+}

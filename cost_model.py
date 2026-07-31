@@ -186,6 +186,45 @@ claude["cost_caveat"] = (
 )
 out["claude_code"] = claude
 
+# --- Cline / Roo-Code (MEASURED on this machine) -----------------------------
+cn = optional("cline_totals.json", "сделать: python cline_agg.py")
+if cn:
+    cline = {
+        "evidence": "MEASURED",
+        "tasks": cn.get("task_count", 0),
+        "requests": cn.get("request_count", 0),
+        "totals": {
+            "uncached_input": cn.get("inp", 0),
+            "cache_write": cn.get("cw", 0),
+            "cache_read": cn.get("cr", 0),
+            "output": cn.get("out", 0),
+            "total": cn.get("total_tokens", 0),
+        },
+        "by_model": {},
+        "cost_usd_by_model": {},
+        "unpriced_models": [],
+    }
+    c_grand = 0.0
+    for m, v in cn.get("by_model", {}).items():
+        tt = v["inp"] + v.get("cw", 0) + v["cr"] + v["out"]
+        cline["by_model"][m] = {
+            "requests": v["reqs"], "total": tt, "uncached_input": v["inp"],
+            "cache_write": v.get("cw", 0), "cache_read": v["cr"], "output": v["out"],
+        }
+        if m in R.ANTHROPIC:
+            c = anthropic_cost(m, v["inp"], v.get("cw", 0), 0, v["cr"], v["out"])
+        elif R.OPENAI.get(m):
+            c = openai_cost(m, v["inp"] + v["cr"], v["cr"], v["out"])
+        else:
+            cline["unpriced_models"].append(m)
+            continue
+        if c:
+            c["total_usd"] = total(c)
+            cline["cost_usd_by_model"][m] = c
+            c_grand += c["total_usd"]
+    cline["cost_usd_total_list_price_equivalent"] = round(c_grand, 4)
+    out["cline"] = cline
+
 # --- Codex ------------------------------------------------------------------
 # codex_totals.json пишет только codex_agg.py, и до этой правки его не запускал
 # никто: refresh.py гонял лишь codex_agg_chains.py. Теперь под --codex идут оба
@@ -358,6 +397,20 @@ for m, c in sorted(claude["cost_usd_by_model"].items(), key=lambda x: -x[1]["tot
 if claude["unpriced_models"]:
     print("  unpriced:", claude["unpriced_models"])
 print()
+
+if cn:
+    print("CLINE / ROO-CODE   [MEASURED]")
+    print("  tasks %s | requests %s" % (num(cline["tasks"]), num(cline["requests"])))
+    for k in ("uncached_input", "cache_write", "cache_read", "output", "total"):
+        print("  %-16s %s" % (k, fmt(cline["totals"][k])))
+    print("  list-price equivalent: $%s" % f"{cline['cost_usd_total_list_price_equivalent']:,.2f}")
+    print("  per model:")
+    for m, c in sorted(cline["cost_usd_by_model"].items(), key=lambda x: -x[1]["total_usd"]):
+        print("    %-24s %s tok  $%s"
+              % (m, fmt(cline["by_model"][m]["total"]), f"{c['total_usd']:>12,.2f}"))
+    if cline["unpriced_models"]:
+        print("  unpriced:", cline["unpriced_models"])
+    print()
 if cx:
     print("CODEX")
     print("  [MEASURED]  backup root, %s .. %s  (%s files, %s GB, %s sessions)"

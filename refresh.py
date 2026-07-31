@@ -440,6 +440,7 @@ def main():
         prev = rows[-1] if rows else None
 
     print("\n[1/5] измерение")
+    run("cline_agg.py", "Cline / Roo-Code, задачи", env)
     run("claude_agg.py", "Claude Code, агрегат", env)
     run("claude_deep.py", "Claude Code, распределения", env)
     if do_cx:

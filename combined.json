@@ -6,24 +6,24 @@
   "source": "~/.claude/projects",
   "period": [
    "2026-07-08T06:54:30.759Z",
-   "2026-07-29T22:42:48.999Z"
+   "2026-07-30T11:43:38.863Z"
   ],
   "sessions": 186,
-  "files": 3801,
-  "responses_deduped": 143583,
-  "responses_raw": 341543,
-  "dedupe_dropped": 197960,
+  "files": 3906,
+  "responses_deduped": 144633,
+  "responses_raw": 344129,
+  "dedupe_dropped": 199496,
   "totals": {
-   "uncached_input": 397348485,
-   "cache_write": 798639267,
-   "cache_read": 25112081393,
-   "output": 146996081,
-   "total": 26455065226
+   "uncached_input": 431796215,
+   "cache_write": 846496629,
+   "cache_read": 25296886418,
+   "output": 147851029,
+   "total": 26723030291
   },
-  "raw_undeduped_total": 56698345604,
+  "raw_undeduped_total": 57281686461,
   "by_model": {
    "<synthetic>": {
-    "responses": 1215,
+    "responses": 1246,
     "total": 0,
     "uncached_input": 0,
     "cache_write": 0,
@@ -53,14 +53,14 @@
     "output": 9092828
    },
    "claude-opus-5": {
-    "responses": 130930,
-    "total": 25219080389,
-    "uncached_input": 110182159,
-    "cache_write": 774768116,
-    "cache_write_5m": 774229414,
-    "cache_write_1h": 538702,
-    "cache_read": 24196514399,
-    "output": 137615715
+    "responses": 131949,
+    "total": 25487045454,
+    "uncached_input": 144629889,
+    "cache_write": 822625478,
+    "cache_write_5m": 808425729,
+    "cache_write_1h": 14241061,
+    "cache_read": 24381319424,
+    "output": 138470663
    },
    "claude-sonnet-5": {
     "responses": 38,
@@ -103,13 +103,13 @@
     "total_usd": 2269.8321305
    },
    "claude-opus-5": {
-    "uncached_input_usd": 550.910795,
-    "cache_write_usd": 4844.3208575,
-    "cache_read_usd": 12098.257199500002,
-    "output_usd": 3440.392875,
+    "uncached_input_usd": 723.149445,
+    "cache_write_usd": 5195.07141625,
+    "cache_read_usd": 12190.659712,
+    "output_usd": 3461.766575,
     "rate_in_per_mtok": 5.0,
     "rate_out_per_mtok": 25.0,
-    "total_usd": 20933.881727
+    "total_usd": 21570.647148250002
    },
    "claude-sonnet-5": {
     "uncached_input_usd": 0.0,
@@ -131,36 +131,156 @@
    }
   },
   "unpriced_models": [],
-  "cost_usd_total_list_price_equivalent": 23269.0433685,
+  "cost_usd_total_list_price_equivalent": 23905.80878975,
   "cost_caveat": "FLOOR, not a bill. Traffic went through 127.0.0.1:8318 (Desktop/proxy.js), which rewrote models to claude-opus-5 and retried 429/5xx every 2s; those retries burned upstream tokens that were never written to a transcript."
+ },
+ "cline": {
+  "evidence": "MEASURED",
+  "tasks": 97,
+  "requests": 4472,
+  "totals": {
+   "uncached_input": 235400832,
+   "cache_write": 20153,
+   "cache_read": 198840109,
+   "output": 1858550,
+   "total": 436119644
+  },
+  "by_model": {
+   "grok-4.5": {
+    "requests": 4256,
+    "total": 427598820,
+    "uncached_input": 228365267,
+    "cache_write": 0,
+    "cache_read": 197443456,
+    "output": 1790097
+   },
+   "kimi-k3": {
+    "requests": 35,
+    "total": 870739,
+    "uncached_input": 864289,
+    "cache_write": 0,
+    "cache_read": 0,
+    "output": 6450
+   },
+   "claude-opus-4-8": {
+    "requests": 9,
+    "total": 115925,
+    "uncached_input": 67395,
+    "cache_write": 20153,
+    "cache_read": 26925,
+    "output": 1452
+   },
+   "glm-5.2": {
+    "requests": 22,
+    "total": 464610,
+    "uncached_input": 460121,
+    "cache_write": 0,
+    "cache_read": 0,
+    "output": 4489
+   },
+   "gpt-5.6-sol": {
+    "requests": 107,
+    "total": 3752473,
+    "uncached_input": 3717157,
+    "cache_write": 0,
+    "cache_read": 0,
+    "output": 35316
+   },
+   "moonshotai/kimi-k3-free": {
+    "requests": 43,
+    "total": 3317077,
+    "uncached_input": 1926603,
+    "cache_write": 0,
+    "cache_read": 1369728,
+    "output": 20746
+   }
+  },
+  "cost_usd_by_model": {
+   "grok-4.5": {
+    "uncached_input_usd": 456.730534,
+    "cached_input_usd": 39.488691200000005,
+    "output_usd": 17.90097,
+    "rate_in_per_mtok": 2.0,
+    "rate_cached_in_per_mtok": 0.2,
+    "rate_out_per_mtok": 10.0,
+    "total_usd": 514.1201952
+   },
+   "kimi-k3": {
+    "uncached_input_usd": 0.864289,
+    "cached_input_usd": 0.0,
+    "output_usd": 0.03225,
+    "rate_in_per_mtok": 1.0,
+    "rate_cached_in_per_mtok": 0.1,
+    "rate_out_per_mtok": 5.0,
+    "total_usd": 0.896539
+   },
+   "claude-opus-4-8": {
+    "uncached_input_usd": 0.33697499999999997,
+    "cache_write_usd": 0.12595625000000002,
+    "cache_read_usd": 0.0134625,
+    "output_usd": 0.0363,
+    "rate_in_per_mtok": 5.0,
+    "rate_out_per_mtok": 25.0,
+    "total_usd": 0.51269375
+   },
+   "glm-5.2": {
+    "uncached_input_usd": 0.460121,
+    "cached_input_usd": 0.0,
+    "output_usd": 0.022445,
+    "rate_in_per_mtok": 1.0,
+    "rate_cached_in_per_mtok": 0.1,
+    "rate_out_per_mtok": 5.0,
+    "total_usd": 0.482566
+   },
+   "gpt-5.6-sol": {
+    "uncached_input_usd": 9.292892499999999,
+    "cached_input_usd": 0.0,
+    "output_usd": 0.52974,
+    "rate_in_per_mtok": 2.5,
+    "rate_cached_in_per_mtok": 0.25,
+    "rate_out_per_mtok": 15.0,
+    "total_usd": 9.8226325
+   },
+   "moonshotai/kimi-k3-free": {
+    "uncached_input_usd": 1.926603,
+    "cached_input_usd": 0.1369728,
+    "output_usd": 0.10373,
+    "rate_in_per_mtok": 1.0,
+    "rate_cached_in_per_mtok": 0.1,
+    "rate_out_per_mtok": 5.0,
+    "total_usd": 2.1673058000000003
+   }
+  },
+  "unpriced_models": [],
+  "cost_usd_total_list_price_equivalent": 528.0019
  },
  "codex": {
   "my_measurement": {
    "evidence": "MEASURED",
    "scope": "backup root only (C:/Users/Admin/Documents/CodexBackups/codex_cleanup_20260521_194850)",
    "period": [
-    "2026-04-03T17:10:40.595Z",
-    "2026-05-21T00:37:51.363Z"
+    null,
+    null
    ],
-   "rollout_files": 1050,
-   "gigabytes": 10.1,
-   "sessions": 1030,
+   "rollout_files": 2,
+   "gigabytes": 0.0,
+   "sessions": 0,
    "totals": {
-    "input_tokens": 58028128896,
-    "cached_input_tokens": 55699554944,
-    "output_tokens": 201343434,
-    "reasoning_output_tokens": 67577991,
-    "total_tokens": 58229730730
+    "input_tokens": 0,
+    "cached_input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_output_tokens": 0,
+    "total_tokens": 0
    },
    "cross_check_from_minute_deltas": {
-    "input_tokens": 58028128896,
-    "cached_input_tokens": 55699554944,
-    "output_tokens": 201343434,
-    "reasoning_output_tokens": 67577991,
-    "total_tokens": 58229730730
+    "input_tokens": 0,
+    "cached_input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_output_tokens": 0,
+    "total_tokens": 0
    },
    "cross_check_matches": true,
-   "counter_resets": 8
+   "counter_resets": 0
   },
   "prior_audit_2026_06_06": {
    "evidence": "REPORTED",
@@ -215,10 +335,10 @@
    "uncached_input_tokens": 5325139889
   },
   "reconciliation": {
-   "my_backup_root_total": 58229730730,
+   "my_backup_root_total": 0,
    "prior_audit_same_root": 57856335910,
-   "difference": 373394820,
-   "difference_pct": 0.645,
+   "difference": -57856335910,
+   "difference_pct": -100.0,
    "verdict": "VERIFIED -- two independent implementations of the same method agree on the same file set to within 0.7%; the residual is the 2 extra zero-usage files I included and ~10 sessions that audit deduped against its live root"
   },
   "cost_usd_by_model_estimate": {
@@ -289,17 +409,17 @@
   "verdict": "Antigravity keeps no token ledger on disk. Token-accounting identifiers appear in only 13 of 687 transcripts and every hit is captured console output of a script the agent ran, not per-generation accounting. These numbers are volume proxies and systematically UNDER-count real token spend, because re-sent context (96% of tokens on Codex) is not recorded anywhere in a transcript.",
   "period": [
    "2026-06-05T11:59:46Z",
-   "2026-07-28T11:10:46Z"
+   "2026-07-31T12:17:02Z"
   ],
-  "days_covered": 53,
-  "conversations_with_transcript": 364,
-  "model_turns": 253788,
-  "tool_calls": 214626,
-  "user_inputs": 7895,
-  "quota_blocks_429": 909,
-  "thinking_chars": 82785279,
-  "content_chars": 953027164,
-  "transcript_bytes": 1390346124,
+  "days_covered": 49,
+  "conversations_with_transcript": 599,
+  "model_turns": 187067,
+  "tool_calls": 138614,
+  "user_inputs": 5639,
+  "quota_blocks_429": 550,
+  "thinking_chars": 49002704,
+  "content_chars": 632373266,
+  "transcript_bytes": 923397850,
   "tokens": null,
   "tokens_note": "Deliberately null. No token counter exists on disk for Antigravity, and converting characters to tokens would produce a number that looks measured but is not. What a transcript stores is each message once; what the API is charged for is the whole context re-sent every turn. On Codex, where real counters exist, cached input was 96.15% of all tokens -- so the invisible re-sent context is the bulk of the spend and no character count can recover it.",
   "recoverable_elsewhere": "Gemini CLI writes real usage to ~/.gemini/tmp/<hash>/logs.json (input_token_count / output_token_count / cached_content_token_count / thoughts_token_count / total_token_count). That directory is EMPTY on this machine, so nothing is recoverable here. It may not be empty on the second machine."

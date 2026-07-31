@@ -74,6 +74,7 @@ NO_EXTERNAL = "внешнее измерение отсутствует"
 class Ctx:
     def __init__(self):
         self.cl = L("claude_totals.json")
+        self.cn = L("cline_totals.json")
         self.dp = L("claude_deep.json")
         self.ch = L("codex_chains_totals.json")
         self.cx = L("codex_totals.json")
@@ -86,7 +87,24 @@ class Ctx:
                 self.snaps = [json.loads(x) for x in fh if x.strip()]
         self.t = self.cl["totals_deduped"] if self.cl else {}
         self.total = sum(self.t.get(k, 0) for k in FIELDS)
+        self.cline_total = self.cn.get("total_tokens", 0) if self.cn else 0
         self.cost, self.cost_total = self._cost()
+        self.cline_cost_total = self._cline_cost()
+
+    def _cline_cost(self):
+        if not self.cn or "by_model" not in self.cn:
+            return 0.0
+        tot = 0.0
+        for m, v in self.cn["by_model"].items():
+            if m in rates.ANTHROPIC:
+                c = rates.anthropic_cost(v["inp"], v.get("cw", 0), v["cr"], v["out"], m)
+            elif rates.OPENAI.get(m):
+                c = rates.openai_cost(v["inp"] + v["cr"], v["cr"], v["out"], m)
+            else:
+                continue
+            if c:
+                tot += c
+        return tot
 
     def _cost(self):
         """Стоимость по моделям. Базис -- claude_totals.json, не claude_deep.json.
@@ -150,9 +168,31 @@ def _headline(c):
     if c.cl:
         r.append("| **Claude Code** | %s → %s | **%s** | ИЗМЕРЕНО |" % (
             c.cl["first_ts"][:10], c.cl["last_ts"][:10], f(c.total)))
+    if c.cn:
+        r.append("| **Cline / Roo-Code** | 2026-07-26 → 2026-07-31 | **%s** | ИЗМЕРЕНО |" % f(c.cline_total))
     if c.ag:
         r.append("| **Antigravity** | %s → %s | счётчика не существует | ПРОКСИ |" % (
             (c.ag["first_ts"] or "?")[:10], (c.ag["last_ts"] or "?")[:10]))
+    return r
+
+
+@block("cline_summary")
+def _cline_summary(c):
+    if not c.cn:
+        return ["*Данные Cline отсутствуют*"]
+    cn = c.cn
+    r = [
+        "| Показатель | Значение |",
+        "|---|---:|",
+        "| **всего токенов** | **%s** |" % f(cn.get("total_tokens", 0)),
+        "| $ по публичному прайсу | **%s** |" % usd(c.cline_cost_total),
+        "| диалогов / задач | %s |" % f(cn.get("task_count", 0)),
+        "| API запросов | %s |" % f(cn.get("request_count", 0)),
+        "| свежий ввод (uncached) | %s |" % f(cn.get("inp", 0)),
+        "| чтение кэша (cache read) | %s |" % f(cn.get("cr", 0)),
+        "| запись кэша (cache write) | %s |" % f(cn.get("cw", 0)),
+        "| вывод (output) | %s |" % f(cn.get("out", 0)),
+    ]
     return r
 
 
@@ -302,8 +342,8 @@ def _cm(c):
               f(c.ch["out_of_order_events_total"]),
               f(c.ch["placeholders_skipped_total"])),
           "", "chain-split против максимума **%+.3f%%**, против приростов **%+.3f%%**." % (
-              100.0 * (a["total_tokens"] - b["total_tokens"]) / b["total_tokens"],
-              100.0 * (a["total_tokens"] - d["total_tokens"]) / d["total_tokens"])]
+              100.0 * (a["total_tokens"] - b["total_tokens"]) / max(1, b["total_tokens"]),
+              100.0 * (a["total_tokens"] - d["total_tokens"]) / max(1, d["total_tokens"]))]
     return r
 
 

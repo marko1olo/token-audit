@@ -33,6 +33,8 @@ def L(n, default=None):
         return json.load(fh)
 
 cl = L("claude_totals.json")
+cline_tot = L("cline_totals.json", {})
+cline_dp = L("cline_deep.json", {})
 # Codex необязателен: у клонировавшего его данных может не быть вовсе, а
 # закоммиченный артефакт подставлял бы ЧУЖОЕ измерение под видом его
 # собственного. Нет данных -- нет панелей, это честнее чужого числа.
@@ -183,6 +185,24 @@ payload = {
         "by_day_model": cl["by_day_model"],
         "cost": cb["claude_code"]["cost_usd_by_model"],
         "cost_total": cb["claude_code"]["cost_usd_total_list_price_equivalent"],
+    },
+    "cline": None if not cline_tot else {
+        "tasks": cline_tot.get("task_count", 0),
+        "reqs": cline_tot.get("request_count", 0),
+        "totals": {
+            "inp": cline_tot.get("inp", 0),
+            "cw": cline_tot.get("cw", 0),
+            "cr": cline_tot.get("cr", 0),
+            "out": cline_tot.get("out", 0),
+            "total": cline_tot.get("total_tokens", 0),
+        },
+        "by_model": cline_tot.get("by_model", {}),
+        "by_day": series(cline_tot.get("by_day", {})),
+        "by_hour": series((cline_dp.get("by_hour") or {})),
+        "by_minute": series((cline_dp.get("by_minute") or {})),
+        "top_tasks": cline_dp.get("tasks", [])[:15],
+        "cost": cb.get("cline", {}).get("cost_usd_by_model", {}),
+        "cost_total": cb.get("cline", {}).get("cost_usd_total_list_price_equivalent", 0.0),
     },
     "daycmp": day_compare(cl, dp),
     # Разбивка по рабочему каталогу. Раньше эта панель была вписана руками и
