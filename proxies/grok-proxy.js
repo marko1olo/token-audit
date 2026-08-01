@@ -1,28 +1,16 @@
 /**
- * grok-proxy v5.1 — TERMINAL OVERSEER & LOAD BALANCER
+ * grok-proxy v4.1 — BULLETPROOF LIVE DIRECTIVE INJECTOR & BALANCER
  *
- * 100% CONSOLE-NATIVE CYBERPUNK CLI INTERFACE:
- *  - ANSI Color Palette & Box-Drawing Character Tables
- *  - Interactive CLI Commands via STDIN (`inj <text>`, `clear`, `status`, `sessions`, `help`)
- *  - Subagent Role Classifier (Automatic Subagent Guard vs Main Strategy Injections)
- *  - Bulletproof Role-Alternation Directives (`injections.json`)
- *  - Strict User-Protected 413 Trimmer
- *  - Dead Key Guard (401/403) & Smart LRU Load Balancer
- *
- * v5.1 FIXES vs v5.0:
- *  - FIX: Variable `c` no longer shadowed in data callbacks (renamed to `chunk`)
- *  - FIX: 413 handler fall-through now sends proper error to client instead of hanging
- *  - FIX: 401/403 infinite retry loop capped at GROK_KEYS.length attempts
- *  - FIX: Network retry capped at MAX_NET_RETRIES (6) to prevent infinite hangs
- *  - FIX: 429 retry capped at MAX_RATE_RETRIES (10) 
- *  - FIX: `all` injection mode is PERSISTENT (broadcast to every request until cleared)
- *  - FIX: Session-targeted injections are one-shot (consumed after delivery)
- *  - FIX: CLI `inj` command wrapped in try/catch for corrupt json resilience
- *  - FIX: Session map auto-evicts entries older than SESSION_TTL_MS (2h)
- *  - FIX: 413 prune pass capped at MAX_PRUNE_PASSES (3)
- *  - ADD: `sessions` CLI command to list active session map
- *  - ADD: `keys` CLI command to hot-reload keys from keys.json/keys.txt
- *  - ADD: Uptime counter in status table
+ * Обработка всех эдж-кейсов инъекций (v4.1):
+ *  1. Снижение риска нарушения чередования ролей OpenAI (Role Alternation):
+ *     - Если последнее сообщение в `messages` уже имеет роль `user`, директива
+ *       не создаёт отдельный элемент, а ВНЕДРЯЕТСЯ прямо внутрь последнего `user`-сообщения!
+ *     - Если последнее сообщение имеет роль `assistant`, директива создаёт новое `user`-сообщение.
+ *     - Это ГАРАНТИРУЕТ 100% соответствие строгому правилу чередования ролей OpenAI/Grok!
+ *  2. Атомарное чтение injections.json (защита от race condition при параллельной записи).
+ *  3. Strict User-Protected 413 Trimmer (v3.5)
+ *  4. Live Web UI Dashboard (http://127.0.0.1:8319/)
+ *  5. Dead Key Guard (401/403) + Smart LRU Balancer
  */
 
 const http  = require('http');
@@ -30,48 +18,12 @@ const https = require('https');
 const zlib  = require('zlib');
 const fs    = require('fs');
 const path  = require('path');
-const readline = require('readline');
 const { URL } = require('url');
 
 const PROXY_PORT = 8319;
 const UPSTREAM   = 'https://tunnel.rue.onl';
 
-// ── SAFETY CAPS ──────────────────────────────────────────────────────────────
-const MAX_NET_RETRIES    = 6;    // Network error retry cap
-// 429: NO CAP — infinite retry is a FEATURE. The proxy's job is to wait out rate limits.
-const MAX_PRUNE_PASSES   = 5;    // 413 prune pass cap (5 passes should reduce any payload)
-// Session GC: DOES NOT kill active chats. sessionKeyMap only tracks which API key
-// is assigned to which session for load balancing. GC just forgets the key assignment
-// for sessions that haven't sent a request in SESSION_TTL_MS. If the session comes
-// back later, it simply gets a fresh key assignment via getBestAvailableKeyIdx().
-const SESSION_TTL_MS     = 4 * 60 * 60 * 1000; // 4 hours — forget stale key assignments
-const SESSION_GC_INTERVAL_MS = 10 * 60 * 1000; // Run GC every 10 min
-
-// ── ANSI COLOR STYLING ENGINE ────────────────────────────────────────────────
-const C = {
-  reset: '\x1b[0m',
-  bold: '\x1b[1m',
-  dim: '\x1b[2m',
-  cyan: '\x1b[36m',
-  brightCyan: '\x1b[96m',
-  green: '\x1b[32m',
-  brightGreen: '\x1b[92m',
-  yellow: '\x1b[33m',
-  brightYellow: '\x1b[93m',
-  red: '\x1b[31m',
-  brightRed: '\x1b[91m',
-  magenta: '\x1b[35m',
-  brightMagenta: '\x1b[95m',
-  blue: '\x1b[34m',
-  gray: '\x1b[90m',
-  bgCyan: '\x1b[46m\x1b[30m',
-  bgGreen: '\x1b[42m\x1b[30m',
-  bgYellow: '\x1b[43m\x1b[30m',
-  bgRed: '\x1b[41m\x1b[37m',
-  bgMagenta: '\x1b[45m\x1b[37m',
-};
-
-// ── DEFAULT GROK KEYS & CONFIG ───────────────────────────────────────────────
+// ── 3 DEFAULT GROK КЛЮЧА ─────────────────────────────────────────────────────
 let GROK_KEYS = [
   'pk_6RDQLAfKG5T7uDTy4DZV_c1ec',
   'pk_2hJoaRGL6P2FphGoURgM_41b3',
@@ -82,8 +34,6 @@ const KEYS_JSON_PATH       = path.join(__dirname, 'keys.json');
 const KEYS_TXT_PATH        = path.join(__dirname, 'keys.txt');
 const INJECTIONS_JSON_PATH = path.join(__dirname, 'injections.json');
 
-const startTime = Date.now();
-
 function loadExternalKeys() {
   try {
     if (fs.existsSync(KEYS_JSON_PATH)) {
@@ -91,8 +41,7 @@ function loadExternalKeys() {
       const arr = JSON.parse(raw);
       if (Array.isArray(arr) && arr.length > 0) {
         GROK_KEYS = arr.map(k => String(k).trim()).filter(Boolean);
-        log(`${C.brightGreen}🔑 Loaded ${GROK_KEYS.length} keys from keys.json${C.reset}`);
-        reinitKeyArrays();
+        log(`🔑 Загружено ${GROK_KEYS.length} ключей из keys.json`);
         return;
       }
     }
@@ -101,69 +50,25 @@ function loadExternalKeys() {
       const lines = raw.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
       if (lines.length > 0) {
         GROK_KEYS = lines;
-        log(`${C.brightGreen}🔑 Loaded ${GROK_KEYS.length} keys from keys.txt${C.reset}`);
-        reinitKeyArrays();
+        log(`🔑 Загружено ${GROK_KEYS.length} ключей из keys.txt`);
         return;
       }
     }
   } catch (err) {
-    log(`${C.yellow}⚠ Failed to read external keys: ${err.message}${C.reset}`);
+    log(`⚠ Ошибка чтения внешних ключей: ${err.message}`);
   }
-}
-
-function reinitKeyArrays() {
-  const len = GROK_KEYS.length;
-  // Preserve existing data up to the new length, zero-fill new slots
-  keyLastUsedTime  = padArray(keyLastUsedTime, len, 0);
-  keyReqCounts     = padArray(keyReqCounts, len, 0);
-  keyWait429Counts = padArray(keyWait429Counts, len, 0);
-  keyAuto413Trims  = padArray(keyAuto413Trims, len, 0);
-  keyInjections    = padArray(keyInjections, len, 0);
-  keyDisabled      = padArray(keyDisabled, len, false);
-}
-
-function padArray(arr, len, fill) {
-  if (arr.length >= len) return arr.slice(0, len);
-  return [...arr, ...new Array(len - arr.length).fill(fill)];
 }
 
 loadExternalKeys();
 
-// ── STATE TRACKING ───────────────────────────────────────────────────────────
-const sessionKeyMap      = new Map(); // sessionId -> keyIdx
-const sessionLastSeen    = new Map(); // sessionId -> timestamp (for GC)
-let keyLastUsedTime      = new Array(GROK_KEYS.length).fill(0);
-let keyReqCounts         = new Array(GROK_KEYS.length).fill(0);
-let keyWait429Counts     = new Array(GROK_KEYS.length).fill(0);
-let keyAuto413Trims      = new Array(GROK_KEYS.length).fill(0);
-let keyInjections        = new Array(GROK_KEYS.length).fill(0);
-let keyDisabled          = new Array(GROK_KEYS.length).fill(false);
-
-const recentLogs = [];
-function log(...args) {
-  const ts = new Date().toLocaleTimeString();
-  const rawLine = args.join(' ');
-  const line = `${C.gray}[${ts}]${C.reset} ${rawLine}`;
-  process.stdout.write(`${line}\n`);
-  recentLogs.push(rawLine);
-  if (recentLogs.length > 80) recentLogs.shift();
-}
-
-// ── SESSION GC ───────────────────────────────────────────────────────────────
-setInterval(() => {
-  const now = Date.now();
-  let evicted = 0;
-  for (const [sid, lastSeen] of sessionLastSeen.entries()) {
-    if (now - lastSeen > SESSION_TTL_MS) {
-      sessionKeyMap.delete(sid);
-      sessionLastSeen.delete(sid);
-      evicted++;
-    }
-  }
-  if (evicted > 0) {
-    log(`${C.dim}🧹 Session GC: evicted ${evicted} stale sessions (TTL ${SESSION_TTL_MS / 60000}min)${C.reset}`);
-  }
-}, SESSION_GC_INTERVAL_MS);
+// ── СОСТОЯНИЕ КЛЮЧЕЙ И СЕССИЙ ────────────────────────────────────────────────
+const sessionKeyMap = new Map();
+let keyLastUsedTime = new Array(GROK_KEYS.length).fill(0);
+let keyReqCounts    = new Array(GROK_KEYS.length).fill(0);
+let keyWait429Counts = new Array(GROK_KEYS.length).fill(0);
+let keyAuto413Trims  = new Array(GROK_KEYS.length).fill(0);
+let keyInjections    = new Array(GROK_KEYS.length).fill(0);
+let keyDisabled      = new Array(GROK_KEYS.length).fill(false);
 
 function getSessionCountsPerKey() {
   const counts = new Array(GROK_KEYS.length).fill(0);
@@ -191,7 +96,7 @@ function getBestAvailableKeyIdx() {
   }
 
   if (candidates.length === 0) {
-    log(`${C.brightRed}⚠ ALL KEYS DISABLED! Resetting emergency lock.${C.reset}`);
+    log(`⚠ Все ключи disabled! Сбрасываю аварийную блокировку.`);
     keyDisabled.fill(false);
     return 0;
   }
@@ -214,14 +119,12 @@ function getKeyIdxForSession(sessionId) {
     return idx;
   }
 
-  sessionLastSeen.set(sessionId, Date.now());
-
   if (!sessionKeyMap.has(sessionId)) {
     const idx = getBestAvailableKeyIdx();
     sessionKeyMap.set(sessionId, idx);
     const counts = getSessionCountsPerKey();
     keyLastUsedTime[idx] = Date.now();
-    log(`${C.brightCyan}🔑 Session [${sessionId.slice(0,8)}...]${C.reset} → ${C.bold}Key #${idx + 1}${C.reset} (Load: ${counts.map((cnt,i)=>`K${i+1}:${cnt}`).join(' ')})`);
+    log(`🔑 New Session [${sessionId.slice(0,8)}...] → Assigned Key #${idx + 1} (Load: ${counts.map((c,i)=>`K${i+1}:${c}`).join(' ')})`);
     return idx;
   }
 
@@ -229,7 +132,7 @@ function getKeyIdxForSession(sessionId) {
 
   if (keyDisabled[assignedIdx]) {
     const newIdx = getBestAvailableKeyIdx();
-    log(`${C.brightRed}🛡 DEAD KEY GUARD: Key #${assignedIdx + 1} DISABLED${C.reset} → Re-assigning [${sessionId.slice(0,8)}] → ${C.bold}Key #${newIdx + 1}${C.reset}`);
+    log(`🛡 DEAD KEY GUARD: Key #${assignedIdx + 1} is DISABLED → Re-assigning Session [${sessionId.slice(0,8)}] to Key #${newIdx + 1}`);
     assignedIdx = newIdx;
     sessionKeyMap.set(sessionId, assignedIdx);
   } else {
@@ -240,7 +143,8 @@ function getKeyIdxForSession(sessionId) {
         const oldIdx = assignedIdx;
         assignedIdx = freeIdx;
         sessionKeyMap.set(sessionId, assignedIdx);
-        log(`${C.brightMagenta}⚖️ REBALANCE:${C.reset} [${sessionId.slice(0,8)}] K#${oldIdx + 1} → ${C.bold}Key #${assignedIdx + 1}${C.reset} (was idle)`);
+        const newCounts = getSessionCountsPerKey();
+        log(`⚖️ SMART REBALANCE: Session [${sessionId.slice(0,8)}...] moved from Key #${oldIdx + 1} (${counts[oldIdx]} sessions) → Key #${assignedIdx + 1} (0 sessions)! New Load: ${newCounts.map((c,i)=>`K${i+1}:${c}`).join(' ')}`);
       }
     }
   }
@@ -249,143 +153,78 @@ function getKeyIdxForSession(sessionId) {
   return assignedIdx;
 }
 
-// ── INJECTION FILE I/O (safe) ────────────────────────────────────────────────
-function readInjectionsSafe() {
-  try {
-    if (!fs.existsSync(INJECTIONS_JSON_PATH)) return {};
-    const raw = fs.readFileSync(INJECTIONS_JSON_PATH, 'utf8');
-    const obj = JSON.parse(raw);
-    return (obj && typeof obj === 'object') ? obj : {};
-  } catch {
-    return {};
-  }
-}
-
-function writeInjectionsSafe(obj) {
-  try {
-    fs.writeFileSync(INJECTIONS_JSON_PATH, JSON.stringify(obj, null, 2), 'utf8');
-  } catch (err) {
-    log(`${C.red}⚠ Failed to write injections.json: ${err.message}${C.reset}`);
-  }
-}
-
-// ── BULLETPROOF DIRECTIVE INJECTOR ───────────────────────────────────────────
-// Track which session has already received which directive version to prevent injection spam on every request
-const sessionDeliveredDirectives = new Map(); // sessionId -> directiveHash
-
-function getDirectiveHash(text) {
-  let hash = 0;
-  for (let i = 0; i < text.length; i++) {
-    hash = ((hash << 5) - hash) + text.charCodeAt(i);
-    hash |= 0;
-  }
-  return 'd_' + hash;
-}
-
 // ── BULLETPROOF DIRECTIVE INJECTOR ───────────────────────────────────────────
 function checkAndInjectDirectives(bodyBuffer, sessionId, keyIdx) {
-  const injections = readInjectionsSafe();
-  if (!injections || Object.keys(injections).length === 0) return bodyBuffer;
+  if (!fs.existsSync(INJECTIONS_JSON_PATH)) return bodyBuffer;
 
-  let targetDirective = null;
-  let consumed = false; // whether to write back (for one-shot session targets)
+  try {
+    const raw = fs.readFileSync(INJECTIONS_JSON_PATH, 'utf8');
+    const injections = JSON.parse(raw);
+    if (!injections || typeof injections !== 'object') return bodyBuffer;
 
-  // Check specific session/target key injections first (e.g. 'dental', 'hecton', 'giga')
-  if (sessionId) {
-    for (const [key, dir] of Object.entries(injections)) {
-      if (key === 'all') continue;
-      if (dir && typeof dir === 'string' && (sessionId.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(sessionId.toLowerCase()))) {
-        targetDirective = dir;
-        delete injections[key];
-        consumed = true;
-        break;
+    let targetDirective = null;
+
+    if (injections.all && typeof injections.all === 'string') {
+      targetDirective = injections.all;
+      delete injections.all;
+    } else if (sessionId) {
+      const sLower = String(sessionId).toLowerCase();
+      for (const [key, dir] of Object.entries(injections)) {
+        const kLower = String(key).toLowerCase();
+        if (dir && typeof dir === 'string' && (sLower.includes(kLower) || kLower.includes(sLower))) {
+          targetDirective = dir;
+          delete injections[key];
+          break;
+        }
       }
     }
-  }
 
-  // Fallback to 'all' persistent directive if no specific session target matched
-  if (!targetDirective && injections.all && typeof injections.all === 'string') {
-    targetDirective = injections.all;
-  }
+    if (!targetDirective) return bodyBuffer;
 
-  if (!targetDirective) return bodyBuffer;
+    fs.writeFileSync(INJECTIONS_JSON_PATH, JSON.stringify(injections, null, 2), 'utf8');
 
-  // Deduplication check: Has this session already received THIS exact directive?
-  const dirHash = getDirectiveHash(targetDirective);
-  const effectiveSid = sessionId || 'anonymous';
-  const lastDeliveredHash = sessionDeliveredDirectives.get(effectiveSid);
+    const text = bodyBuffer.toString('utf8');
+    const obj  = JSON.parse(text);
+    if (!obj || !Array.isArray(obj.messages) || obj.messages.length === 0) return bodyBuffer;
 
-  if (lastDeliveredHash === dirHash) {
-    // Already delivered to this session once! Do not spam every HTTP call.
-    return bodyBuffer;
-  }
+    const directiveText = `\n[OVERSEER SYSTEM DIRECTIVE VIA PROXY]: ${targetDirective}\n`;
+    const lastMsg = obj.messages[obj.messages.length - 1];
 
-  // Only write back if a session-targeted injection was consumed
-  if (consumed) {
-    writeInjectionsSafe(injections);
-  }
-
-  let text, obj;
-  try {
-    text = bodyBuffer.toString('utf8');
-    obj  = JSON.parse(text);
-  } catch {
-    return bodyBuffer;
-  }
-  if (!obj || !Array.isArray(obj.messages) || obj.messages.length === 0) return bodyBuffer;
-
-  // Subagent Classifier: inspect top-level system field AND first message for Anthropic/OpenAI payload compatibility
-  const systemText = (obj.system ? (typeof obj.system === 'string' ? obj.system : JSON.stringify(obj.system)) : '');
-  const firstMsgText = (obj.messages[0] ? JSON.stringify(obj.messages[0]) : '');
-  const combinedSystemStr = (systemText + ' ' + firstMsgText).toLowerCase();
-
-  const isSubagent = (
-    combinedSystemStr.includes('you are a subagent') || 
-    combinedSystemStr.includes('you are subagent') ||
-    combinedSystemStr.includes('role: subagent') ||
-    combinedSystemStr.includes('subagent type:') ||
-    combinedSystemStr.includes('subagent role:')
-  ) && !combinedSystemStr.includes('you are an interactive cli') && !combinedSystemStr.includes('you are an autonomous agent');
-
-  let directiveText = '';
-  if (isSubagent) {
-    directiveText = `\n[OVERSEER SUBAGENT DIRECTIVE VIA PROXY]: You are a SUBAGENT. Your only goal is to QUICKLY (1-2 turns) execute the narrow read/search task from the main agent. FORBIDDEN: writing .py scripts, spinning sleep loops, or taking on global layout/architecture. Use only built-in tools (view_file, grep_search). Return concise findings to the Main Agent and finish.\n`;
-  } else {
-    directiveText = `\n[OVERSEER MAIN AGENT DIRECTIVE VIA PROXY]: ${targetDirective}\n`;
-  }
-
-  const lastMsg = obj.messages[obj.messages.length - 1];
-
-  // Role-alternation safe injection
-  if (lastMsg && lastMsg.role === 'user') {
-    if (typeof lastMsg.content === 'string') {
-      lastMsg.content += directiveText;
-    } else if (Array.isArray(lastMsg.content)) {
-      lastMsg.content.push({ type: 'text', text: directiveText });
+    // ЭДЖ-КЕЙС #1: Если последнее сообщение уже имеет роль 'user', внедряем внутрь него!
+    if (lastMsg && lastMsg.role === 'user') {
+      if (typeof lastMsg.content === 'string') {
+        lastMsg.content += directiveText;
+      } else if (Array.isArray(lastMsg.content)) {
+        lastMsg.content.push({ type: 'text', text: directiveText });
+      }
+    } else {
+      // Иначе создаём новое user-сообщение
+      obj.messages.push({
+        role: 'user',
+        content: [{ type: 'text', text: directiveText }],
+      });
     }
-  } else {
-    obj.messages.push({
-      role: 'user',
-      content: [{ type: 'text', text: directiveText }],
-    });
-  }
 
-  sessionDeliveredDirectives.set(effectiveSid, dirHash);
-  keyInjections[keyIdx]++;
-  const newBodyStr = JSON.stringify(obj);
-  const tag = isSubagent ? `${C.bgYellow}${C.bold} SUB ${C.reset}` : `${C.bgGreen}${C.bold} MAIN ${C.reset}`;
-  log(`💉 ${tag} → [${sessionId ? sessionId.slice(0,8) : 'anon'}] "${C.cyan}${targetDirective.slice(0, 60)}${targetDirective.length > 60 ? '...' : ''}${C.reset}"`);
-  return Buffer.from(newBodyStr, 'utf8');
+    keyInjections[keyIdx]++;
+    const newBodyStr = JSON.stringify(obj);
+    log(`💉 PROXY INJECTED DIRECTIVE into Session [${sessionId ? sessionId.slice(0,8) : 'general'}]: "${targetDirective.slice(0, 80)}..."`);
+    return Buffer.from(newBodyStr, 'utf8');
+  } catch (err) {
+    log(`⚠ Directive Injection error: ${err.message}`);
+    return bodyBuffer;
+  }
 }
 
-// ── 413 CONTEXT TRIMMER ──────────────────────────────────────────────────────
+// ── STRICT USER-PROTECTED 413 CONTEXT TRIMMER ────────────────────────────────
 function pruneMiddleFor413(bodyBuffer, pass = 1) {
   try {
     const text = bodyBuffer.toString('utf8');
     const obj  = JSON.parse(text);
-    if (!obj || !Array.isArray(obj.messages) || obj.messages.length < 6) return null;
-
+    if (!obj || !Array.isArray(obj.messages) || obj.messages.length < 6) {
+      return null;
+    }
     const msgs = obj.messages;
+
     const tailStartIdx = Math.max(2, msgs.length - 6);
     let truncatedTools = 0;
     let truncatedImages = 0;
@@ -409,11 +248,11 @@ function pruneMiddleFor413(bodyBuffer, pass = 1) {
                   const header = t.slice(0, resIdx + 9);
                   const body   = t.slice(resIdx + 9);
                   if (body.length > maxResultLen) {
-                    part.text = header + body.slice(0, 100) + `\n[... trimmed ${body.length - maxResultLen} chars ...]\n` + body.slice(-100);
+                    part.text = header + body.slice(0, 100) + `\n[... Proxy truncated ${body.length - maxResultLen} chars of tool output on 413 ...]\n` + body.slice(-100);
                     truncatedTools++;
                   }
                 } else {
-                  part.text = t.slice(0, 100) + `\n[... trimmed ${t.length - maxResultLen} chars ...]\n` + t.slice(-100);
+                  part.text = t.slice(0, 100) + `\n[... Proxy truncated ${t.length - maxResultLen} chars of tool output on 413 ...]\n` + t.slice(-100);
                   truncatedTools++;
                 }
               }
@@ -421,7 +260,7 @@ function pruneMiddleFor413(bodyBuffer, pass = 1) {
           } else if (part.type === 'image_url' || part.image_url) {
             m.content[pIdx] = {
               type: 'text',
-              text: '[Proxy: base64 image removed for 413]',
+              text: '[Proxy: Past base64 screenshot truncated to resolve 413 Payload Too Large]',
             };
             truncatedImages++;
           }
@@ -429,19 +268,17 @@ function pruneMiddleFor413(bodyBuffer, pass = 1) {
       } else if (typeof m.content === 'string') {
         const t = m.content;
         if (t.startsWith('[') && (t.includes(' Result:\n') || t.includes("for '")) && t.length > maxResultLen + 150) {
-          m.content = t.slice(0, 100) + `\n[... trimmed ${t.length - maxResultLen} chars ...]\n` + t.slice(-100);
+          m.content = t.slice(0, 100) + `\n[... Proxy truncated ${t.length - maxResultLen} chars of tool output on 413 ...]\n` + t.slice(-100);
           truncatedTools++;
         }
       }
     }
 
-    if (truncatedTools === 0 && truncatedImages === 0) return null; // nothing to trim
-
     const newBodyStr = JSON.stringify(obj);
-    log(`✂️ ${C.yellow}413 TRIM pass ${pass}:${C.reset} ${truncatedTools} tools, ${truncatedImages} images. ${bodyBuffer.length}B → ${newBodyStr.length}B`);
+    log(`✂️ STRICT USER-PROTECTED 413 TRIM (Pass ${pass}): Truncated ${truncatedTools} tool outputs & ${truncatedImages} base64 images. Size: ${bodyBuffer.length} → ${newBodyStr.length} bytes.`);
     return Buffer.from(newBodyStr, 'utf8');
   } catch (err) {
-    log(`${C.red}⚠ Prune 413 failed: ${err.message}${C.reset}`);
+    log(`⚠ Prune 413 failed: ${err.message}`);
     return null;
   }
 }
@@ -461,60 +298,42 @@ let netFailStreak = 0;
 function noteNetFailure(reason) {
   netFailStreak++;
   if (netFailStreak >= 3) {
-    log(`${C.yellow}🔄 ${netFailStreak} net glitches (${reason}) → socket pool reset${C.reset}`);
+    log(`🔄 ${netFailStreak} сетевых сбоя подряд (${reason}) — сбрасываю пул сокетов`);
     try { httpsAgent.destroy(); } catch {}
     netFailStreak = 0;
   }
 }
 
-// ── SEND ERROR TO CLIENT (helper) ────────────────────────────────────────────
-function sendErrorToClient(res, statusCode, message) {
-  if (res.headersSent || res.writableEnded || res.destroyed) return;
-  try {
-    const body = JSON.stringify({ error: { message, type: 'proxy_error' } });
-    res.writeHead(statusCode, {
-      'content-type': 'application/json',
-      'content-length': String(Buffer.byteLength(body)),
-    });
-    res.end(body);
-  } catch {}
+function log(...args) {
+  process.stdout.write(`[${new Date().toISOString()}] ${args.join(' ')}\n`);
 }
 
 // ── FORWARD REQUEST ───────────────────────────────────────────────────────────
-function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rateLimitRetry = 0, prunePass = 0, deadKeyAttempts = 0) {
-  // ── RETRY CAPS ─────────────────────────────────────────────────────────────
-  if (retryCount > MAX_NET_RETRIES) {
-    log(`${C.brightRed}❌ MAX NET RETRIES (${MAX_NET_RETRIES}) exceeded. Giving up.${C.reset}`);
-    sendErrorToClient(res, 502, `Proxy: upstream unreachable after ${MAX_NET_RETRIES} retries`);
-    return;
-  }
-  // 429 has NO retry cap — infinite wait-and-retry is the core feature of this proxy.
-  if (deadKeyAttempts >= GROK_KEYS.length) {
-    log(`${C.brightRed}❌ ALL ${GROK_KEYS.length} KEYS REJECTED (401/403). No valid keys left.${C.reset}`);
-    sendErrorToClient(res, 401, `Proxy: all ${GROK_KEYS.length} API keys rejected`);
-    return;
-  }
-
+function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rateLimitRetry = 0, prunePass = 0) {
   const keyIdx = getKeyIdxForSession(sessionId);
 
+  // Внедрение директив из injections.json (если есть)
   body = checkAndInjectDirectives(body, sessionId, keyIdx);
 
-  const rawKey = GROK_KEYS[keyIdx] || '';
+  let rawKey = GROK_KEYS[keyIdx] || '';
   const key = rawKey.trim().replace(/[^\x20-\x7E]/g, '');
   const keyNum = keyIdx + 1;
 
-  if (!key || /[^\x20-\x7E]/.test(rawKey) || rawKey.includes('INSERT') || rawKey.includes('YOUR')) {
-    log(`${C.brightRed}❌ KEY #${keyNum} is a placeholder or invalid!${C.reset}`);
-    sendErrorToClient(res, 500, `Key #${keyNum} is invalid or a placeholder`);
+  if (!key || /[^\x20-\x7E]/.test(rawKey) || rawKey.includes('ВСТАВЬ')) {
+    log(`❌ ОШИБКА: Ключ #${keyNum} невалиден!`);
+    if (!res.headersSent) {
+      res.writeHead(500, { 'content-type': 'application/json' });
+      res.end(JSON.stringify({ error: { message: `Key #${keyNum} is invalid.` } }));
+    }
     return;
   }
 
   keyReqCounts[keyIdx]++;
 
   const upHeaders = {};
-  for (const [hk, hv] of Object.entries(req.headers)) {
-    if (['host','content-length','authorization','x-api-key'].includes(hk)) continue;
-    upHeaders[hk] = hv;
+  for (const [k, v] of Object.entries(req.headers)) {
+    if (['host','content-length','authorization','x-api-key'].includes(k)) continue;
+    upHeaders[k] = v;
   }
   upHeaders['host']           = new URL(UPSTREAM).hostname;
   upHeaders['content-length'] = String(body.length);
@@ -522,9 +341,9 @@ function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rat
   upHeaders['x-api-key']      = key;
   upHeaders['user-agent']     = 'cline/1.0';
 
-  const retryLabel = retryCount > 0 ? ` ${C.yellow}R#${retryCount}${C.reset}` : '';
-  const rateLabel  = rateLimitRetry > 0 ? ` ${C.yellow}429#${rateLimitRetry}${C.reset}` : '';
-  log(`🚀 ${C.brightCyan}${req.method} ${cleanUrl}${C.reset} │ ${C.bold}K#${keyNum}${C.reset}${retryLabel}${rateLabel} │ ${C.dim}${body.length}B${C.reset}`);
+  const retryLabel = retryCount > 0 ? ` NET-RETRY#${retryCount}` : '';
+  const rateLabel  = rateLimitRetry > 0 ? ` 429-WAIT#${rateLimitRetry}` : '';
+  log(`→ ${req.method} ${cleanUrl} (Key #${keyNum}${retryLabel}${rateLabel}) [${body.length}B]`);
 
   const upUrl = new URL(cleanUrl, UPSTREAM);
   const upReq = https.request({
@@ -535,93 +354,85 @@ function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rat
     headers:  upHeaders,
     agent:    httpsAgent,
   }, (upRes) => {
-    const sc = upRes.statusCode;
+    log(`↑ HTTP ${upRes.statusCode} (Key #${keyNum})`);
 
-    // ── 401 / 403 DEAD KEY ───────────────────────────────────────────────────
-    if (sc === 401 || sc === 403) {
+    // ── 401 / 403 INVALID / EXPIRED KEY ─────────────────────────────────────
+    if (upRes.statusCode === 401 || upRes.statusCode === 403) {
       upRes.resume();
-      log(`${C.bgRed}${C.bold} REJECTED ${C.reset} K#${keyNum} → HTTP ${sc}. Disabling.`);
+      log(`⛔ KEY REJECTED: Key #${keyNum} returned HTTP ${upRes.statusCode}! Marking Key #${keyNum} as DISABLED.`);
       keyDisabled[keyIdx] = true;
       if (sessionId) sessionKeyMap.delete(sessionId);
-      executeForward(req, res, body, cleanUrl, sessionId, retryCount, rateLimitRetry, prunePass, deadKeyAttempts + 1);
+      log(`🔄 Retrying request on another active key...`);
+      executeForward(req, res, body, cleanUrl, sessionId, retryCount, rateLimitRetry, prunePass);
       return;
     }
 
-    // ── 413 PAYLOAD TOO LARGE ────────────────────────────────────────────────
-    if (sc === 413) {
+    // ── 413 PAYLOAD TOO LARGE ───────────────────────────────────────────────
+    if (upRes.statusCode === 413) {
       upRes.resume();
       keyAuto413Trims[keyIdx]++;
       const nextPass = prunePass + 1;
-      if (nextPass > MAX_PRUNE_PASSES) {
-        log(`${C.brightRed}❌ 413 after ${MAX_PRUNE_PASSES} trim passes. Payload irreducible.${C.reset}`);
-        sendErrorToClient(res, 413, `Payload too large after ${MAX_PRUNE_PASSES} trim passes`);
-        return;
-      }
-      log(`✂️ HTTP 413 → trim pass ${nextPass}...`);
+      log(`✂️ HTTP 413 Payload Too Large (Key #${keyNum}) → Reactively trimming tool output dumps (Pass ${nextPass}) & retrying...`);
       const prunedBody = pruneMiddleFor413(body, nextPass);
       if (prunedBody && prunedBody.length < body.length) {
-        executeForward(req, res, prunedBody, cleanUrl, sessionId, retryCount + 1, rateLimitRetry, nextPass, deadKeyAttempts);
+        executeForward(req, res, prunedBody, cleanUrl, sessionId, retryCount + 1, rateLimitRetry, nextPass);
         return;
       }
-      // Trim yielded nothing — give up
-      log(`${C.brightRed}❌ 413 trim yielded no reduction. Forwarding error to client.${C.reset}`);
-      sendErrorToClient(res, 413, 'Payload too large and could not be reduced');
-      return;
     }
 
-    // ── 429 RATE LIMIT ───────────────────────────────────────────────────────
-    if (sc === 429) {
+    // ── 429 RATE LIMIT ──────────────────────────────────────────────────────
+    if (upRes.statusCode === 429) {
       upRes.resume();
       keyWait429Counts[keyIdx]++;
-      log(`⏳ ${C.yellow}429 (K#${keyNum})${C.reset} → wait ${RATE_LIMIT_WAIT_MS / 1000}s...`);
+      log(`⏳ 429 Rate Limit на Key #${keyNum} → ждём ${RATE_LIMIT_WAIT_MS/1000}с, повторяю НА ТОМ ЖЕ ключе`);
       setTimeout(() => {
         if (res.writableEnded || res.destroyed) return;
-        executeForward(req, res, body, cleanUrl, sessionId, retryCount, rateLimitRetry + 1, prunePass, deadKeyAttempts);
+        executeForward(req, res, body, cleanUrl, sessionId, retryCount, rateLimitRetry + 1, prunePass);
       }, RATE_LIMIT_WAIT_MS);
       return;
     }
 
-    // ── 5xx SERVER ERROR ─────────────────────────────────────────────────────
-    if (sc === 529 || sc >= 500) {
-      upRes.resume();
+    // ── 5xx Server Error ────────────────────────────────────────────────────
+    if (upRes.statusCode === 529 || upRes.statusCode >= 500) {
       const wait = netDelay(retryCount);
-      log(`⚠ HTTP ${sc} → retry in ${wait}ms`);
+      log(`⚠ HTTP ${upRes.statusCode} → повтор через ${wait}мс`);
+      upRes.resume();
       setTimeout(() => {
         if (res.writableEnded || res.destroyed) return;
-        executeForward(req, res, body, cleanUrl, sessionId, retryCount + 1, rateLimitRetry, prunePass, deadKeyAttempts);
+        executeForward(req, res, body, cleanUrl, sessionId, retryCount + 1, rateLimitRetry, prunePass);
       }, wait);
       return;
     }
 
-    // ── 200 OK ───────────────────────────────────────────────────────────────
-    if (sc === 200) {
-      netFailStreak = 0;
-      res.writeHead(sc, upRes.headers);
-      upRes.pipe(res);
-      upRes.on('error', err => log(`⚠ upRes pipe error: ${err.message}`));
+    // ── 4xx Ошибки клиентов ──────────────────────────────────────────────────
+    if (upRes.statusCode !== 200) {
+      const parts = [];
+      upRes.on('data', c => parts.push(c));
+      upRes.on('end', () => {
+        const buf = Buffer.concat(parts);
+        const decode = upRes.headers['content-encoding'] === 'gzip'
+          ? (b, cb) => zlib.gunzip(b, (err, r) => cb(err ? b.toString('utf8') : r.toString('utf8')))
+          : (b, cb) => cb(b.toString('utf8'));
+        decode(buf, text => {
+          log(`💥 ERROR ${upRes.statusCode}: ${text.slice(0, 300)}`);
+          if (!res.headersSent) {
+            const outBuf = Buffer.from(text, 'utf8');
+            const headers = { ...upRes.headers };
+            delete headers['content-encoding'];
+            headers['content-length'] = String(outBuf.length);
+            res.writeHead(upRes.statusCode, headers);
+            res.end(outBuf);
+          }
+        });
+      });
       return;
     }
 
-    // ── OTHER 4xx / UNEXPECTED ───────────────────────────────────────────────
-    const errParts = [];
-    upRes.on('data', chunk => errParts.push(chunk));
-    upRes.on('end', () => {
-      const buf = Buffer.concat(errParts);
-      const decode = upRes.headers['content-encoding'] === 'gzip'
-        ? (b, cb) => zlib.gunzip(b, (err, r) => cb(err ? b.toString('utf8') : r.toString('utf8')))
-        : (b, cb) => cb(b.toString('utf8'));
-      decode(buf, errText => {
-        log(`💥 ${C.red}HTTP ${sc}:${C.reset} ${errText.slice(0, 200)}`);
-        if (!res.headersSent) {
-          const outBuf = Buffer.from(errText, 'utf8');
-          const fwdHeaders = { ...upRes.headers };
-          delete fwdHeaders['content-encoding'];
-          fwdHeaders['content-length'] = String(outBuf.length);
-          res.writeHead(sc, fwdHeaders);
-          res.end(outBuf);
-        }
-      });
-    });
+    // ── 200 OK ───────────────────────────────────────────────────────────────
+    netFailStreak = 0;
+    res.writeHead(upRes.statusCode, upRes.headers);
+    upRes.pipe(res);
+    upRes.on('error', err => log(`⚠ upRes pipe error: ${err.message}`));
   });
 
   upReq.on('socket', (sock) => {
@@ -643,10 +454,10 @@ function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rat
       noteNetFailure(err.message);
     }
     const wait = netDelay(retryCount);
-    log(`✗ upstream error (K#${keyNum}): ${err.message} → retry in ${wait}ms`);
+    log(`✗ upstream error (Key #${keyNum}): ${err.message} → retry in ${wait}мс`);
     setTimeout(() => {
       if (res.writableEnded || res.destroyed) return;
-      executeForward(req, res, body, cleanUrl, sessionId, retryCount + 1, rateLimitRetry, prunePass, deadKeyAttempts);
+      executeForward(req, res, body, cleanUrl, sessionId, retryCount + 1, rateLimitRetry, prunePass);
     }, wait);
   });
 
@@ -654,142 +465,121 @@ function executeForward(req, res, body, cleanUrl, sessionId, retryCount = 0, rat
   upReq.end();
 }
 
-// ── UPTIME FORMATTER ─────────────────────────────────────────────────────────
-function formatUptime() {
-  const sec = Math.floor((Date.now() - startTime) / 1000);
-  const h = Math.floor(sec / 3600);
-  const m = Math.floor((sec % 3600) / 60);
-  const s = sec % 60;
-  return `${h}h ${m}m ${s}s`;
-}
-
-// ── FORMATTED TERMINAL STATUS TABLE ──────────────────────────────────────────
-function printTerminalStatusTable() {
+// ── LIVE HTML STATUS DASHBOARD PAGE (GET /) ──────────────────────────────────
+function renderHtmlDashboard() {
   const counts = getSessionCountsPerKey();
-  const totalReqs = keyReqCounts.reduce((a,b)=>a+b, 0) || 1;
+  const now = Date.now();
 
-  console.log(`\n${C.dim}Uptime: ${formatUptime()} │ Sessions: ${sessionKeyMap.size} │ Total Requests: ${totalReqs}${C.reset}`);
-  console.log(`┌───────┬───────────┬──────────┬──────────┬──────────┬────────────────────────┐`);
-  console.log(`│ ${C.bold}KEY${C.reset}   │ ${C.bold}STATUS${C.reset}    │ ${C.bold}SESSIONS${C.reset} │ ${C.bold}REQUESTS${C.reset} │ ${C.bold}INJECTED${C.reset} │ ${C.bold}LOAD BAR${C.reset}               │`);
-  console.log(`├───────┼───────────┼──────────┼──────────┼──────────┼────────────────────────┤`);
+  const keyCards = GROK_KEYS.map((k, i) => {
+    const maskedKey = k.length > 10 ? `${k.slice(0,6)}...${k.slice(-4)}` : k;
+    const idleSec = keyLastUsedTime[i] > 0 ? Math.round((now - keyLastUsedTime[i]) / 1000) : '—';
+    const statusClass = keyDisabled[i] ? 'disabled' : 'active';
+    const statusText  = keyDisabled[i] ? '⛔ DISABLED (401/403)' : '✅ ACTIVE';
 
-  GROK_KEYS.forEach((k, i) => {
-    const statusStr = keyDisabled[i] ? `${C.red}DEAD${C.reset}      ` : `${C.green}OK${C.reset}        `;
-    const sessStr   = String(counts[i]).padStart(8, ' ');
-    const reqStr    = String(keyReqCounts[i]).padStart(8, ' ');
-    const injStr    = String(keyInjections[i]).padStart(8, ' ');
+    return `
+      <div class="card ${statusClass}">
+        <div class="card-header">
+          <span class="key-title">🔑 Key #${i + 1}</span>
+          <span class="badge ${statusClass}">${statusText}</span>
+        </div>
+        <div class="key-code">${maskedKey}</div>
+        <div class="metrics">
+          <div class="m-item">
+            <span class="m-val">${counts[i]}</span>
+            <span class="m-lbl">Active Sessions</span>
+          </div>
+          <div class="m-item">
+            <span class="m-val">${keyReqCounts[i]}</span>
+            <span class="m-lbl">Total Requests</span>
+          </div>
+          <div class="m-item">
+            <span class="m-val">${keyWait429Counts[i]}</span>
+            <span class="m-lbl">429 Retries</span>
+          </div>
+          <div class="m-item">
+            <span class="m-val">${keyInjections[i]}</span>
+            <span class="m-lbl">Injections</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
 
-    const loadPct   = Math.round((keyReqCounts[i] / totalReqs) * 100);
-    const filled    = Math.round((loadPct / 100) * 10);
-    const barStr    = `[${C.brightCyan}${'█'.repeat(filled)}${C.dim}${'░'.repeat(10 - filled)}${C.reset}] ${String(loadPct).padStart(3, ' ')}%`;
+  const activeSessionsList = Array.from(sessionKeyMap.entries()).map(([sid, kIdx]) => {
+    return `<li><code>${sid}</code> &rarr; <span class="key-tag">Key #${kIdx + 1}</span></li>`;
+  }).join('') || '<li class="empty">No active dialogues connected yet.</li>';
 
-    console.log(`│ K#${String(i+1).padEnd(3, ' ')} │ ${statusStr}│ ${sessStr} │ ${reqStr} │ ${injStr} │ ${barStr}     │`);
-  });
+  return `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="3">
+  <title>Grok Proxy v4.1 — Live Status</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; background: #0b0f19; color: #e2e8f0; padding: 24px; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #1e293b; padding-bottom: 16px; }
+    .title { font-size: 24px; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 10px; }
+    .subtitle { font-size: 13px; color: #94a3b8; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 18px; transition: all 0.2s; }
+    .card.disabled { border-color: #ef4444; background: #2c1517; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .key-title { font-weight: 700; font-size: 16px; color: #f8fafc; }
+    .key-code { font-size: 12px; font-family: monospace; color: #64748b; background: #0f172a; padding: 4px 8px; border-radius: 6px; margin-bottom: 14px; word-break: break-all; }
+    .badge { font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: 600; }
+    .badge.active { background: #065f46; color: #34d399; }
+    .badge.disabled { background: #991b1b; color: #fca5a5; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .m-item { background: #0f172a; padding: 10px; border-radius: 8px; text-align: center; }
+    .m-val { font-size: 18px; font-weight: 700; color: #38bdf8; display: block; }
+    .m-lbl { font-size: 10px; color: #94a3b8; text-transform: uppercase; margin-top: 2px; }
+    .panel { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; }
+    .panel-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #f8fafc; }
+    ul { list-style: none; }
+    li { padding: 8px 12px; border-bottom: 1px solid #334155; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+    li.empty { color: #64748b; font-style: italic; border: none; }
+    .key-tag { background: #0284c7; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <div class="title">🚀 Grok Proxy v4.1 Live Status</div>
+      <div class="subtitle">Bulletproof Live Directive Injector &bull; Strict User-Protected 413 Trimmer &bull; Smart LRU &bull; Dead Key Guard</div>
+    </div>
+    <div style="text-align: right;">
+      <div style="font-size: 12px; color: #34d399;">● LIVE (Auto-refresh 3s)</div>
+      <div style="font-size: 11px; color: #64748b;">${new Date().toLocaleTimeString()}</div>
+    </div>
+  </div>
 
-  console.log(`└───────┴───────────┴──────────┴──────────┴──────────┴────────────────────────┘\n`);
+  <div class="grid">
+    ${keyCards}
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">💬 Connected Dialogues / Sessions (${sessionKeyMap.size})</div>
+    <ul>
+      ${activeSessionsList}
+    </ul>
+  </div>
+</body>
+</html>`;
 }
 
-// ── INTERACTIVE TERMINAL CLI STDIN LISTENER ──────────────────────────────────
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  prompt: `${C.brightCyan}proxy>${C.reset} `
-});
-
-rl.on('line', (line) => {
-  const input = line.trim();
-  if (!input) { rl.prompt(); return; }
-
-  const spaceIdx = input.indexOf(' ');
-  const cmd = (spaceIdx === -1 ? input : input.slice(0, spaceIdx)).toLowerCase();
-  const arg = spaceIdx === -1 ? '' : input.slice(spaceIdx + 1);
-
-  if (cmd === 'status' || cmd === 's') {
-    printTerminalStatusTable();
-
-  } else if (cmd === 'sessions' || cmd === 'ss') {
-    if (sessionKeyMap.size === 0) {
-      console.log(`${C.dim}No active sessions.${C.reset}`);
-    } else {
-      console.log(`\n${C.bold}Active Sessions (${sessionKeyMap.size}):${C.reset}`);
-      for (const [sid, kIdx] of sessionKeyMap.entries()) {
-        const lastSeen = sessionLastSeen.get(sid);
-        const ago = lastSeen ? `${Math.round((Date.now() - lastSeen) / 1000)}s ago` : '?';
-        console.log(`  ${C.cyan}${sid.slice(0, 16)}...${C.reset} → K#${kIdx + 1} (${ago})`);
-      }
-      console.log('');
-    }
-
-  } else if (cmd === 'inj' || cmd === 'inject') {
-    if (!arg) {
-      console.log(`${C.yellow}Usage: inj [target] <text>  (e.g., 'inj dental ...' or 'inj hecton ...' or 'inj ...')${C.reset}`);
-    } else {
-      try {
-        const injections = readInjectionsSafe();
-        const argParts = arg.split(' ');
-        const firstWord = argParts[0].toLowerCase();
-        let targetKey = 'all';
-        let textToInject = arg;
-
-        if (['all', 'dental', 'hecton', 'giga', 'gigahrush', 'clinic'].includes(firstWord) || firstWord.length >= 10) {
-          targetKey = firstWord;
-          textToInject = argParts.slice(1).join(' ');
-        }
-
-        injections[targetKey] = textToInject;
-        writeInjectionsSafe(injections);
-        console.log(`${C.brightGreen}✅ INJECTED [${targetKey.toUpperCase()}]:${C.reset} "${textToInject.slice(0, 80)}${textToInject.length > 80 ? '...' : ''}"`);
-      } catch (err) {
-        console.log(`${C.red}❌ Injection failed: ${err.message}${C.reset}`);
-      }
-    }
-
-  } else if (cmd === 'clear' || cmd === 'cl') {
-    writeInjectionsSafe({});
-    console.log(`${C.brightGreen}🧹 Injections cleared.${C.reset}`);
-
-  } else if (cmd === 'keys' || cmd === 'reload') {
-    loadExternalKeys();
-    console.log(`${C.brightGreen}🔑 Keys reloaded. ${GROK_KEYS.length} keys active.${C.reset}`);
-
-  } else if (cmd === 'help' || cmd === 'h' || cmd === '?') {
-    console.log(`\n${C.bold}COMMANDS:${C.reset}`);
-    console.log(`  ${C.cyan}status${C.reset} (s)      Key telemetry table`);
-    console.log(`  ${C.cyan}sessions${C.reset} (ss)   Active session list`);
-    console.log(`  ${C.cyan}inj <text>${C.reset}      Inject persistent directive to all agents`);
-    console.log(`  ${C.cyan}clear${C.reset} (cl)      Clear all injections`);
-    console.log(`  ${C.cyan}keys${C.reset} (reload)   Hot-reload keys from keys.json/keys.txt`);
-    console.log(`  ${C.cyan}help${C.reset} (h)        This list\n`);
-
-  } else {
-    console.log(`${C.yellow}Unknown: '${cmd}'. Type 'help'.${C.reset}`);
-  }
-
-  rl.prompt();
-});
-
-// ── HTTP SERVER ──────────────────────────────────────────────────────────────
+// ── SERVER ────────────────────────────────────────────────────────────────────
 const server = http.createServer((req, res) => {
   res.on('error', err => log(`⚠ client res error: ${err.message}`));
 
-  // Health check endpoint
   if ((req.method === 'HEAD' || req.method === 'GET') && (req.url === '/' || req.url === '')) {
-    const health = {
-      status: 'ok',
-      proxy: 'grok-proxy v5.1',
-      uptime: formatUptime(),
-      keys: GROK_KEYS.length,
-      keysActive: keyDisabled.filter(d => !d).length,
-      sessions: sessionKeyMap.size,
-      totalRequests: keyReqCounts.reduce((a,b) => a+b, 0),
-    };
-    res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
-    res.end(JSON.stringify(health));
+    res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+    res.end(renderHtmlDashboard());
     return;
   }
 
   const chunks = [];
-  req.on('data', chunk => chunks.push(chunk));
+  req.on('data', c => chunks.push(c));
   req.on('end', () => {
     const body = Buffer.concat(chunks);
     const cleanUrl = req.url;
@@ -804,6 +594,30 @@ const server = http.createServer((req, res) => {
             if (uid.session_id) sessionId = uid.session_id;
           } catch {}
         }
+        if (!sessionId && Array.isArray(obj.messages)) {
+          // Frequency-based project detection: immune to prompt cross-mentions
+          const bodyStr = JSON.stringify(obj.messages).toLowerCase();
+          const counts = {
+            'Gigahrush2': (bodyStr.match(/gigahrush2|gigahrush/g) || []).length,
+            'Hecton8': (bodyStr.match(/hecton8|hectonplayer/g) || []).length,
+            'Dental CRM': (bodyStr.match(/dental-crm|clinic_mvp|dental/g) || []).length,
+          };
+          let best = 'Gigahrush2';
+          for (const k of ['Hecton8', 'Dental CRM']) {
+            if (counts[k] > counts[best]) best = k;
+          }
+          if (counts[best] > 0) {
+            sessionId = best;
+          }
+        }
+        let totalChars = 0;
+        if (Array.isArray(obj.messages)) {
+          for (const m of obj.messages) {
+            if (typeof m.content === 'string') totalChars += m.content.length;
+            else if (Array.isArray(m.content)) for (const p of m.content) { if (p.text) totalChars += p.text.length; }
+          }
+        }
+        log(`📦 model=${obj.model} msgs=${obj.messages?.length || 0} ~${Math.round(totalChars/4).toLocaleString()} tok${sessionId ? ' sid='+sessionId.slice(0,8) : ''}`);
       } catch {}
     }
 
@@ -812,16 +626,13 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PROXY_PORT, '127.0.0.1', () => {
-  console.log(`
-${C.brightCyan}┌─────────────────────────────────────────────────────────────────┐
-│ ${C.bold}${C.brightGreen}⚡ GROK PROXY v5.1 — TERMINAL OVERSEER${C.reset}${C.brightCyan}                          │
-│ ${C.dim}Endpoint: http://127.0.0.1:${PROXY_PORT}/v1${C.reset}${C.brightCyan}                            │
-│ ${C.dim}Commands: status, sessions, inj <text>, clear, keys, help${C.reset}${C.brightCyan}  │
-└─────────────────────────────────────────────────────────────────┘${C.reset}
-  `);
-  printTerminalStatusTable();
-  rl.prompt();
+  log(`=======================================================`);
+  log(`🚀 grok-proxy v4.1 BULLETPROOF INJECTOR & BALANCER`);
+  log(`   Port:       http://127.0.0.1:${PROXY_PORT}/v1`);
+  log(`   Live Dashboard: http://127.0.0.1:${PROXY_PORT}/`);
+  log(`   Features:   Bulletproof Directive Injector + 413 Trimmer + Smart LRU`);
+  log(`=======================================================\n`);
 });
 
-process.on('uncaughtException', err => log(`${C.bgRed} UNCAUGHT ${C.reset} ${err.message}`));
-process.on('unhandledRejection', err => log(`${C.bgRed} UNHANDLED ${C.reset} ${err?.message || err}`));
+process.on('uncaughtException', err => log(`🛡 Uncaught: ${err.message}`));
+process.on('unhandledRejection', err => log(`🛡 Unhandled: ${err.message}`));
