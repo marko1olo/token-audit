@@ -136,23 +136,23 @@
  },
  "cline": {
   "evidence": "MEASURED",
-  "tasks": 97,
-  "requests": 4472,
+  "tasks": 99,
+  "requests": 7061,
   "totals": {
-   "uncached_input": 235400832,
+   "uncached_input": 373419569,
    "cache_write": 20153,
-   "cache_read": 198840109,
-   "output": 1858550,
-   "total": 436119644
+   "cache_read": 320487085,
+   "output": 3095019,
+   "total": 697021826
   },
   "by_model": {
    "grok-4.5": {
-    "requests": 4256,
-    "total": 427598820,
-    "uncached_input": 228365267,
+    "requests": 6845,
+    "total": 688501002,
+    "uncached_input": 366384004,
     "cache_write": 0,
-    "cache_read": 197443456,
-    "output": 1790097
+    "cache_read": 319090432,
+    "output": 3026566
    },
    "kimi-k3": {
     "requests": 35,
@@ -197,13 +197,13 @@
   },
   "cost_usd_by_model": {
    "grok-4.5": {
-    "uncached_input_usd": 456.730534,
-    "cached_input_usd": 39.488691200000005,
-    "output_usd": 17.90097,
+    "uncached_input_usd": 732.768008,
+    "cached_input_usd": 63.818086400000006,
+    "output_usd": 30.265659999999997,
     "rate_in_per_mtok": 2.0,
     "rate_cached_in_per_mtok": 0.2,
     "rate_out_per_mtok": 10.0,
-    "total_usd": 514.1201952
+    "total_usd": 826.8517544
    },
    "kimi-k3": {
     "uncached_input_usd": 0.864289,
@@ -252,7 +252,7 @@
    }
   },
   "unpriced_models": [],
-  "cost_usd_total_list_price_equivalent": 528.0019
+  "cost_usd_total_list_price_equivalent": 840.7335
  },
  "codex": {
   "my_measurement": {

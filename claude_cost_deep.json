@@ -38,19 +38,19 @@
  },
  "claude_total_usd": 23905.81,
  "claude_total_tokens": 26723030291,
- "all_time_measurable_tokens": 145781935133,
+ "all_time_measurable_tokens": 87570972629,
  "all_time_measurable_addends": [
   {
    "value": 26723030291,
    "source": "claude_totals.json",
    "machine": "эта машина",
-   "measured_at": "2026-07-31"
+   "measured_at": "2026-08-01"
   },
   {
-   "value": 119058904842,
+   "value": 60847942338,
    "source": "reconciliation.json, consistent_total_max_basis (chain-split здесь + внешние измерения)",
    "machine": "составной",
-   "measured_at": "2026-07-31"
+   "measured_at": "2026-08-01"
   }
  ]
 }

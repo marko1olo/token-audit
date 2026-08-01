@@ -821,13 +821,13 @@ const SV = 'http://www.w3.org/2000/svg';
 const el = (t,a={}) => { const e=document.createElementNS(SV,t);
   for(const k in a) e.setAttribute(k,a[k]); return e; };
 const cv = n => getComputedStyle(document.body).getPropertyValue(n).trim();
-const nf = n => n.toLocaleString('ru-RU');
-function big(n){ const a=Math.abs(n);
+const nf = n => (n || 0).toLocaleString('ru-RU');
+function big(n){ const a=Math.abs(n || 0);
   if(a>=1e9) return (n/1e9).toFixed(a>=1e10?1:2)+' млрд';
   if(a>=1e6) return (n/1e6).toFixed(a>=1e8?0:1)+' млн';
   if(a>=1e3) return (n/1e3).toFixed(0)+' тыс';
-  return String(n); }
-const usd = n => '$'+n.toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2});
+  return String(n || 0); }
+const usd = n => '$'+(n || 0).toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2});
 
 /* ---- tooltip ---- */
 const tip=$('#tip');
@@ -1508,11 +1508,12 @@ function render(){
     const tcm = $('#tclinemodels');
     if (tcm && C.by_model) {
       tcm.innerHTML = '<tr><th>модель</th><th>запросов</th><th>ввод</th><th>кэш чтение</th><th>вывод</th><th>всего токенов</th><th>$ итого</th></tr>' +
-        Object.entries(C.by_model).sort((p, q) => (q[1].total || 0) - (p[1].total || 0)).map(([m, v]) => {
+        Object.entries(C.by_model).sort((p, q) => ((q[1].total || (q[1].inp+q[1].out+q[1].cw+q[1].cr)) - (p[1].total || (p[1].inp+p[1].out+p[1].cw+p[1].cr)))).map(([m, v]) => {
           const cost = (C.cost && C.cost[m]) ? C.cost[m].total_usd : 0;
+          const tot = v.total || (v.inp + v.out + v.cw + v.cr || 0);
           return '<tr><td><b>' + m + '</b></td><td>' + nf(v.reqs) + '</td><td>' + nf(v.inp) +
                  '</td><td>' + nf(v.cr) + '</td><td>' + nf(v.out) + '</td><td><b>' +
-                 nf(v.total) + '</b></td><td><b>' + usd(cost) + '</b></td></tr>';
+                 nf(tot) + '</b></td><td><b>' + usd(cost) + '</b></td></tr>';
         }).join('');
     }
     const tct = $('#tclinetasks');

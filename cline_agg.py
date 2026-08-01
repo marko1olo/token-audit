@@ -118,11 +118,12 @@ def scan_cline_tasks(roots=None):
                                 
                                 # Агрегируем по моделям
                                 if model_id not in by_model:
-                                    by_model[model_id] = {"inp": 0, "out": 0, "cw": 0, "cr": 0, "reqs": 0}
+                                    by_model[model_id] = {"inp": 0, "out": 0, "cw": 0, "cr": 0, "reqs": 0, "total": 0}
                                 by_model[model_id]["inp"] += t_in
                                 by_model[model_id]["out"] += t_out
                                 by_model[model_id]["cw"] += t_cw
                                 by_model[model_id]["cr"] += t_cr
+                                by_model[model_id]["total"] += (t_in + t_out + t_cw + t_cr)
                                 by_model[model_id]["reqs"] += 1
                                 
                                 # Агрегируем по дням
