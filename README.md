@@ -1,3 +1,5 @@
+<p align="center"><img src="https://raw.githubusercontent.com/marko1olo/gigahrush/main/docs/token_audit_matrix.jpg" width="100%" alt="Token Audit Cyberpunk AI Burning Matrix"/></p>
+
 <div align="center">
 
 ![TOKEN-AUDIT Banner](https://raw.githubusercontent.com/marko1olo/gigahrush/main/docs/cyber_banner.jpg)
