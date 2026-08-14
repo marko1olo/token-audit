@@ -988,7 +988,80 @@ if ('serviceWorker' in navigator) {
           <span class="val highlight" id="valCacheSavings">$0.000000</span>
         </div>
       </section>
-    </main>
+    
+    <!-- REAL-TIME TOKEN STREAMING SIMULATOR & TTFT BENCHMARK -->
+    <section class="token-stream-deck" style="margin: 2rem 0; background: #0c0d12; border: 1px solid rgba(251, 191, 36, 0.35); border-radius: 12px; padding: 1.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.6); font-family: 'JetBrains Mono', monospace;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+        <div>
+          <span style="background: rgba(251, 191, 36, 0.15); border: 1px solid #fbbf24; color: #fbbf24; font-size: 0.75rem; font-weight: bold; padding: 0.2rem 0.6rem; border-radius: 999px;">TELEMETRY 3.2</span>
+          <h3 style="font-size: 1.25rem; color: #fff; margin-top: 0.4rem;">Real-time Token Stream & TTFT Benchmark Terminal</h3>
+        </div>
+        <button id="token-stream-start-btn" style="background: #fbbf24; border: none; color: #000; font-family: monospace; font-size: 0.8rem; font-weight: bold; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; box-shadow: 0 0 15px rgba(251,191,36,0.3);">
+          ▶ START TOKEN STREAM
+        </button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+        <!-- Live Terminal Stream Output -->
+        <div style="background: #050608; border: 1px solid #1e2430; border-radius: 8px; padding: 1rem; height: 180px; overflow-y: auto; color: #fbbf24; font-size: 0.82rem; line-height: 1.45;" id="token-live-terminal">
+          &gt; Ready. Click [START TOKEN STREAM] to simulate LLM inference generation...
+        </div>
+
+        <!-- Telemetry Gauges -->
+        <div style="background: #12151e; border: 1px solid #232938; border-radius: 8px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #94a3b8;">
+            <span>THROUGHPUT: <strong id="stream-tps" style="color:#22c55e;">84.2 tok/s</strong></span>
+            <span>TTFT: <strong style="color:#38bdf8;">142 ms</strong></span>
+          </div>
+          <div style="margin: 0.75rem 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;">
+              <span>ACCUMULATED BATCH COST:</span>
+              <strong id="stream-cost" style="color: #fbbf24;">$0.00142</strong>
+            </div>
+            <div style="height: 6px; background: #1e293b; border-radius: 999px; overflow: hidden;">
+              <div id="stream-progress" style="width: 45%; height: 100%; background: linear-gradient(90deg, #38bdf8, #fbbf24);"></div>
+            </div>
+          </div>
+          <div style="font-size: 0.75rem; color: #64748b;">
+            Active Model: Claude 3.7 Sonnet (Hybrid Reasoning Cluster)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+    (function() {
+      const btn = document.getElementById('token-stream-start-btn');
+      const term = document.getElementById('token-live-terminal');
+      const costEl = document.getElementById('stream-cost');
+      if (!btn || !term) return;
+
+      const codeSample = `import asyncio\nasync def process_batch_tokens(stream):\n    async for chunk in stream:\n        yield transform_bpe(chunk)\n# High-throughput LLM Token Stream Pipeline`;
+      let interval = null;
+
+      btn.addEventListener('click', () => {
+        if (interval) clearInterval(interval);
+        term.innerHTML = '';
+        let i = 0;
+        let tokens = 0;
+        interval = setInterval(() => {
+          if (i >= codeSample.length) {
+            clearInterval(interval);
+            term.innerHTML += '<br /><span style="color:#22c55e;">✔ Stream completed. 48 tokens generated in 0.57s.</span>';
+            return;
+          }
+          const char = codeSample[i] === '\n' ? '<br />' : codeSample[i];
+          term.innerHTML += char;
+          term.scrollTop = term.scrollHeight;
+          i += Math.floor(Math.random() * 3) + 1;
+          tokens++;
+          if (costEl) costEl.textContent = '$' + (tokens * 0.00003).toFixed(5);
+        }, 35);
+      });
+    })();
+    </script>
+
+</main>
 
     <!-- 60 FPS Velocity & Spend Canvas Panel -->
     <section class="token-panel-full">
