@@ -1,0 +1,17 @@
+{
+  "name": "Token Audit Simulator",
+  "short_name": "TokenAudit",
+  "description": "BPE Tokenizer Cost Waterfall & Telemetry HUD",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0c",
+  "theme_color": "#ffb700",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
