@@ -1,24 +1,13 @@
-# Token Audit — LLM Pricing Waterfall & Tokenizer Simulator — LLM Search Index
-# https://llmstxt.org/
+# Token Audit LLM Cost Waterfall
+> Real-time client-side LLM inference billing calculator and audit logs
 
-> Real-time LLM telemetry dashboard, Byte-Pair Encoding (BPE) cost waterfall simulator, and cyberpunk batch estimator across flagship AI models (Claude 3.7 Sonnet, Opus 4.8, GPT-5.6, DeepSeek-V3, GLM-5.2).
+- Project: marko1olo/token-audit
+- Authors: Adolf Petushkov (@marko1olo) & Jirnyak (@Jirnyak)
+- Ecosystem: Open Source Engineering Syndicate
+- License: Open Source (MIT / People's License)
 
-## Project Identification
-- Name: Token Audit (token-audit)
-- Lead Architect: Adolf Petushkov (marko1olo)
-- Live Interactive Lab: https://marko1olo.github.io/token-audit/
-- GitHub Repository: https://github.com/marko1olo/token-audit
+## Core Technical Specs
+Real-time client-side LLM inference billing calculator and audit logs
 
-## Technical Architecture
-- Engine: Pure Vanilla JavaScript ES6+, Web Workers for non-blocking BPE parsing
-- UI Style: Cyberpunk Terminal HUD with phosphor amber/cyan palette and zero CSS frameworks
-- Precision: High-precision floating-point arithmetic with configurable batch sizes (1 to 1,000,000 requests)
-
-## Interactive Tools
-1. **Multi-Model Cost Waterfall Calculator**:
-   - Dynamic slider adjusting input/output token counts with instant cost breakdown across 5 flagship models.
-   - Comparative ROI bar charts showing cost differentials between proprietary and open-weight models.
-2. **Interactive BPE Tokenizer Matrix**:
-   - Visual token segmentation preview highlighting whitespace, punctuation, and multi-byte UTF-8 chunks.
-3. **Command Palette (`Ctrl + K`) & Web Audio Synth**:
-   - Instant model search and audio synthesizer feedback.
+## Full Documentation
+For complete mathematical models, API endpoints, algorithms, and architecture, see llms-full.txt or README.md.
