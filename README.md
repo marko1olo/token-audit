@@ -118,9 +118,9 @@ The section below contains **100% of the true, un-truncated, original human deve
 Claude Code · OpenAI Codex · Google Antigravity.
 
 ![python](https://img.shields.io/badge/python-3.11%2B-blue)
-![deps](https://img.shields.io/badge/зависимости-нет-brightgreen)
+![deps](https://img.shields.io/badge/dependencies-none-brightgreen)
 ![license](https://img.shields.io/badge/license-MIT-green)
-![offline](https://img.shields.io/badge/сеть-не%20требуется-lightgrey)
+![offline](https://img.shields.io/badge/network-offline%20only-lightgrey)
 
 Считает, сколько токенов на самом деле израсходовано, откуда они взялись и сколько это
 стоило бы по публичному прайсу. Работает только с локальными файлами, ничего не отправляет
